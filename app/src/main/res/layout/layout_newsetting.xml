@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:columnCount="3"
+    android:rowCount="16"
+    style="@style/RtlOverlay.Widget.AppCompat.ActionBar.TitleItem">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tVnewSetting"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:inputType="textMultiLine"
+        android:paddingTop="60dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="50dp"
+        android:textAlignment="center"
+        android:textColor="@android:color/secondary_text_light"
+        android:layout_row="0"
+        android:layout_column="0" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="@string/LabelAddNewPersonName"
+        android:ems="10"
+        android:textSize="25dp"
+        android:id="@+id/eTsettingName"
+        android:layout_row="3"
+        android:layout_column="0"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="30dp" />
+
+
+</GridLayout>

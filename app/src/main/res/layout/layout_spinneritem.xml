@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/tVSpinnerItem"
+    android:textSize="25dp"
+    android:paddingTop="20dp"
+    android:paddingLeft="20dp"
+    android:text="test"
+    android:paddingRight="10dp"
+    android:paddingBottom="10dp"
+    android:textAlignment="center"
+    android:textColor="@android:color/secondary_text_light"
+    android:layout_row="0"
+    xmlns:android="http://schemas.android.com/apk/res/android" />
+
+

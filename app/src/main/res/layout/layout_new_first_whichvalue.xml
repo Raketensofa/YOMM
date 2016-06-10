@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:stretchColumns="1"
+
+    android:id="@+id/firstview"
+    android:rowCount="27"
+    android:columnCount="1"
+    android:focusable="true">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:text="@string/QuestionTransValue"
+        android:textStyle="bold"
+        android:inputType="textMultiLine"
+        android:paddingTop="30dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="30dp"
+        android:textAlignment="center"
+        android:textColor="@android:color/secondary_text_light"
+        android:layout_row="0"
+        android:layout_column="0"
+        android:layout_marginTop="50dp" />
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/eTTransValue"
+        android:layout_row="1"
+        android:layout_column="0"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:textStyle="bold"
+        android:textSize="25dp"
+        android:layout_marginBottom="10dp" />
+
+
+</GridLayout>

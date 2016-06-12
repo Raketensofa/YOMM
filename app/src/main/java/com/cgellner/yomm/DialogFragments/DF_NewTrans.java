@@ -5,13 +5,30 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ListView;
 
+import com.cgellner.yomm.GlobalVar;
+import com.cgellner.yomm.Objects.MainCategory;
+import com.cgellner.yomm.Objects.Person;
+import com.cgellner.yomm.Objects.RecyclerViewAdapter;
 import com.cgellner.yomm.Objects.Transaction;
 import com.cgellner.yomm.R;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ViewListener;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.microedition.khronos.opengles.GL;
 
 
 /**
@@ -33,9 +50,15 @@ public class DF_NewTrans extends DialogFragment {
 
     Transaction transaction;
 
+    RecyclerViewAdapter recyclerViewAdapter;
+    RecyclerView recyclerView;
 
 
 
+    private ArrayList<Person> personList;
+    private ArrayList<MainCategory> mainCategoryList;
+
+    private ArrayList<String> StrList;
 
     /**
      *
@@ -51,9 +74,15 @@ public class DF_NewTrans extends DialogFragment {
         view = inflater.inflate(R.layout.layout_carouselview, null);
         dialogBuilder.setView(view);
 
-        setCarouselView();
+
 
         transaction = new Transaction();
+        personList = GlobalVar.Database.getPersons();
+        mainCategoryList = GlobalVar.Database.getCategories();
+
+
+        setCarouselView();
+
 
         //Abbrechen-Button
         dialogBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -76,17 +105,30 @@ public class DF_NewTrans extends DialogFragment {
      *
      * @return
      */
-    private Transaction readData(){
+    private void readData(){
 
-        Transaction trans = new Transaction();
+        //Betrag
+        EditText eTvalue = (EditText)view.findViewById(R.id.eTTransValue);
+        String value = eTvalue.getText().toString();
+        transaction.setValue(new Double(value));
 
-        //FELDER AUSLESEN
-        //..............................
+        //Personen die gezahlt haben
+        ListView personsPayed = (ListView)view.findViewById(R.id.listViewTransPersons);
+        long[] checkedIds = personsPayed.getCheckedItemIds();
+
+
+        //Personen fuer die der Betrag anfaellt
 
 
 
+        //Kategorie
 
-        return trans;
+
+
+        //Details der Ausgabe
+
+
+
     }
 
 
@@ -114,9 +156,15 @@ public class DF_NewTrans extends DialogFragment {
 
             View customView = getActivity().getLayoutInflater().inflate(carouselViews[position], null);
 
-            if(position == 0){
+            if(position == 1){
 
-               // setFirstLayout(customView);
+                recyclerView = (RecyclerView)customView.findViewById(R.id.recyclerViewSecondLayout);
+
+                LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+                recyclerView.setLayoutManager(llm);
+                recyclerView.setHasFixedSize(true);
+                setSecondLayout();
+                setPersonListView();
             }
 
 
@@ -126,53 +174,30 @@ public class DF_NewTrans extends DialogFragment {
 
     };
 
+    private void setSecondLayout(){
 
-    private void setFirstLayout(View view){
+         StrList = new ArrayList<String>();
 
+        if(personList != null) {
 
-        /**
-        TextView textViewAdd = (TextView)view.findViewById(R.id.tVAnswerTransTypeAdd);
-        TextView textViewSub = (TextView)view.findViewById(R.id.tVAnswerTransTypeSub);
-        TextView textViewChange = (TextView)view.findViewById(R.id.tVAnswerTransTypeChange);
+            for (Person person : personList) {
 
-        textViewAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                transaction.setType(1);
-                carouselView.setCurrentItem(1);
-
+                StrList.add(person.getName());
+                Log.v(TAG, person.getName());
             }
-        });
-
-        textViewSub.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                transaction.setType(2);
-
-            }
-        });
-
-        textViewChange.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                transaction.setType(3);
-
-            }
-        });
-
-        */
+        }
 
     }
 
 
+    private void setPersonListView(){
+
+        recyclerViewAdapter = new RecyclerViewAdapter();
+        recyclerViewAdapter.setDataList(StrList);
+        recyclerView.setAdapter(recyclerViewAdapter);
 
 
 
-
-
-
+    }
 
 }

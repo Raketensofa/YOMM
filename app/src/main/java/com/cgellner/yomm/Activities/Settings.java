@@ -19,6 +19,9 @@ import java.util.ArrayList;
 
 public class Settings extends AppCompatActivity {
 
+    private final String TAG = Settings.class.getName();
+
+
     private  Object object;
     private  ArrayList<Person> listPersons;
     private  ArrayList<MainCategory> listCategories;

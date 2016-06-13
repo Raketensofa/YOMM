@@ -89,6 +89,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             super(itemView);
             checkBox = (CheckBox)itemView.findViewById(R.id.checkBoxListView);
+
+
+
         }
 
     }

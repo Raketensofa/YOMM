@@ -159,6 +159,7 @@ public class DF_NewTrans extends DialogFragment {
             if(position == 1){
 
                 recyclerView = (RecyclerView)customView.findViewById(R.id.recyclerViewSecondLayout);
+                recyclerView.setHasFixedSize(true);
 
                 LinearLayoutManager llm = new LinearLayoutManager(getActivity());
                 recyclerView.setLayoutManager(llm);

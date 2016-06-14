@@ -7,7 +7,8 @@
     android:id="@+id/firstview"
     android:rowCount="27"
     android:columnCount="1"
-    android:focusable="true">
+    android:focusable="true"
+    android:background="@android:color/white">
 
 
     <TextView

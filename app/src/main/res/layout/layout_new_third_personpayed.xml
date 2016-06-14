@@ -3,9 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:stretchColumns="1"
-    android:id="@+id/secondview"
+    android:id="@+id/thirdview"
     android:rowCount="27"
-    android:columnCount="1">
+    android:columnCount="1"
+    android:background="@android:color/white">
 
 
     <TextView

@@ -2,9 +2,11 @@ package com.cgellner.yomm.Activities;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -31,6 +33,9 @@ import com.cgellner.yomm.Objects.Person;
 import com.cgellner.yomm.Objects.Transaction;
 import com.cgellner.yomm.R;
 
+import java.lang.reflect.Array;
+import java.util.Set;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -45,10 +50,37 @@ public class MainActivity extends AppCompatActivity
     private MainActivity mainActivity = this;
 
 
-    private View firstView;
+
+    private double TransValue;
+    private int[] TransPersonsWhoPayed;
+    private int[] TransForPerson;
+    private int TransCategory;
+    private String TransDetails;
+
 
 
     private Bundle saveInstanceState;
+
+
+    public void setTransValue(double transValue) {
+        TransValue = transValue;
+    }
+
+    public void setTransPersonsWhoPayed(int[] transPersonsWhoPayed) {
+        TransPersonsWhoPayed = transPersonsWhoPayed;
+    }
+
+    public void setTransForPerson(int[] transForPerson) {
+        TransForPerson = transForPerson;
+    }
+
+    public void setTransCategory(int transCategory) {
+        TransCategory = transCategory;
+    }
+
+    public void setTransDetails(String transDetails) {
+        TransDetails = transDetails;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,36 +112,6 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    @Override
-    public void onBackPressed() {
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-
-
-        if (viewPager.getCurrentItem() == 0) {
-
-
-            viewPager.clearFocus();
-            /**Fragment fragment = new Fragment().set;
-            android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_container, fragment);
-            transaction.addToBackStack(null);
-            transaction.commit();*/
-
-
-            //super.onBackPressed();
-
-        } else {
-
-            viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
-        }
-
-    }
 
 
 
@@ -195,35 +197,39 @@ public class MainActivity extends AppCompatActivity
 
         Transaction transaction = new Transaction();
 
-        //viewPager.setCurrentItem(0, false);
-
-        //--------------------------------------------------------------------------------------------------- hier weitermachen
-        //irgendwie ein Thread ... Session etc. erstellen und die Daten der Layouts direkt auslesen bevor ein anderes Layout angezeigt wird
-        //können nur ausgelesen werden, wenn das Item das aktuelle ist
-        EditText eTvalue = (EditText)findViewById(R.id.eTTransValue);
-        String value = eTvalue.getText().toString();
-        transaction.setValue(new Double(value));
-        Log.d("VALUE", String.valueOf(transaction.getValue()));
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        transaction.setValue(new Double(preferences.getString(GlobalVar.SpVarNameValue, "")));
+        transaction.setDescription(preferences.getString(GlobalVar.SpVarNameDetails, ""));
 
 
+        String perStr = "";
+        Set<String> persons = preferences.getStringSet(GlobalVar.SpVarNamePersons, null);
+        Object[] ar = persons.toArray();
 
-        //Betrag
+        for (int i = 0; i < ar.length; i++) {
 
+            if(i < ar.length - 1){
 
-        //Personen die gezahlt haben
-        //ListView personsPayed = (ListView)view.findViewById(R.id.listViewTransPersons);
-        //long[] checkedIds = personsPayed.getCheckedItemIds();
+                perStr += ar[i].toString() + ",";
 
+            }else if(i == ar.length - 1){
 
-        //Personen fuer die der Betrag anfaellt
+                perStr += ar[i].toString();
+            }
+        }
 
-
-
-        //Kategorie
+        transaction.setFallsAtPersons(perStr);
 
 
 
-        //Details der Ausgabe
+        Log.d("TRANSACTION", transaction.toString());
+
+
+
+
+
+
+
 
 
 

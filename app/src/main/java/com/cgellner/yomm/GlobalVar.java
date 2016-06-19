@@ -40,4 +40,16 @@ public abstract class GlobalVar {
     public static ArrayList<Account> ListAccounts;
 
 
+    //region Names of Shared Preferences (ActivityMain)
+
+    public static String SpVarNameValue = "transValue";
+    public static String SpVarNamePersonsPayed = "transPersonPayed";
+    public static String SpVarNamePersons = "transPersons";
+    public static String SpVarNameCategory = "transCategory";
+    public static String SpVarNameDetails = "transDetails";
+
+    //endregion
+
+
+
 }

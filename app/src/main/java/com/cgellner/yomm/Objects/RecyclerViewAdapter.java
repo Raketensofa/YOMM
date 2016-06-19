@@ -1,35 +1,50 @@
 package com.cgellner.yomm.Objects;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+import com.cgellner.yomm.GlobalVar;
 import com.cgellner.yomm.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by carol on 12.06.2016.
  */
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>{
+
 
     private static final String TAG = RecyclerView.class.getName();
 
 
-    private ArrayList<String> dataList;
+    private ArrayList<Person> dataListPersons;
 
-    public ArrayList<String> getDataList() {
-        return dataList;
+
+    SharedPreferences preferences;
+
+    public void setPreferences(SharedPreferences preferences) {
+        this.preferences = preferences;
     }
 
-    public void setDataList(ArrayList<String> dataList) {
-        this.dataList = dataList;
+    public void setPersonDataList(ArrayList<Person> dataList) {
+        this.dataListPersons = dataList;
     }
 
     @Override
@@ -58,9 +73,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         try{
 
-            if(dataList != null){
+            if(dataListPersons != null){
 
-                holder.checkBox.setText(dataList.get(position));
+                holder.checkBox.setText(dataListPersons.get(position).getName());
+                holder.ID = dataListPersons.get(position).getID();
+                holder.preferences = preferences;
             }
 
         }catch (Exception ex){
@@ -68,15 +85,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             Log.e(TAG, "RecyclerViewAdapter.onBindViewHolder(): " + ex.getMessage());
 
         }
-
-
-
     }
 
     @Override
     public int getItemCount() {
 
-        return dataList.size();
+        return dataListPersons.size();
     }
 
 
@@ -84,18 +98,58 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         CheckBox checkBox;
         long ID;
+        SharedPreferences preferences;
+
 
         ViewHolder(final View itemView) {
 
             super(itemView);
+
             checkBox = (CheckBox)itemView.findViewById(R.id.checkBoxListView);
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
+                    Set<String> persons = null;
 
+                    try {
 
+                       persons  = preferences.getStringSet(GlobalVar.SpVarNamePersons, null);
+
+                        if (persons.contains(ID)) {
+
+                            if (isChecked == false) {
+
+                                persons.remove(ID);
+                            }
+                        } else{
+
+                            if (isChecked == true) {
+
+                                persons.add(String.valueOf(ID));
+                            }
+                        }
+
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putStringSet(GlobalVar.SpVarNamePersons, persons);
+                        editor.commit();
+
+                    }catch (Exception ex){
+
+                        if(isChecked == true) {
+
+                            HashSet<String> personHash = new HashSet<String>();
+                            personHash.add(String.valueOf(String.valueOf(ID)));
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putStringSet(GlobalVar.SpVarNamePersons, personHash);
+                            editor.commit();
+                        }
+                    }
+                }
+            });
         }
 
     }
-
 
 
 }

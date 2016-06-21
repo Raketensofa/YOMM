@@ -43,8 +43,8 @@ public abstract class GlobalVar {
     //region Names of Shared Preferences (ActivityMain)
 
     public static String SpVarNameValue = "transValue";
-    public static String SpVarNamePersonsPayed = "transPersonPayed";
-    public static String SpVarNamePersons = "transPersons";
+    public static String SpVarNameCreditor = "transCreditor";
+    public static String SpVarNameDebtors = "transDebtors";
     public static String SpVarNameCategory = "transCategory";
     public static String SpVarNameDetails = "transDetails";
 

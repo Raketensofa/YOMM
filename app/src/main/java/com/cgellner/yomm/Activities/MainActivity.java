@@ -1,17 +1,12 @@
 package com.cgellner.yomm.Activities;
 
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
@@ -23,7 +18,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.EditText;
 
 import com.cgellner.yomm.Database.Database;
 import com.cgellner.yomm.DialogFragments.DF_NewTrans;
@@ -33,7 +27,9 @@ import com.cgellner.yomm.Objects.Person;
 import com.cgellner.yomm.Objects.Transaction;
 import com.cgellner.yomm.R;
 
-import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity
@@ -51,42 +47,12 @@ public class MainActivity extends AppCompatActivity
 
 
 
-    private double TransValue;
-    private int[] TransPersonsWhoPayed;
-    private int[] TransForPerson;
-    private int TransCategory;
-    private String TransDetails;
 
-
-
-    private Bundle saveInstanceState;
-
-
-    public void setTransValue(double transValue) {
-        TransValue = transValue;
-    }
-
-    public void setTransPersonsWhoPayed(int[] transPersonsWhoPayed) {
-        TransPersonsWhoPayed = transPersonsWhoPayed;
-    }
-
-    public void setTransForPerson(int[] transForPerson) {
-        TransForPerson = transForPerson;
-    }
-
-    public void setTransCategory(int transCategory) {
-        TransCategory = transCategory;
-    }
-
-    public void setTransDetails(String transDetails) {
-        TransDetails = transDetails;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        this.saveInstanceState = savedInstanceState;
 
         setContentView(R.layout.activity_main3);
 
@@ -195,43 +161,75 @@ public class MainActivity extends AppCompatActivity
      */
     public void readData(){
 
-        Transaction transaction = new Transaction();
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        transaction.setValue(new Double(preferences.getString(GlobalVar.SpVarNameValue, "")));
-        transaction.setDescription(preferences.getString(GlobalVar.SpVarNameDetails, ""));
+        //Typ (Ausgabe == 1; Schuldbegleichung == 2)
+        int type = 1;
+        Log.d("Type", String.valueOf(type));
 
 
-        String perStr = "";
-        Set<String> persons = preferences.getStringSet(GlobalVar.SpVarNamePersons, null);
-        Object[] ar = persons.toArray();
 
-        for (int i = 0; i < ar.length; i++) {
+        //aktuelles Datum und Uhrzeit ermitteln
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
+        Date currentTimestamp = new Date();
+        String date = dateFormatter.format(currentTimestamp);
+        String time = timeFormatter.format(currentTimestamp);
 
-            if(i < ar.length - 1){
+        Log.d("Date", String.valueOf(date));
+        Log.d("Time", String.valueOf(time));
 
-                perStr += ar[i].toString() + ",";
 
-            }else if(i == ar.length - 1){
 
-                perStr += ar[i].toString();
+        //SharedPreferences auslesen
+             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+            //Geldbetrag
+            double value = new Double(preferences.getString(GlobalVar.SpVarNameValue, ""));
+            Log.d("Value", String.valueOf(value));
+
+
+        //Details
+            String details = preferences.getString(GlobalVar.SpVarNameDetails, "");
+            Log.d("Details", String.valueOf(details));
+
+
+        //Debitoren
+            String debtors = "";
+            Set<String> persons = preferences.getStringSet(GlobalVar.SpVarNameDebtors, null);
+            Object[] ar = persons.toArray();
+
+            for (int i = 0; i < ar.length; i++) {
+
+                if(i < ar.length - 1){
+
+                    debtors += ar[i].toString() + ",";
+
+                }else if(i == ar.length - 1){
+
+                    debtors += ar[i].toString();
+                }
             }
-        }
 
-        transaction.setFallsAtPersons(perStr);
-
+        Log.d("Debtors", String.valueOf(debtors));
 
 
-        Log.d("TRANSACTION", transaction.toString());
+        //Kreditor
+         long creditor = preferences.getLong(GlobalVar.SpVarNameCreditor, 0);
+        Log.d("Creditor", String.valueOf(creditor));
+
+
+        //Kategorie
+        long category = preferences.getLong(GlobalVar.SpVarNameCategory, 0);
+        Log.d("Catrgory", String.valueOf(category));
 
 
 
+        ArrayList<Transaction> transactions = getSplittedTransaction(type, date, time, value, creditor, debtors, category, details );
+
+        Log.d("Transactions Size", String.valueOf(transactions.size()));
 
 
-
-
-
-
+        //...... Transaktionen in der Liste in die Datenbank schreiben
 
     }
 
@@ -271,5 +269,45 @@ public class MainActivity extends AppCompatActivity
 
 
 
+    }
+
+    /**
+     *
+     * @return
+     */
+    private ArrayList<Transaction> getSplittedTransaction(int type, String date, String time, double value, long creditor, String debtors, long category, String details){
+
+       ArrayList<Transaction> transactions = new ArrayList<>();
+
+        String[] debtorIds = debtors.split(",");
+
+        //RUNDEN AUF ZWEI NACHKOMMASTELLEN FUNKTIONIERT NOCH NICHT RICHTIG----------------------
+        double valuePerPerson = Math.round(((value / debtorIds.length) * 100.0) / 100.0);
+
+
+        Log.d("ValuePerPerson", String.valueOf(valuePerPerson));
+
+        for (String debtor : debtorIds) {
+
+            if(new Long(debtor) !=  creditor) {
+
+                Transaction trans = new Transaction();
+                trans.setType(type);
+                trans.setDate(date);
+                trans.setTime(time);
+                trans.setCreditorId(creditor);
+                trans.setDebtorId(new Long(debtor));
+                trans.setCategory(category);
+                trans.setDetails(details);
+                trans.setValue(valuePerPerson);
+
+                transactions.add(trans);
+                Log.d("", trans.toString());
+            }
+        }
+
+
+
+        return transactions;
     }
 }

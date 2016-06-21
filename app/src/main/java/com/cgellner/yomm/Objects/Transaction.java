@@ -11,196 +11,91 @@ public class Transaction {
 
     private long ID;
     private int Type;
-    private String DateTime;
-    private String DateTimeMaturity;
-    private String PayingPersons;
-    private String FallsAtPersons;
+    private String Date;
+    private String Time;
+    private long  CreditorId;
+    private long  DebtorId;
     private double Value;
-    private int MainCategory;
-    private int SubCategory;
-    private String Description;
-    private int Account;
+    private long Category;
+    private String Details;
 
     //endregion
 
 
     //region Properties
 
-    /**
-     * ID der Transaktion
-     * @return
-     */
     public long getID() {
         return ID;
     }
 
-    /**
-     * ID der Transaktion
-     * @param ID
-     */
     public void setID(long ID) {
         this.ID = ID;
     }
 
-    /**
-     * Typ (Einnahme / Ausgabe)
-     * @return
-     */
     public int getType() {
         return Type;
     }
 
-    /**
-     * Typ (Einnahme / Ausgabe)
-     * @param type
-     */
     public void setType(int type) {
         Type = type;
     }
 
-    /**
-     * Datum der Erfassung
-     * @return
-     */
-    public String getDateTime() {
-        return DateTime;
+    public String getDate() {
+        return Date;
     }
 
-    /**
-     * Datum der Erfassung
-     * @param dateTime
-     */
-    public void setDateTime(String dateTime) {
-        DateTime = dateTime;
+    public void setDate(String date) {
+        Date = date;
     }
 
-    /**
-     * Datum der Faelligkeit (Buchung)
-     * @return
-     */
-    public String getDateTimeMaturity() {
-        return DateTimeMaturity;
+    public String getTime() {
+        return Time;
     }
 
-    /**
-     * Datum er Faelligkeit (Buchung)
-     * @param dateTimeMaturity
-     */
-    public void setDateTimeMaturity(String dateTimeMaturity) {
-        DateTimeMaturity = dateTimeMaturity;
+    public void setTime(String time) {
+        Time = time;
     }
 
-    /**
-     * Personen die gezahlt haben
-     * @return
-     */
-    public String getPayingPersons() {
-        return PayingPersons;
+    public long getCreditorId() {
+        return CreditorId;
     }
 
-    /**
-     * Personen die gezahlt haben
-     * @param payingPersons
-     */
-    public void setPayingPersons(String payingPersons) {
-        PayingPersons = payingPersons;
+    public void setCreditorId(long creditorId) {
+        CreditorId = creditorId;
     }
 
-    /**
-     * Personen fuer die der Betrag anfaellt
-     * @return
-     */
-    public String getFallsAtPersons() {
-        return FallsAtPersons;
+    public long getDebtorId() {
+        return DebtorId;
     }
 
-    /**
-     * Personen fuer die der Betrag anfaellt
-     * @param fallsAtPersons
-     */
-    public void setFallsAtPersons(String fallsAtPersons) {
-        FallsAtPersons = fallsAtPersons;
+    public void setDebtorId(long debtorId) {
+        DebtorId = debtorId;
     }
 
-    /**
-     * Betrag
-     * @return
-     */
     public double getValue() {
         return Value;
     }
 
-    /**
-     * Betrag
-     * @param value
-     */
     public void setValue(double value) {
         Value = value;
     }
 
-    /**
-     * Hauptkategorie
-     * @return
-     */
-    public int getMainCategory() {
-        return MainCategory;
+    public long getCategory() {
+        return Category;
     }
 
-    /**
-     * Hauptkategorie
-     * @param mainCategory
-     */
-    public void setMainCategory(int mainCategory) {
-        MainCategory = mainCategory;
+    public void setCategory(long category) {
+        Category = category;
     }
 
-    /**
-     * Unterkategorie
-     * @return
-     */
-    public int getSubCategory() {
-        return SubCategory;
+    public String getDetails() {
+        return Details;
     }
 
-    /**
-     * Unterkategorie
-     * @param subCategory
-     */
-    public void setSubCategory(int subCategory) {
-        SubCategory = subCategory;
+    public void setDetails(String details) {
+        Details = details;
     }
 
-    /**
-     * Beschreibung / Details
-     * @return
-     */
-    public String getDescription() {
-        return Description;
-    }
-
-    /**
-     * Beschreibung / Details
-     * @param description
-     */
-    public void setDescription(String description) {
-        Description = description;
-    }
-
-    /**
-     * Konto
-     * @return
-     */
-    public int getAccount() {
-        return Account;
-    }
-
-    /**
-     * Konto
-     * @param account
-     */
-    public void setAccount(int account) {
-        Account = account;
-    }
 
     //endregion
 
@@ -219,17 +114,15 @@ public class Transaction {
     @Override
     public String toString() {
         return "Transaction{" +
-                "ID=" + ID +
+                " ID=" + ID +
                 ", Type=" + Type +
-                ", DateTime='" + DateTime +
-                ", DateTimeMaturity='" + DateTimeMaturity +
-                ", PayingPersons='" + PayingPersons +
-                ", FallsAtPersons='" + FallsAtPersons +
-                ", Value=" + Value +
-                ", MainCategory=" + MainCategory +
-                ", SubCategory=" + SubCategory +
-                ", Description='" + Description +
-                ", Account=" + Account +
+                ", Date=" + Date +
+                ", Time= " + Time +
+                ", CreditorId =" + CreditorId +
+                ", DebtorId ='" + DebtorId +
+                ", Value =" + Value +
+                ", CategoryId =" + Category +
+                ", Details =" + Details +
                 '}';
     }
 }

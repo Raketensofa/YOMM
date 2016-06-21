@@ -1,7 +1,7 @@
 <CheckBox android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:text="New CheckBox"
-    android:textSize="25dp"
+    android:textSize="35dp"
     android:id="@+id/checkBoxListView"
     android:clickable="true"
     android:paddingTop="5dp"

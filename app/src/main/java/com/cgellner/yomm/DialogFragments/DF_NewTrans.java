@@ -1,14 +1,8 @@
 package com.cgellner.yomm.DialogFragments;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,33 +12,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.cgellner.yomm.Activities.MainActivity;
 import com.cgellner.yomm.GlobalVar;
 import com.cgellner.yomm.Objects.MainCategory;
 import com.cgellner.yomm.Objects.Person;
 import com.cgellner.yomm.Objects.RecyclerViewAdapter;
-import com.cgellner.yomm.Objects.Transaction;
 import com.cgellner.yomm.R;
-import com.synnapps.carouselview.CarouselView;
-import com.synnapps.carouselview.ViewListener;
 
-import java.lang.reflect.Array;
-import java.net.CacheRequest;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.zip.Inflater;
-
-import javax.microedition.khronos.opengles.GL;
 
 
 /**
@@ -56,8 +36,8 @@ public class DF_NewTrans extends Fragment {
     private final String TAG = DF_NewTrans.class.getName();
 
     private int[] views = {R.layout.layout_new_first_whichvalue,
-                    R.layout.layout_new_second_persons,
-                    R.layout.layout_new_third_personpayed,
+                    R.layout.layout_new_second_debtors,
+                    R.layout.layout_new_third_creditor,
                     R.layout.layout_new_fourth_category,
                     R.layout.layout_new_fifth_object};
 
@@ -84,7 +64,6 @@ public class DF_NewTrans extends Fragment {
 
     private ArrayList<String> StrList;
 
-    private ListView listView;
 
     public MainActivity getContext() {
         return mainActivity;
@@ -112,7 +91,6 @@ public class DF_NewTrans extends Fragment {
         preferences = PreferenceManager.getDefaultSharedPreferences(mainActivity);
 
 
-
         if(layoutId == 0){
 
             setTextChangeListener();
@@ -121,13 +99,13 @@ public class DF_NewTrans extends Fragment {
         if(layoutId == 1){
 
             personList = GlobalVar.Database.getPersons();
+
             recyclerView = (RecyclerView)view.findViewById(R.id.recyclerViewSecondLayout);
             recyclerView.setHasFixedSize(true);
 
             LinearLayoutManager llm = new LinearLayoutManager(getActivity());
             recyclerView.setLayoutManager(llm);
-            setPersonRecyclerView();
-
+            setPersonAdapter();
 
         }
 
@@ -135,16 +113,72 @@ public class DF_NewTrans extends Fragment {
 
             personList = GlobalVar.Database.getPersons();
 
+            RadioGroup groupPersons = (RadioGroup)view.findViewById(R.id.radioButtonGroupCreditor);
 
+            for (Person person : personList) {
+
+                RadioButton radioButton = new RadioButton(getContext());
+                radioButton.setText(person.getName());
+                radioButton.setTextSize(35);
+                radioButton.setId(new Integer(String.valueOf(person.getID())));
+                groupPersons.addView(radioButton);
+            }
+
+            groupPersons.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                    long personId = 0;
+                    for (Person person : personList){
+
+                        if(person.getID() == new Long(checkedId)){
+
+                            personId = person.getID();
+                        }
+                    }
+
+
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putLong(GlobalVar.SpVarNameCreditor, personId);
+                    editor.commit();
+                }
+            });
         }
+
 
         if(layoutId == 3){
 
             mainCategoryList = GlobalVar.Database.getCategories();
 
+            RadioGroup groupCategories = (RadioGroup)view.findViewById(R.id.radioGroupCategory);
 
+            for (MainCategory category : mainCategoryList) {
 
+                RadioButton radioButton = new RadioButton(getContext());
+                radioButton.setText(category.getName());
+                radioButton.setTextSize(35);
+                radioButton.setId(new Integer(String.valueOf(category.getID())));
+                groupCategories.addView(radioButton);
+            }
 
+            groupCategories.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                    long categoryId = 0;
+                    for (MainCategory category : mainCategoryList){
+
+                        if(category.getID() == new Long(checkedId)){
+
+                            categoryId = category.getID();
+                        }
+                    }
+
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putLong(GlobalVar.SpVarNameCategory, categoryId);
+                    editor.commit();
+                }
+            });
         }
 
         if(layoutId == 4) {
@@ -157,7 +191,6 @@ public class DF_NewTrans extends Fragment {
                 public void onClick(View view) {
 
                     mainActivity.readData();
-
                 }
             });
         }
@@ -165,28 +198,10 @@ public class DF_NewTrans extends Fragment {
         return rootView;
     }
 
-
-
-
     /**
      *
      */
-    private void setPersonNames(){
-
-        StrList = new ArrayList<>();
-
-         if(personList != null) {
-
-            for (Person person : personList) {
-
-                StrList.add(person.getName());
-            }
-        }
-
-    }
-
-
-    private void setPersonRecyclerView(){
+    private void setPersonAdapter(){
 
         recyclerViewAdapter = new RecyclerViewAdapter();
         recyclerViewAdapter.setPersonDataList(personList);
@@ -196,7 +211,10 @@ public class DF_NewTrans extends Fragment {
     }
 
 
-
+    /**
+     *
+     * @return
+     */
     private int getLayout(){
 
         int layout = 0;

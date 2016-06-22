@@ -19,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import com.badoualy.stepperindicator.StepperIndicator;
 import com.cgellner.yomm.Database.Database;
 import com.cgellner.yomm.DialogFragments.DF_NewTrans;
 import com.cgellner.yomm.GlobalVar;
@@ -26,6 +27,7 @@ import com.cgellner.yomm.Objects.MainCategory;
 import com.cgellner.yomm.Objects.Person;
 import com.cgellner.yomm.Objects.Transaction;
 import com.cgellner.yomm.R;
+import com.synnapps.carouselview.CirclePageIndicator;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity
 
     private ViewPager viewPager;
     private FragmentStatePagerAdapter pagerAdapter;
+    private StepperIndicator stepperIndicator;
 
     private static final int NUM_PAGES = 5;
 
@@ -145,9 +148,13 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
 
+                stepperIndicator = (StepperIndicator) findViewById(R.id.viewpageindicator);
                 viewPager = (ViewPager)findViewById(R.id.viewpager);
                 pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
                 viewPager.setAdapter(pagerAdapter);
+
+                stepperIndicator.setViewPager(viewPager);
+
             }
         });
 
@@ -281,11 +288,7 @@ public class MainActivity extends AppCompatActivity
 
         String[] debtorIds = debtors.split(",");
 
-        //RUNDEN AUF ZWEI NACHKOMMASTELLEN FUNKTIONIERT NOCH NICHT RICHTIG----------------------
-        double valuePerPerson = Math.round(((value / debtorIds.length) * 100.0) / 100.0);
-
-
-        Log.d("ValuePerPerson", String.valueOf(valuePerPerson));
+        double valuePerPerson = Math.round(((value / debtorIds.length) * 100.0)) / 100.0;
 
         for (String debtor : debtorIds) {
 

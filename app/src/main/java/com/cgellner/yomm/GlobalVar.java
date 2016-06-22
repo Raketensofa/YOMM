@@ -16,7 +16,7 @@ public abstract class GlobalVar {
     public static com.cgellner.yomm.Database.Database Database;
 
     public static final String DatabaseName = "Mymo_Database.db";
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 4;
 
 
 

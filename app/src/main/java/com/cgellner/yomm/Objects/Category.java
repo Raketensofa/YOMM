@@ -5,7 +5,7 @@ import com.cgellner.yomm.Database.Sql;
 /**
  * Created by Carolin on 31.05.2016.
  */
-public class MainCategory {
+public class Category {
 
 
     //region Fields
@@ -44,7 +44,7 @@ public class MainCategory {
 
     @Override
     public String toString() {
-        return "MainCategory{" +
+        return "Category{" +
                 "ID=" + ID +
                 ", Name='" + Name +
                 '}';
@@ -57,7 +57,7 @@ public class MainCategory {
      */
     public String getSqlInsert(){
 
-        return  "INSERT INTO " + Sql.NAME_TABLE_MAINCATEGORIES + " ( "+  Sql.NAME_COLUMN_NAME + " ) VALUES ('" + Name + "')";
+        return  "INSERT INTO " + Sql.NAME_TABLE_CATEGORIES + " ( "+  Sql.NAME_COLUMN_NAME + " ) VALUES ('" + Name + "')";
     }
 
     //endregion

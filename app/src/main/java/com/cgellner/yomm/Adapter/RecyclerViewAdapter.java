@@ -1,4 +1,4 @@
-package com.cgellner.yomm.Objects;
+package com.cgellner.yomm.Adapter;
 
 import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import com.cgellner.yomm.GlobalVar;
+import com.cgellner.yomm.Objects.Category;
+import com.cgellner.yomm.Objects.Person;
 import com.cgellner.yomm.R;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -25,7 +27,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private static final String TAG = RecyclerView.class.getName();
     private ArrayList<Person> personsList;
-    private ArrayList<MainCategory> categoryList;
+    private ArrayList<Category> categoryList;
     private SharedPreferences preferences;
 
     //endregion

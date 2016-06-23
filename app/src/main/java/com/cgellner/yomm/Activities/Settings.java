@@ -8,9 +8,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.cgellner.yomm.DialogFragments.DF_AddNewData;
+import com.cgellner.yomm.Fragments.DF_AddNewData;
 import com.cgellner.yomm.GlobalVar;
-import com.cgellner.yomm.Objects.MainCategory;
+import com.cgellner.yomm.Objects.Category;
 import com.cgellner.yomm.Objects.Person;
 import com.cgellner.yomm.R;
 
@@ -24,7 +24,7 @@ public class Settings extends AppCompatActivity {
 
     private  Object object;
     private  ArrayList<Person> listPersons;
-    private  ArrayList<MainCategory> listCategories;
+    private  ArrayList<Category> listCategories;
 
 
     private  Button button;
@@ -57,9 +57,9 @@ public class Settings extends AppCompatActivity {
 
             object = Person.class;
 
-        }else if(ob.equals(MainCategory.class.getName())){
+        }else if(ob.equals(Category.class.getName())){
 
-            object = MainCategory.class;
+            object = Category.class;
         }
 
     }
@@ -77,7 +77,7 @@ public class Settings extends AppCompatActivity {
                 listPersons = new ArrayList<>();
                 listPersons = GlobalVar.Database.getPersons();
 
-            } else if (object == MainCategory.class) {
+            } else if (object == Category.class) {
 
                 listCategories = new ArrayList<>();
                 listCategories = GlobalVar.Database.getCategories();
@@ -127,9 +127,9 @@ public class Settings extends AppCompatActivity {
             }
 
 
-        }else if(listCategories != null && object == MainCategory.class){
+        }else if(listCategories != null && object == Category.class){
 
-            for (MainCategory  cat : listCategories) {
+            for (Category cat : listCategories) {
 
                 list.add(cat.getName());
             }
@@ -148,7 +148,7 @@ public class Settings extends AppCompatActivity {
 
             button.setText("Neue Person");
 
-        }else if(object == MainCategory.class){
+        }else if(object == Category.class){
 
             button.setText("Neue Kategorie");
         }

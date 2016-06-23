@@ -1,10 +1,14 @@
 package com.cgellner.yomm.Activities;
 
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+
+
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -19,15 +23,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Button;
 
-import com.badoualy.stepperindicator.StepperIndicator;
 import com.cgellner.yomm.Database.Database;
-import com.cgellner.yomm.DialogFragments.DF_NewTrans;
+import com.cgellner.yomm.Fragments.Fragment_NewTransaction;
+import com.cgellner.yomm.Fragments.Fragment_Overview;
+import com.cgellner.yomm.Fragments.Fragment_Start;
 import com.cgellner.yomm.GlobalVar;
-import com.cgellner.yomm.Objects.MainCategory;
+import com.cgellner.yomm.Objects.Category;
 import com.cgellner.yomm.Objects.Person;
 import com.cgellner.yomm.Objects.Transaction;
 import com.cgellner.yomm.R;
-import com.synnapps.carouselview.CirclePageIndicator;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,18 +41,10 @@ import java.util.Set;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private Button buttonNewTrans;
-    private Button buttonCleanDebts;
-
-    private ViewPager viewPager;
-    private FragmentStatePagerAdapter pagerAdapter;
-    private StepperIndicator stepperIndicator;
-
-    private static final int NUM_PAGES = 5;
 
     private MainActivity mainActivity = this;
 
-
+    private FragmentTransaction fragmentTransaction;
 
 
 
@@ -58,6 +54,18 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main3);
+
+
+
+        Fragment_Start fragment = new Fragment_Start();
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.fragment_container, fragment);
+        fragmentTransaction.commit();
+
+
+
+
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -74,9 +82,6 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         init();
-        addListenerOnButton();
-
-
 
 
     }
@@ -95,6 +100,11 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_overview) {
 
+            Fragment_Overview fragment = new Fragment_Overview();
+            fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
 
         } else if (id == R.id.nav_personens) {
 
@@ -104,7 +114,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_categories) {
 
             intent = new Intent(this, Settings.class);
-            intent.putExtra("object", MainCategory.class.getName());
+            intent.putExtra("object", Category.class.getName());
         }
 
 
@@ -121,51 +131,9 @@ public class MainActivity extends AppCompatActivity
 
 
 
-    /**
-     *
-     */
-    public void addListenerOnButton() {
 
 
-        buttonCleanDebts = (Button) this.findViewById(R.id.buttonClearDebts);
-        buttonCleanDebts.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View view) {
-
-                android.app.FragmentManager fm = getFragmentManager();
-
-                //DF_NewTrans newTrans = new DF_NewTrans();
-                //newTrans.show(fm, "cleanDebts");
-
-            }
-        });
-
-
-        buttonNewTrans = (Button)this.findViewById(R.id.buttonNewTrans);
-        buttonNewTrans.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-
-                stepperIndicator = (StepperIndicator) findViewById(R.id.viewpageindicator);
-                viewPager = (ViewPager)findViewById(R.id.viewpager);
-                pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-                viewPager.setAdapter(pagerAdapter);
-
-                stepperIndicator.setViewPager(viewPager);
-
-            }
-        });
-
-
-    }
-
-
-    /**
-     *
-     * @return
-     */
     public void readData(){
 
 
@@ -249,34 +217,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    /**
-     *
-     */
-    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
 
-        public ScreenSlidePagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-
-            DF_NewTrans newTrans = new DF_NewTrans();
-            newTrans.setLayoutId(position);
-            newTrans.setMainActivity(mainActivity);
-
-            return newTrans;
-        }
-
-        @Override
-        public int getCount() {
-            return NUM_PAGES;
-        }
-
-
-
-
-    }
 
     /**
      *

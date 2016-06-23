@@ -22,7 +22,7 @@ public abstract class Sql {
     //region Database Table Names
 
     public static final String NAME_TABLE_TRANSACTIONS = "transactions";
-    public static final String NAME_TABLE_MAINCATEGORIES = "maincategories";
+    public static final String NAME_TABLE_CATEGORIES = "maincategories";
     public static final String NAME_TABLE_SUBCATEGORIES = "subcategories";
     public static final String NAME_TABLE_PERSONS = "persons";
     public static final String NAME_TABLE_ACCOUNTS = "accounts";
@@ -83,7 +83,7 @@ public abstract class Sql {
             ")";
 
     public static final String CREATE_TABLE_MAINCATEGORIES = "CREATE TABLE " +
-            NAME_TABLE_MAINCATEGORIES + "(" +
+            NAME_TABLE_CATEGORIES + "(" +
             NAME_COLUMN_ID + " " + DATATYPE_INTEGER + " " + PRIMARYKEY_AUTO + "," +
             NAME_COLUMN_NAME + " " + DATATYPE_TEXT + " " + NOTNULL +  " )";
 

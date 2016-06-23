@@ -1,9 +1,11 @@
-package com.cgellner.yomm.DialogFragments;
+package com.cgellner.yomm.Fragments;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -19,9 +21,9 @@ import android.widget.RadioGroup;
 
 import com.cgellner.yomm.Activities.MainActivity;
 import com.cgellner.yomm.GlobalVar;
-import com.cgellner.yomm.Objects.MainCategory;
+import com.cgellner.yomm.Objects.Category;
 import com.cgellner.yomm.Objects.Person;
-import com.cgellner.yomm.Objects.RecyclerViewAdapter;
+import com.cgellner.yomm.Adapter.RecyclerViewAdapter;
 import com.cgellner.yomm.R;
 
 import java.util.ArrayList;
@@ -31,9 +33,8 @@ import java.util.ArrayList;
  * Created by Carolin on 31.05.2016.
  */
 
-public class DF_NewTrans extends Fragment {
+public class Fragment_NewTransaction extends Fragment {
 
-    private final String TAG = DF_NewTrans.class.getName();
 
     private int[] views = {R.layout.layout_new_first_whichvalue,
                     R.layout.layout_new_second_debtors,
@@ -60,7 +61,7 @@ public class DF_NewTrans extends Fragment {
     }
 
     private ArrayList<Person> personList;
-    private ArrayList<MainCategory> mainCategoryList;
+    private ArrayList<Category> categoryList;
 
     private ArrayList<String> StrList;
 
@@ -85,10 +86,10 @@ public class DF_NewTrans extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
-        ViewGroup rootView = (ViewGroup) inflater.inflate(getLayout(), container, false);
+        ViewGroup rootView = (ViewGroup)inflater.inflate(getLayout(), container, false);
         view = rootView;
 
-        preferences = PreferenceManager.getDefaultSharedPreferences(mainActivity);
+        preferences = PreferenceManager.getDefaultSharedPreferences(inflater.getContext());
 
 
         if(layoutId == 0){
@@ -148,11 +149,11 @@ public class DF_NewTrans extends Fragment {
 
         if(layoutId == 3){
 
-            mainCategoryList = GlobalVar.Database.getCategories();
+            categoryList = GlobalVar.Database.getCategories();
 
             RadioGroup groupCategories = (RadioGroup)view.findViewById(R.id.radioGroupCategory);
 
-            for (MainCategory category : mainCategoryList) {
+            for (Category category : categoryList) {
 
                 RadioButton radioButton = new RadioButton(getContext());
                 radioButton.setText(category.getName());
@@ -166,7 +167,7 @@ public class DF_NewTrans extends Fragment {
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
 
                     long categoryId = 0;
-                    for (MainCategory category : mainCategoryList){
+                    for (Category category : categoryList){
 
                         if(category.getID() == new Long(checkedId)){
 
@@ -190,7 +191,7 @@ public class DF_NewTrans extends Fragment {
                 @Override
                 public void onClick(View view) {
 
-                    mainActivity.readData();
+                   // mainActivity.readData();
                 }
             });
         }
@@ -298,6 +299,10 @@ public class DF_NewTrans extends Fragment {
             });
         }
     }
+
+
+
+
 
 
 }

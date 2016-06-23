@@ -1,10 +1,5 @@
 package com.cgellner.yomm;
 
-import com.cgellner.yomm.Objects.Account;
-import com.cgellner.yomm.Objects.MainCategory;
-import com.cgellner.yomm.Objects.Person;
-
-import java.util.ArrayList;
 
 
 /**
@@ -12,32 +7,12 @@ import java.util.ArrayList;
  */
 public abstract class GlobalVar {
 
+    //region Databbase
 
     public static com.cgellner.yomm.Database.Database Database;
 
-    public static final String DatabaseName = "Mymo_Database.db";
-    public static final int DATABASE_VERSION = 4;
 
-
-
-
-    public static final String[] MainCategories = {"Lebensmittel","Miete+NK", "Freizeit", "Versicherung", "Einnahmen", "Anschaffung","Drogerie", "Diverse"};
-    public static final String[][] SubCategories = {{"Supermarkt", "Fastfood", "Restaurant", "Kantine"},
-                                                    {"Miete", "Telefon/Internet", "GEZ", "Strom", "Gas"},
-                                                    {"Kino", "Bowling", "Party", "Museum", "Sport"},
-                                                    {"Kleidung", "Schuhe", "Accessoires", "Taschen"},
-                                                    {"Haftpflicht", "Hausrat", "Krankenkasse"},
-                                                    {"Gehalt", "Eltern", "Verkäufe", "Gutschrift"},
-                                                    {"Technik", "Kleidung", "Bücher"},
-                                                    {"Kosmetik", "Haushaltsmittel"},
-                                                    {"Geschenk", "Smartphone", "Musik", "Apps"}};
-
-
-
-
-    public static ArrayList<MainCategory> ListMainCateories;
-    public static ArrayList<Person> ListPersons;
-    public static ArrayList<Account> ListAccounts;
+    //endregion
 
 
     //region Names of Shared Preferences (ActivityMain)
@@ -49,7 +24,5 @@ public abstract class GlobalVar {
     public static String SpVarNameDetails = "transDetails";
 
     //endregion
-
-
 
 }

@@ -18,7 +18,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.Settings"></activity>
+        <activity android:name=".Activities.Settings" />
+        <activity
+            android:name=".Activities.TransactionListActivity"
+            android:label="@string/title_transaction_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.TransactionDetailActivity"
+            android:label="@string/title_transaction_detail"
+            android:parentActivityName=".Activities.TransactionListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.cgellner.yomm.Activities.TransactionListActivity" />
+        </activity>
+        <activity
+            android:name=".Activities.Activity_AddNewData"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_activity__add_new_data"
+            android:theme="@style/FullscreenTheme"></activity>
     </application>
 
 </manifest>

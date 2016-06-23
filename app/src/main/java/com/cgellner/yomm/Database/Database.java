@@ -7,9 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.cgellner.yomm.GlobalVar;
-import com.cgellner.yomm.Objects.Account;
-import com.cgellner.yomm.Objects.MainCategory;
+import com.cgellner.yomm.Objects.Category;
 import com.cgellner.yomm.Objects.Person;
 import com.cgellner.yomm.Objects.Transaction;
 
@@ -22,20 +20,47 @@ import java.util.ArrayList;
 public class Database extends SQLiteOpenHelper {
 
 
+    //region Fields
+
     private final String TAG = Database.class.getName();
+
+
+    private static final String DATABASE_NAME = "Yomm_Database.db";
+    private static final int DATABASE_VERSION = 4;
+
+
     private SQLiteDatabase Database;
     private Context context;
 
+    //endregion
+
+
+    //region Constructor
 
     public Database(Context context) {
 
-        super(context, GlobalVar.DatabaseName, null, GlobalVar.DATABASE_VERSION);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
 
     }
 
+    //endregion
 
 
+    //region Properties
+
+    public SQLiteDatabase getDatabase() {
+        return Database;
+    }
+
+    public void setDatabase(SQLiteDatabase database) {
+        Database = database;
+    }
+
+    //endregion
+
+
+    //region Public Methods
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
@@ -62,7 +87,7 @@ public class Database extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
         Log.d(TAG, "Upgrade der Datenbank");
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + Sql.NAME_TABLE_MAINCATEGORIES );
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + Sql.NAME_TABLE_CATEGORIES);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + Sql.NAME_TABLE_PERSONS);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + Sql.NAME_TABLE_TRANSACTIONS);
        this.onCreate(sqLiteDatabase);
@@ -77,7 +102,6 @@ public class Database extends SQLiteOpenHelper {
 
         Database = this.getWritableDatabase();
         Log.v(TAG, "Datenbank wurde geoeffnet");
-
     }
 
 
@@ -94,16 +118,7 @@ public class Database extends SQLiteOpenHelper {
     }
 
 
-    /**
-     *
-     * @param object
-     */
-    public void insert(Object object){
 
-        open();
-        addData(object, "insert");
-        close();
-    }
 
 
     /**
@@ -113,7 +128,8 @@ public class Database extends SQLiteOpenHelper {
     public void update(Object object){
 
         open();
-        addData(object, "update");
+
+
         close();
 
     }
@@ -126,143 +142,11 @@ public class Database extends SQLiteOpenHelper {
     public void delete(Object object){
 
         open();
-        addData(object, "delete");
+
+
+
         close();
 
-    }
-
-
-
-
-    /**
-     *
-     * @param object
-     */
-    private void addData(Object object, String option){
-
-        String sql = getSqlStr(object, option);
-
-        if(sql != null){
-
-            try{
-
-                if(Database.isOpen()) {
-
-                    Database.execSQL(sql);
-                    setToast(option);
-
-                }else{
-
-                    Log.e(TAG, "Datenbank ist geschlossen.");
-                }
-
-            }catch (Exception ex){
-
-                Log.e(TAG, ex.getMessage());
-
-                setToast("Fehler aufgetreten. Daten wurden nicht gespeichert.");
-            }
-        }
-
-    }
-
-
-    /**
-     *
-     * @param option
-     */
-    private void setToast(String option){
-
-        Toast toast = null;
-        if(option == "insert" || option == "update") {
-
-            toast  = Toast.makeText(context, "Gespeichert", Toast.LENGTH_LONG);
-
-        }else if(option == "delete"){
-
-            toast  = Toast.makeText(context, "Gelöscht", Toast.LENGTH_LONG);
-
-        }else{
-
-            toast  = Toast.makeText(context, option, Toast.LENGTH_LONG);
-        }
-
-        toast.show();
-    }
-
-
-    /**
-     *
-     * @param object
-     */
-    private String getSqlStr(Object object, String option){
-
-        String str = null;
-
-        if(object != null && option != null) {
-
-            //TRANSACTION------------------------------------
-            if (object.getClass() == Transaction.class) {
-
-                if(option == "insert"){
-
-                    str = ((Transaction)object).getSqlInsert();
-
-                }else if(option == "update"){
-
-
-                }else if(option == "delete"){
-
-
-                }
-
-            //ACCOUNT---------------------------------------
-            }else if(object.getClass() == Account.class){
-
-                if(option == "insert"){
-
-                    str = ((Account)object).getSqlInsert();
-
-                }else if(option == "update"){
-
-
-                }else if(option == "delete"){
-
-
-                }
-            //PERSON----------------------------------------
-            }else if(object.getClass() == Person.class){
-
-                if(option == "insert"){
-
-                    str = ((Person)object).getSqlInsert();
-                    Log.v(TAG, str);
-
-                }else if(option == "update"){
-
-
-                }else if(option == "delete"){
-
-
-                }
-            //MAINCATEGORY----------------------------------
-            }else if(object.getClass() == MainCategory.class){
-
-                if(option == "insert"){
-
-                    str = ((MainCategory)object).getSqlInsert();
-
-                }else if(option == "update"){
-
-
-                }else if(option == "delete"){
-
-
-                }
-            }
-        }
-
-        return str;
     }
 
 
@@ -322,9 +206,9 @@ public class Database extends SQLiteOpenHelper {
      *
      * @return
      */
-    public ArrayList<MainCategory> getCategories(){
+    public ArrayList<Category> getCategories(){
 
-        ArrayList<MainCategory> list = null;
+        ArrayList<Category> list = null;
 
         String[] columns = {Sql.NAME_COLUMN_ID, Sql.NAME_COLUMN_NAME};
 
@@ -335,14 +219,14 @@ public class Database extends SQLiteOpenHelper {
 
                 list = new ArrayList<>();
 
-                Cursor cursor = Database.query(Sql.NAME_TABLE_MAINCATEGORIES, columns, null, null, null, null, null);
+                Cursor cursor = Database.query(Sql.NAME_TABLE_CATEGORIES, columns, null, null, null, null, null);
 
                 if (cursor != null) {
 
                     if (cursor.moveToFirst()) {
                         do {
 
-                            MainCategory category = new MainCategory();
+                            Category category = new Category();
 
                             category.setID(cursor.getLong(cursor.getColumnIndex(columns[0])));
                             category.setName(cursor.getString(cursor.getColumnIndex(columns[1])));
@@ -370,5 +254,47 @@ public class Database extends SQLiteOpenHelper {
 
     }
 
+
+
+
+
+
+    //endregion
+
+
+
+    private void insertData(String sql){
+
+        open();
+
+        if(sql != null){
+
+            try{
+
+                if(Database.isOpen()) {
+
+                    Database.execSQL(sql);
+
+                    Toast.makeText(context, "Gespeichert", Toast.LENGTH_LONG);
+
+
+                }else{
+
+                    Log.e(TAG, "Datenbank ist geschlossen.");
+                }
+
+            }catch (Exception ex){
+
+                Log.e(TAG, ex.getMessage());
+
+                Toast.makeText(context, "Fehler aufgetreten. Daten wurden nicht gespeichert.", Toast.LENGTH_LONG);
+
+            }finally {
+
+                close();
+            }
+        }
+
+    }
 
 }

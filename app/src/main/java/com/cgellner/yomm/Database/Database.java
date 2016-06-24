@@ -26,7 +26,7 @@ public class Database extends SQLiteOpenHelper {
 
 
     private static final String DATABASE_NAME = "Yomm_Database.db";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
 
 
     private SQLiteDatabase Database;
@@ -69,7 +69,7 @@ public class Database extends SQLiteOpenHelper {
             Database = sqLiteDatabase;
             Database.execSQL(Sql.CREATE_TABLE_TRANSACTIONS);
             Database.execSQL(Sql.CREATE_TABLE_PERSONS);
-            Database.execSQL(Sql.CREATE_TABLE_MAINCATEGORIES);
+            Database.execSQL(Sql.CREATE_TABLE_CATEGORIES);
 
             Log.d(TAG, "Datenbank wurde erstellt.");
 
@@ -117,7 +117,23 @@ public class Database extends SQLiteOpenHelper {
         }
     }
 
+    public void insertPerson(Person person){
 
+        insertData(person.getSqlInsert());
+
+    }
+
+
+    public void insertCategory(Category category){
+
+        insertData(category.getSqlInsert());
+
+    }
+
+    public void insertTransaction(Transaction transaction){
+
+        insertData(transaction.getSqlInsert());
+    }
 
 
 

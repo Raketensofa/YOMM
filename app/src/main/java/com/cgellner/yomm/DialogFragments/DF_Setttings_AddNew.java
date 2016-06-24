@@ -1,4 +1,4 @@
-package com.cgellner.yomm.Fragments;
+package com.cgellner.yomm.DialogFragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -17,10 +17,10 @@ import com.cgellner.yomm.Objects.Person;
 import com.cgellner.yomm.R;
 
 
-public class DF_AddNewData extends DialogFragment {
+public class DF_Setttings_AddNew extends DialogFragment {
 
 
-    private final String TAG = DF_AddNewData.class.getName();
+    private final String TAG = DF_Setttings_AddNew.class.getName();
     private View view;
     private String type;
     private TextView header;
@@ -60,7 +60,7 @@ public class DF_AddNewData extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-                DF_AddNewData.this.getDialog().cancel();
+                DF_Setttings_AddNew.this.getDialog().cancel();
             }
         });
 
@@ -100,14 +100,14 @@ public class DF_AddNewData extends DialogFragment {
 
                 Person person = new Person();
                 person.setName(name);
-                //GlobalVar.Database.insert(person);
+                GlobalVar.Database.insertPerson(person);
 
 
             }else if(type.equals(Category.class.toString())) {
 
                 Category category = new Category();
                 category.setName(name);
-               // GlobalVar.Database.insert(category);
+                GlobalVar.Database.insertCategory(category);
 
             }
         }

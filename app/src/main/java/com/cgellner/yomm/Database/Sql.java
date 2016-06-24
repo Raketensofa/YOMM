@@ -22,10 +22,8 @@ public abstract class Sql {
     //region Database Table Names
 
     public static final String NAME_TABLE_TRANSACTIONS = "transactions";
-    public static final String NAME_TABLE_CATEGORIES = "maincategories";
-    public static final String NAME_TABLE_SUBCATEGORIES = "subcategories";
+    public static final String NAME_TABLE_CATEGORIES = "categories";
     public static final String NAME_TABLE_PERSONS = "persons";
-    public static final String NAME_TABLE_ACCOUNTS = "accounts";
 
     //endregion
 
@@ -33,19 +31,15 @@ public abstract class Sql {
     //region Database Column Names
 
     public static final String NAME_COLUMN_ID = "id";
-    public static final String NAME_COLUMN_PAYINGPERSONS = "paying_persons";
-    public static final String NAME_COLUMN_FALLSATPERSONS = "falls_at_persons";
+    public static final String NAME_COLUMN_CREDITOR = "creditorId";
+    public static final String NAME_COLUMN_DEBTOR = "debtorId";
     public static final String NAME_COLUMN_TYPE = "type";
-    public static final String NAME_COLUMN_DATETIME = "datetime";
-    public static final String NAME_COLUMN_DATE_MATURITY = "date_maturity";
     public static final String NAME_COLUMN_VALUE = "value";
-    public static final String NAME_COLUMN_MAINCATEGORY = "maincategory";
-    public static final String NAME_COLUMN_SUBCATEGORY = "subcategory";
-    public static final String NAME_COLUMN_DESCRIPTION = "descritpion";
-    public static final String NAME_COLUMN_ACCOUNT = "account";
+    public static final String NAME_COLUMN_CATEGORY = "categoryId";
+    public static final String NAME_COLUMN_DETAILS = "details";
     public static final String NAME_COLUMN_NAME = "name";
-    public static final String NAME_COLUMN_STARTVALUE = "startvalue";
-    public static final String NAME_COLUMN_MAINCATEGORY_ID = "maincategory_id";
+    public static final String NAME_COLUMN_DATE = "date";
+    public static final String NAME_COLUMN_TIME = "time";
 
     //endregion
 
@@ -56,43 +50,28 @@ public abstract class Sql {
                 NAME_TABLE_TRANSACTIONS + "(" +
                 NAME_COLUMN_ID + " " + DATATYPE_INTEGER + " " + PRIMARYKEY_AUTO + "," +
                 NAME_COLUMN_TYPE + " " + DATATYPE_INTEGER + " " + NOTNULL + ", " +
-                NAME_COLUMN_DATETIME + " " + DATATYPE_TEXT + " " + NOTNULL + ", " +
-                NAME_COLUMN_DATE_MATURITY + " " + DATATYPE_TEXT + " " + NOTNULL + ", " +
-                NAME_COLUMN_ACCOUNT + " " + DATATYPE_INTEGER + " " + NOTNULL + ", " +
+                NAME_COLUMN_DATE + " " + DATATYPE_TEXT + " " + NOTNULL + ", " +
+                NAME_COLUMN_TIME + " " + DATATYPE_TEXT + " " + NOTNULL + ", " +
+                NAME_COLUMN_CREDITOR + " " + DATATYPE_INTEGER + " " + NOTNULL + ", " +
+                NAME_COLUMN_DEBTOR + " " + DATATYPE_INTEGER + " " + NOTNULL + ", " +
                 NAME_COLUMN_VALUE + " " + DATATYPE_DECIMAL + " " + NOTNULL + ", " +
-                NAME_COLUMN_PAYINGPERSONS + " " + DATATYPE_TEXT + " " + NOTNULL + ", " +
-                NAME_COLUMN_FALLSATPERSONS + " " + DATATYPE_TEXT + " " + NOTNULL + ", " +
-                NAME_COLUMN_MAINCATEGORY + " " + DATATYPE_TEXT + ", " +
-                NAME_COLUMN_SUBCATEGORY + " " + DATATYPE_TEXT + ", " +
-                NAME_COLUMN_DESCRIPTION + " " + DATATYPE_TEXT + " )";
+                NAME_COLUMN_CATEGORY + " " + DATATYPE_INTEGER + ", " +
+                NAME_COLUMN_DETAILS + " " + DATATYPE_TEXT + " )";
 
 
     public static final String CREATE_TABLE_PERSONS = "CREATE TABLE " +
             NAME_TABLE_PERSONS + "(" +
             NAME_COLUMN_ID + " " + DATATYPE_INTEGER + " " + PRIMARYKEY_AUTO + "," +
-            NAME_COLUMN_NAME + " " + DATATYPE_TEXT + " " + NOTNULL +  ", " +
-            NAME_COLUMN_TYPE + " " + DATATYPE_INTEGER + " " + NOTNULL + " )";
+            NAME_COLUMN_NAME + " " + DATATYPE_TEXT + " " + NOTNULL +  " )";
 
 
-    public static final String CREATE_TABLE_ACCOUNTS = "CREATE TABLE " +
-            NAME_TABLE_ACCOUNTS + "(" +
-            NAME_COLUMN_ID + " " + DATATYPE_INTEGER + " " + PRIMARYKEY_AUTO + "," +
-            NAME_COLUMN_NAME + " " + DATATYPE_TEXT + " " + NOTNULL +  ", " +
-            NAME_COLUMN_TYPE + " " + DATATYPE_INTEGER + " " + NOTNULL + ", " +
-            NAME_COLUMN_STARTVALUE + " " + DATATYPE_DECIMAL + " " + NOTNULL +
-            ")";
 
-    public static final String CREATE_TABLE_MAINCATEGORIES = "CREATE TABLE " +
+    public static final String CREATE_TABLE_CATEGORIES = "CREATE TABLE " +
             NAME_TABLE_CATEGORIES + "(" +
             NAME_COLUMN_ID + " " + DATATYPE_INTEGER + " " + PRIMARYKEY_AUTO + "," +
             NAME_COLUMN_NAME + " " + DATATYPE_TEXT + " " + NOTNULL +  " )";
 
 
-    public static final String CREATE_TABLE_SUBCATEGORIES = "CREATE TABLE " +
-            NAME_TABLE_SUBCATEGORIES + "(" +
-            NAME_COLUMN_ID + " " + DATATYPE_INTEGER + " " + PRIMARYKEY_AUTO + "," +
-            NAME_COLUMN_NAME + " " + DATATYPE_TEXT + " " + NOTNULL +  ", " +
-            NAME_COLUMN_MAINCATEGORY_ID + " " + DATATYPE_INTEGER + " " + NOTNULL + " )";
 
 
     //endregion

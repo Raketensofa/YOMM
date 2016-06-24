@@ -7,13 +7,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 
 
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -21,10 +16,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.Button;
 
 import com.cgellner.yomm.Database.Database;
-import com.cgellner.yomm.Fragments.Fragment_NewTransaction;
 import com.cgellner.yomm.Fragments.Fragment_Overview;
 import com.cgellner.yomm.Fragments.Fragment_Start;
 import com.cgellner.yomm.GlobalVar;
@@ -38,15 +31,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Set;
 
+
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    private MainActivity mainActivity = this;
+    //FragmentTransaction zum Oeffnen verschiedener Fragmente innerhalb einer Activity
+    public static FragmentTransaction fragmentTransaction;
 
-    private FragmentTransaction fragmentTransaction;
 
+    private static SharedPreferences preferences;
 
+    Fragment_Start fragmentStart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,23 +52,24 @@ public class MainActivity extends AppCompatActivity
 
         setContentView(R.layout.activity_main3);
 
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
 
-        Fragment_Start fragment = new Fragment_Start();
+        //Start-Fragment anzeigen
+        fragmentStart = new Fragment_Start();
+
+
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.fragment_container, fragment);
+        fragmentTransaction.add(R.id.fragment_container, fragmentStart);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
-
-
-
-
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
-
+        //Navigation
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -81,10 +79,16 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        init();
+
+
+        //Neues Datenbankobjekt erstellen fuer globalen Zugriff innerhalb des Programmcodes
+        GlobalVar.Database = new Database(this);
 
 
     }
+
+
+
 
 
 
@@ -100,6 +104,7 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_overview) {
 
+            //Fragment wechseln
             Fragment_Overview fragment = new Fragment_Overview();
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
@@ -108,24 +113,25 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_personens) {
 
+            //neue Activity starten
             intent = new Intent(this, Settings.class);
             intent.putExtra("object", Person.class.getName());
+            startActivity(intent);
 
         } else if (id == R.id.nav_categories) {
 
+            //neue Activity starten
             intent = new Intent(this, Settings.class);
             intent.putExtra("object", Category.class.getName());
-        }
-
-
-        if (intent != null) {
-
             startActivity(intent);
         }
 
 
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
+
         return true;
     }
 
@@ -134,7 +140,7 @@ public class MainActivity extends AppCompatActivity
 
 
 
-    public void readData(){
+    public static void readData(){
 
 
         //Typ (Ausgabe == 1; Schuldbegleichung == 2)
@@ -156,7 +162,6 @@ public class MainActivity extends AppCompatActivity
 
 
         //SharedPreferences auslesen
-             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
             //Geldbetrag
             double value = new Double(preferences.getString(GlobalVar.SpVarNameValue, ""));
@@ -205,16 +210,20 @@ public class MainActivity extends AppCompatActivity
 
 
         //...... Transaktionen in der Liste in die Datenbank schreiben
+        for (Transaction transaction : transactions) {
+
+            GlobalVar.Database.insertTransaction(transaction);
+        }
+
+
+        Fragment_Start start = new Fragment_Start();
+        fragmentTransaction = MainActivity.this.getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, start);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
 
     }
 
-
-
-    private void init(){
-
-        GlobalVar.Database = new Database(this);
-
-    }
 
 
 
@@ -223,7 +232,7 @@ public class MainActivity extends AppCompatActivity
      *
      * @return
      */
-    private ArrayList<Transaction> getSplittedTransaction(int type, String date, String time, double value, long creditor, String debtors, long category, String details){
+    private static ArrayList<Transaction> getSplittedTransaction(int type, String date, String time, double value, long creditor, String debtors, long category, String details){
 
        ArrayList<Transaction> transactions = new ArrayList<>();
 
@@ -249,8 +258,6 @@ public class MainActivity extends AppCompatActivity
                 Log.d("", trans.toString());
             }
         }
-
-
 
         return transactions;
     }

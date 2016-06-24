@@ -106,8 +106,16 @@ public class Transaction {
      */
     public String getSqlInsert(){
 
-        return  "INSERT INTO " + Sql.NAME_TABLE_TRANSACTIONS + " VALUES ( " +
-                Sql.NAME_COLUMN_TYPE;
+        return  "INSERT INTO " + Sql.NAME_TABLE_TRANSACTIONS + "( type, date, time, creditorId, debtorId, value, categoryId, details) VALUES ( " +
+                "'" + Type + "','" +
+                Date + "','" +
+                Time + "'," +
+                CreditorId + "," +
+                DebtorId + "," +
+                Value + "," +
+                Category + ",'" +
+                Details + "'" +
+            ")";
     }
 
 

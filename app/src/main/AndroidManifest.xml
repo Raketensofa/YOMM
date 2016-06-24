@@ -32,11 +32,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.cgellner.yomm.Activities.TransactionListActivity" />
         </activity>
-        <activity
-            android:name=".Activities.Activity_AddNewData"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_activity__add_new_data"
-            android:theme="@style/FullscreenTheme"></activity>
     </application>
 
 </manifest>

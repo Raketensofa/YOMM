@@ -3,9 +3,11 @@ package com.cgellner.yomm.Fragments;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -86,8 +88,11 @@ public class Fragment_NewTransaction extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
+
         ViewGroup rootView = (ViewGroup)inflater.inflate(getLayout(), container, false);
         view = rootView;
+
+        rootView.bringToFront();
 
         preferences = PreferenceManager.getDefaultSharedPreferences(inflater.getContext());
 
@@ -118,7 +123,7 @@ public class Fragment_NewTransaction extends Fragment {
 
             for (Person person : personList) {
 
-                RadioButton radioButton = new RadioButton(getContext());
+                RadioButton radioButton = new RadioButton(inflater.getContext());
                 radioButton.setText(person.getName());
                 radioButton.setTextSize(35);
                 radioButton.setId(new Integer(String.valueOf(person.getID())));
@@ -155,7 +160,7 @@ public class Fragment_NewTransaction extends Fragment {
 
             for (Category category : categoryList) {
 
-                RadioButton radioButton = new RadioButton(getContext());
+                RadioButton radioButton = new RadioButton(inflater.getContext());
                 radioButton.setText(category.getName());
                 radioButton.setTextSize(35);
                 radioButton.setId(new Integer(String.valueOf(category.getID())));
@@ -191,11 +196,12 @@ public class Fragment_NewTransaction extends Fragment {
                 @Override
                 public void onClick(View view) {
 
-                   // mainActivity.readData();
+                  MainActivity.readData();
                 }
             });
         }
 
+        //ft.commit();
         return rootView;
     }
 

@@ -11,7 +11,6 @@ public class Person {
 
     private long ID;
     private String Name;
-    private int Type;
 
     //endregion
 
@@ -33,14 +32,6 @@ public class Person {
         Name = name;
     }
 
-    public int getType() {
-        return Type;
-    }
-
-    public void setType(int type) {
-        Type = type;
-    }
-
     //endregion
 
 
@@ -52,8 +43,8 @@ public class Person {
      */
     public String getSqlInsert(){
 
-        return  "INSERT INTO " + Sql.NAME_TABLE_PERSONS + "( name, type) VALUES ( " +
-                "'" + Name + "',"  + Type + ")";
+        return  "INSERT INTO " + Sql.NAME_TABLE_PERSONS + "( name) VALUES ( " +
+                "'" + Name + "')";
     }
 
 

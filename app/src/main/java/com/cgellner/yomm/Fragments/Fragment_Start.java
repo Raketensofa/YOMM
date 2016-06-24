@@ -1,23 +1,19 @@
 package com.cgellner.yomm.Fragments;
 
 
-
-import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.cgellner.yomm.Activities.Activity_AddNewData;
-import com.cgellner.yomm.Activities.Settings;
-import com.cgellner.yomm.Objects.Person;
+import com.cgellner.yomm.Activities.MainActivity;
 import com.cgellner.yomm.R;
 
 /**
@@ -34,6 +30,7 @@ public class Fragment_Start extends Fragment {
     private Button buttonNewTrans;
 
 
+    android.support.v4.app.FragmentTransaction transaction;
 
     private ViewPager viewPager;
     private FragmentStatePagerAdapter pagerAdapter;
@@ -43,9 +40,21 @@ public class Fragment_Start extends Fragment {
         // Required empty public constructor
     }
 
+    public ViewPager getViewPager() {
+        return viewPager;
+    }
 
+    public void setViewPager(ViewPager viewPager) {
+        this.viewPager = viewPager;
+    }
 
+    public FragmentStatePagerAdapter getPagerAdapter() {
+        return pagerAdapter;
+    }
 
+    public void setPagerAdapter(FragmentStatePagerAdapter pagerAdapter) {
+        this.pagerAdapter = pagerAdapter;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -87,11 +96,17 @@ public class Fragment_Start extends Fragment {
             @Override
             public void onClick(View view) {
 
+
+
+
+                MainActivity.fragmentTransaction = getFragmentManager().beginTransaction();
+
                 viewPager = (ViewPager)getActivity().findViewById(R.id.viewpager);
                 pagerAdapter = new ScreenSlidePagerAdapter(getFragmentManager());
+
                 viewPager.setAdapter(pagerAdapter);
 
-
+                MainActivity.fragmentTransaction.commit();
 
 
             }
@@ -113,20 +128,11 @@ public class Fragment_Start extends Fragment {
         public Fragment getItem(int position) {
 
 
-            android.support.v4.app.FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
             Fragment_NewTransaction newTrans = new Fragment_NewTransaction();
             newTrans.setLayoutId(position);
 
-
-            transaction.add(position, newTrans);
-            transaction.addToBackStack(null);
-            //transaction.commit();
-
-            //newTrans.setMainActivity();
-
-
-
+            MainActivity.fragmentTransaction.attach(newTrans);
+        //            MainActivity.fragmentTransaction.addToBackStack(null);
 
             return newTrans;
         }

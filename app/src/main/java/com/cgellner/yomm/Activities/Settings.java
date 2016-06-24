@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.cgellner.yomm.Fragments.DF_AddNewData;
+import com.cgellner.yomm.DialogFragments.DF_Setttings_AddNew;
 import com.cgellner.yomm.GlobalVar;
 import com.cgellner.yomm.Objects.Category;
 import com.cgellner.yomm.Objects.Person;
@@ -158,7 +158,7 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                DF_AddNewData newData = new DF_AddNewData();
+                DF_Setttings_AddNew newData = new DF_Setttings_AddNew();
                 newData.setActivity(Settings.this);
                 newData.show(getFragmentManager(), object.toString());
             }

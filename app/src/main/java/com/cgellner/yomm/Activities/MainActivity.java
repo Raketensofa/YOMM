@@ -8,7 +8,6 @@ import android.preference.PreferenceManager;
 
 
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -23,13 +22,8 @@ import com.cgellner.yomm.Fragments.Fragment_Start;
 import com.cgellner.yomm.GlobalVar;
 import com.cgellner.yomm.Objects.Category;
 import com.cgellner.yomm.Objects.Person;
-import com.cgellner.yomm.Objects.Transaction;
 import com.cgellner.yomm.R;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Set;
 
 
 
@@ -81,16 +75,9 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        //Neues Datenbankobjekt erstellen fuer globalen Zugriff innerhalb des Programmcodes
-        GlobalVar.Database = new Database(this);
 
 
     }
-
-
-
-
-
 
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -136,129 +123,4 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
-
-
-
-    public static void readData(){
-
-
-        //Typ (Ausgabe == 1; Schuldbegleichung == 2)
-        int type = 1;
-        Log.d("Type", String.valueOf(type));
-
-
-
-        //aktuelles Datum und Uhrzeit ermitteln
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
-        SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
-        Date currentTimestamp = new Date();
-        String date = dateFormatter.format(currentTimestamp);
-        String time = timeFormatter.format(currentTimestamp);
-
-        Log.d("Date", String.valueOf(date));
-        Log.d("Time", String.valueOf(time));
-
-
-
-        //SharedPreferences auslesen
-
-            //Geldbetrag
-            double value = new Double(preferences.getString(GlobalVar.SpVarNameValue, ""));
-            Log.d("Value", String.valueOf(value));
-
-
-        //Details
-            String details = preferences.getString(GlobalVar.SpVarNameDetails, "");
-            Log.d("Details", String.valueOf(details));
-
-
-        //Debitoren
-            String debtors = "";
-            Set<String> persons = preferences.getStringSet(GlobalVar.SpVarNameDebtors, null);
-            Object[] ar = persons.toArray();
-
-            for (int i = 0; i < ar.length; i++) {
-
-                if(i < ar.length - 1){
-
-                    debtors += ar[i].toString() + ",";
-
-                }else if(i == ar.length - 1){
-
-                    debtors += ar[i].toString();
-                }
-            }
-
-        Log.d("Debtors", String.valueOf(debtors));
-
-
-        //Kreditor
-         long creditor = preferences.getLong(GlobalVar.SpVarNameCreditor, 0);
-        Log.d("Creditor", String.valueOf(creditor));
-
-
-        //Kategorie
-        long category = preferences.getLong(GlobalVar.SpVarNameCategory, 0);
-        Log.d("Catrgory", String.valueOf(category));
-
-
-
-        ArrayList<Transaction> transactions = getSplittedTransaction(type, date, time, value, creditor, debtors, category, details );
-
-        Log.d("Transactions Size", String.valueOf(transactions.size()));
-
-
-        //...... Transaktionen in der Liste in die Datenbank schreiben
-        for (Transaction transaction : transactions) {
-
-            GlobalVar.Database.insertTransaction(transaction);
-        }
-
-
-        Fragment_Start start = new Fragment_Start();
-        fragmentTransaction = MainActivity.this.getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, start);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-
-    }
-
-
-
-
-
-    /**
-     *
-     * @return
-     */
-    private static ArrayList<Transaction> getSplittedTransaction(int type, String date, String time, double value, long creditor, String debtors, long category, String details){
-
-       ArrayList<Transaction> transactions = new ArrayList<>();
-
-        String[] debtorIds = debtors.split(",");
-
-        double valuePerPerson = Math.round(((value / debtorIds.length) * 100.0)) / 100.0;
-
-        for (String debtor : debtorIds) {
-
-            if(new Long(debtor) !=  creditor) {
-
-                Transaction trans = new Transaction();
-                trans.setType(type);
-                trans.setDate(date);
-                trans.setTime(time);
-                trans.setCreditorId(creditor);
-                trans.setDebtorId(new Long(debtor));
-                trans.setCategory(category);
-                trans.setDetails(details);
-                trans.setValue(valuePerPerson);
-
-                transactions.add(trans);
-                Log.d("", trans.toString());
-            }
-        }
-
-        return transactions;
-    }
 }

@@ -24,12 +24,4 @@
     <include layout="@layout/layout_mainactivity_fragments"/>
 
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
-
-
-
 </android.support.design.widget.CoordinatorLayout>

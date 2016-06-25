@@ -13,11 +13,11 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:text="@string/QuestionTransPersons"
         android:textStyle="bold"
         android:inputType="textMultiLine"
-        android:paddingTop="100dp"
+        android:paddingTop="50dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:paddingBottom="50dp"

@@ -18,7 +18,7 @@
         android:text="@string/QuestionTransValue"
         android:textStyle="bold"
         android:inputType="textMultiLine"
-        android:paddingTop="100dp"
+        android:paddingTop="50dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:paddingBottom="30dp"

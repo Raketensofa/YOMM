@@ -177,6 +177,7 @@ public class Database extends SQLiteOpenHelper {
         String[] columns = {Sql.NAME_COLUMN_ID, Sql.NAME_COLUMN_NAME};
 
         open();
+
         if(Database.isOpen()) {
 
             try {
@@ -195,6 +196,8 @@ public class Database extends SQLiteOpenHelper {
                             person.setName(cursor.getString(cursor.getColumnIndex(columns[1])));
 
                             list.add(person);
+
+                            Log.d("PERSON", person.toString());
 
                         } while (cursor.moveToNext());
                     }
@@ -224,6 +227,7 @@ public class Database extends SQLiteOpenHelper {
      */
     public ArrayList<Category> getCategories(){
 
+
         ArrayList<Category> list = null;
 
         String[] columns = {Sql.NAME_COLUMN_ID, Sql.NAME_COLUMN_NAME};
@@ -248,6 +252,7 @@ public class Database extends SQLiteOpenHelper {
                             category.setName(cursor.getString(cursor.getColumnIndex(columns[1])));
 
                             list.add(category);
+                            Log.d("Category", category.toString());
 
                         } while (cursor.moveToNext());
                     }

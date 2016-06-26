@@ -10,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +17,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
+import com.cgellner.yomm.Adapter_ViewHolder.RecyclerViewAdapter_CheckboxList;
 import com.cgellner.yomm.GlobalVar;
 import com.cgellner.yomm.Objects.Category;
 import com.cgellner.yomm.Objects.Person;
-import com.cgellner.yomm.Adapter.RecyclerViewAdapter;
 import com.cgellner.yomm.R;
 
 import java.util.ArrayList;
@@ -29,9 +29,10 @@ import java.util.Set;
 
 
 /**
- * Created by Carolin on 31.05.2016.
+ * Die Klasse repraesentiert ein Formular zum Erfassen einer neuen Ausgabe (Transaktion).
+ * @author Carolin Gellner
+ * @since 31.05.2016
  */
-
 public class Fragment_NewTransaction extends Fragment {
 
 
@@ -39,14 +40,13 @@ public class Fragment_NewTransaction extends Fragment {
 
     private int layoutId;
     private int position;
-    private RecyclerViewAdapter recyclerViewAdapter;
+    private RecyclerViewAdapter_CheckboxList recyclerViewAdapter;
     private RecyclerView recyclerView;
     private EditText eTValue;
     private EditText eTDetails;
 
     private ArrayList<Person> personList;
     private ArrayList<Category> categoryList;
-
 
     private  ViewGroup viewGroup;
     private SharedPreferences sharedPreferences;
@@ -78,17 +78,22 @@ public class Fragment_NewTransaction extends Fragment {
     //region Public Methods
 
     /**
-     *
+     * Die Methode erstellt eine Ansicht im ViewPager.
      * @param savedInstanceState
-     * @return
+     * @return view : Ansicht im ViewPager
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
+        //Layout uebergeben
         viewGroup = (ViewGroup)inflater.inflate(layoutId, container, false);
 
+        //SharedPreferences initialiseren
+        //Dort werden die gewaehlten Daten zwischengespeichert
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.getContext());
 
+
+        //Layoutelemente wie z.B. Listen der  Layouts des ViewPagers mit Daten befuellen
         if(position == 0){
 
             setValueTextChangeListener();
@@ -123,7 +128,8 @@ public class Fragment_NewTransaction extends Fragment {
     //region Private Methods
 
     /**
-     *
+     * Die Methode uebergibt den TextChangedListener dem EditText des Betrags.
+     * Die eingegeben Details im EditText-Feld werden ausgelesen und im Zwischenspeicher der SharedPreferences hinterlegt.
      */
     private void setValueTextChangeListener(){
 
@@ -144,12 +150,21 @@ public class Fragment_NewTransaction extends Fragment {
                 @Override
                 public void afterTextChanged(Editable s) {
 
-                    Float value = new Float(eTValue.getText().toString());
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    Float value = 0f;
 
+                    if(eTValue.getText().toString().length() > 0){
+
+                        value = new Float(eTValue.getText().toString());
+
+                    }
+
+                    //Betrag in den SharedPreferences zwischenspeichern
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putFloat(GlobalVar.SpVarNameValue, value);
                     editor.commit();
 
+
+                    //SharedPreferences auf Vollstaendigkeit ueberpruefen, um ggf. den Speicher-Button freigeben zu koennen
                     checkInputData();
 
                 }
@@ -159,7 +174,8 @@ public class Fragment_NewTransaction extends Fragment {
     }
 
     /**
-     *
+     * Die Methode uebergibt den TextChangedListener dem EditText-Feld der Details.
+     * Die eingegeben Details im EditText-Feld werden ausgelesen und im Zwischenspeicher der SharedPreferences hinterlegt.
      */
     private void setDetailsTextChangeListener(){
 
@@ -177,12 +193,14 @@ public class Fragment_NewTransaction extends Fragment {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
 
+                    //Details aus dem EditText-Feld auslesen und in den SharedPreferences zwischenspeichern
                     String value = eTDetails.getText().toString();
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString(GlobalVar.SpVarNameDetails, value);
                     editor.commit();
-                    checkInputData();
 
+                    //SharedPreferences auf Vollstaendigkeit pruefen um ggf. den Speicher-Button freigeben zu koennen
+                    checkInputData();
 
                 }
 
@@ -196,26 +214,31 @@ public class Fragment_NewTransaction extends Fragment {
     }
 
     /**
-     *
+     * Die Methode erstellt mithilfe einer RecyclerView und eines RecyclerViewAdapters eine Liste mit allen Personen,
+     * welche in der Datenbank hinterlegt sind.
+     * Die gewaehlte(n) Person(en) werden in den Zwischenspeicher der SharedPreferences hinterlegt.
      */
     private void setDebtorChecklist() {
 
 
         //RecylerView aufbereiten
-        recyclerView = (RecyclerView)viewGroup.findViewById(R.id.recyclerViewSecondLayout);
+        recyclerView = (RecyclerView) viewGroup.findViewById(R.id.recyclerViewSecondLayout);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(llm);
 
+
         //Adapter erstellen und der RecyclerView zuweisen
-        recyclerViewAdapter = new RecyclerViewAdapter();
+        recyclerViewAdapter = new RecyclerViewAdapter_CheckboxList();
         recyclerViewAdapter.setPersonDataList(personList);
-        recyclerViewAdapter.setPreferences(sharedPreferences);
+        recyclerViewAdapter.setSharedPreferences(sharedPreferences);
         recyclerView.setAdapter(recyclerViewAdapter);
+
     }
 
     /**
-     *
+     *  Die Methode legt eine RadioButtonGroup mit allen Personen an, die in der Datenabnk hinterlegt sind.
+     * Die gewaehlte(n) Person(en) wird/werden in den Zwischenspeicher der SharedPreferences hinterlegt.
      */
     private void setCreditorRadioButtonGroup(){
 
@@ -249,6 +272,9 @@ public class Fragment_NewTransaction extends Fragment {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putLong(GlobalVar.SpVarNameCreditor, personId);
                 editor.commit();
+
+
+                //SharedPreferences auf Vollstaendigkeit pruefen, um ggf. Speicher-Button freigeben zu koennen
                 checkInputData();
             }
         });
@@ -257,10 +283,10 @@ public class Fragment_NewTransaction extends Fragment {
     }
 
     /**
-     *
+     * Die Methode legt eine RadioButtonGroup mit allen Kategorien an, die in der Datenabnk hinterlegt sind.
+     * Die gewaehlte Kategorie wird in den Zwischenspeicher der SharedPreferences hinterlegt.
      */
     private void setCategoryRadioButtonGroup(){
-
 
         //RadioButtonGroup mit Kategorienamem befuellen
         RadioGroup groupCategories = (RadioGroup)viewGroup.findViewById(R.id.radioGroupCategory);
@@ -291,15 +317,19 @@ public class Fragment_NewTransaction extends Fragment {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putLong(GlobalVar.SpVarNameCategory, categoryId);
                 editor.commit();
+
+
+                //SharedPreferences auf Vollstaendigkeit pruefen um ggf. Speicher-Button freigeben zu koennen
                 checkInputData();
 
             }
         });
     }
 
-
     /**
-     *
+     * Die Methode ueberprueft die Variablen die in den SharedPreferences hinterlegt sind auf ihre Vollstaendigkeit.
+     * Hat der Anwender einen Betrag, einen Kreditor, Debitor(en) und eine Kategorie gewaehlt wird der Speichern-Button
+     * freigeschaltet und in roter Farbe angezeigt
      */
     private void checkInputData(){
 

@@ -7,11 +7,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.cgellner.yomm.GlobalVar;
 import com.cgellner.yomm.Objects.Category;
 import com.cgellner.yomm.Objects.Person;
 import com.cgellner.yomm.Objects.Transaction;
 
 import java.util.ArrayList;
+
+import javax.microedition.khronos.opengles.GL;
 
 
 /**
@@ -24,10 +27,8 @@ public class Database extends SQLiteOpenHelper {
 
     private final String TAG = Database.class.getName();
 
-
     private static final String DATABASE_NAME = "Yomm_Database.db";
     private static final int DATABASE_VERSION = 5;
-
 
     private SQLiteDatabase Database;
     private Context context;
@@ -79,7 +80,6 @@ public class Database extends SQLiteOpenHelper {
             Log.e(TAG, ex.getMessage());
         }
 
-
     }
 
 
@@ -117,22 +117,43 @@ public class Database extends SQLiteOpenHelper {
         }
     }
 
+
+    /**
+     *
+     * @param person
+     */
     public void insertPerson(Person person){
 
+        open();
         insertData(person.getSqlInsert());
-
+        Log.v("Person", person.toString());
+        close();
     }
 
 
+    /**
+     *
+     * @param category
+     */
     public void insertCategory(Category category){
 
+        open();
         insertData(category.getSqlInsert());
-
+        Log.v("Category", category.toString());
+        close();
     }
 
+
+    /**
+     *
+     * @param transaction
+     */
     public void insertTransaction(Transaction transaction){
 
+        open();
         insertData(transaction.getSqlInsert());
+        Log.v("Transaction", transaction.toString());
+        close();
     }
 
 
@@ -163,6 +184,58 @@ public class Database extends SQLiteOpenHelper {
 
         close();
 
+    }
+
+
+    public double getDebtSum(long creditorId, long debtorId){
+
+        double value = 0d;
+
+
+
+
+        return value;
+
+    }
+
+    public double getTransactionSum(long creditorId, long debtorId){
+
+        double value = 0d;
+
+        try {
+
+            Cursor cursor = Database.query(Sql.CREATE_TABLE_TRANSACTIONS,
+                            new String[]{Sql.NAME_COLUMN_VALUE},
+                            Sql.NAME_COLUMN_TYPE + "=1 AND "
+                            + Sql.NAME_COLUMN_CREDITOR + "=" + creditorId + " AND "
+                            + Sql.NAME_COLUMN_DEBTOR + "=" + debtorId,
+                            null, null, null,null);
+
+            if (cursor != null) {
+
+                if (cursor.moveToFirst()) {
+
+                    do {
+
+                        value += cursor.getFloat(cursor.getColumnIndex(Sql.NAME_COLUMN_VALUE));
+
+                    } while (cursor.moveToNext());
+                }
+            }
+
+            cursor.close();
+
+        } catch (Exception ex) {
+
+
+            return -1d;
+
+        }finally {
+
+            close();
+        }
+
+        return value;
     }
 
 
@@ -276,17 +349,14 @@ public class Database extends SQLiteOpenHelper {
     }
 
 
-
-
-
-
     //endregion
 
 
-
+    /**
+     *
+     * @param sql
+     */
     private void insertData(String sql){
-
-        open();
 
         if(sql != null){
 
@@ -297,7 +367,6 @@ public class Database extends SQLiteOpenHelper {
                     Database.execSQL(sql);
 
                     Toast.makeText(context, "Gespeichert", Toast.LENGTH_LONG);
-
 
                 }else{
 
@@ -315,7 +384,6 @@ public class Database extends SQLiteOpenHelper {
                 close();
             }
         }
-
     }
 
 }

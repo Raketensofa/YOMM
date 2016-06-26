@@ -15,7 +15,7 @@ public class Transaction {
     private String Time;
     private long  CreditorId;
     private long  DebtorId;
-    private double Value;
+    private float Value;
     private long Category;
     private String Details;
 
@@ -76,7 +76,7 @@ public class Transaction {
         return Value;
     }
 
-    public void setValue(double value) {
+    public void setValue(float value) {
         Value = value;
     }
 

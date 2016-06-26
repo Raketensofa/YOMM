@@ -5,16 +5,16 @@
     <string name="saved">Gespeichert!</string>
 
 
-    <string name="QuestionTransValue">Welcher BETRAG wurde insgesamt bezahlt?</string>
-    <string name="QuestionTransPersons">Welche PERSON(EN) betrifft diese Ausgabe?</string>
-    <string name="QuestionTransPayPersons">WER hat bezahlt?</string>
-    <string name="QuestionTransCategory">Für welche KATEGORIE fällt die Ausgabe an?</string>
-    <string name="QuestionTransDetails">Für WAS fiel die Ausgabe im Detail an?</string>
+    <string name="QuestionTransValue">BETRAG</string>
+    <string name="QuestionTransPersons">WEN BETRIFFT DIE AUSGABE?</string>
+    <string name="QuestionTransPayPersons">WER HAT BEZAHLT?</string>
+    <string name="QuestionTransCategory">KATEGORIE</string>
+    <string name="QuestionTransDetails">DETAILS</string>
 
 
-    <string name="QuestionClearDebtPerson">WER möchte seine Schulden begleichen?</string>
-    <string name="QuestionClearDebtOtherPerson">WELCHE Schulden möchte die Person begleichen?</string>
-    <string name="QuestionClearDebtValue">Den ganzen BETRAG begleichen oder nur ein Teilbetrag?</string>
+    <string name="QuestionClearDebtPerson">WER MÖCHTE SCHULDEN BEGLEICHEN?</string>
+    <string name="QuestionClearDebtOtherPerson">WELCHE SCHULDEN?</string>
+    <string name="QuestionClearDebtValue">KOMPLETTEN BETRAG ODER TEILBETRAG BEGLEICHEN?</string>
 
 
     <string name="AnswerTranTypeAdd">Ausgabe</string>
@@ -30,8 +30,8 @@
     <string name="LabelAddNewPersonType">Typ</string>
 
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open">Menü öffnen</string>
+    <string name="navigation_drawer_close">Menü schließen</string>
 
     <string name="title_activity_main3">Main3Activity</string>
 

@@ -17,12 +17,20 @@ public abstract class GlobalVar {
 
     //region Names of Shared Preferences (ActivityMain)
 
-    public static String SpVarNameValue = "transValue";
-    public static String SpVarNameCreditor = "transCreditor";
-    public static String SpVarNameDebtors = "transDebtors";
-    public static String SpVarNameCategory = "transCategory";
-    public static String SpVarNameDetails = "transDetails";
+    public static final String SpVarNameValue = "transValue";
+    public static final String SpVarNameCreditor = "transCreditor";
+    public static final String SpVarNameDebtors = "transDebtors";
+    public static final String SpVarNameCategory = "transCategory";
+    public static final String SpVarNameDetails = "transDetails";
 
     //endregion
 
+
+    //region Display
+
+    public static int Display_Width;
+    public static int Display_Height;
+
+
+    //endregion
 }

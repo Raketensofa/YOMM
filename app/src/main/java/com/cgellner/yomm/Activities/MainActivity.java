@@ -1,8 +1,8 @@
 package com.cgellner.yomm.Activities;
 
-
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
@@ -14,6 +14,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Display;
 import android.view.MenuItem;
 
 import com.cgellner.yomm.Database.Database;
@@ -25,19 +26,22 @@ import com.cgellner.yomm.Objects.Person;
 import com.cgellner.yomm.R;
 
 
-
-
+/**
+ *
+ */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
 
+    //region Fields
+
     //FragmentTransaction zum Oeffnen verschiedener Fragmente innerhalb einer Activity
-    public static FragmentTransaction fragmentTransaction;
-
-
+    private static FragmentTransaction fragmentTransaction;
     private static SharedPreferences preferences;
+    private Fragment_Start fragmentStart;
 
-    Fragment_Start fragmentStart;
+    //endregion
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,15 +50,18 @@ public class MainActivity extends AppCompatActivity
 
         setContentView(R.layout.activity_main3);
 
+
+        initGlobalVariables();
+
+
+        //SharedPreferences
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
 
         //Start-Fragment anzeigen
         fragmentStart = new Fragment_Start();
-
-
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.fragment_container, fragmentStart);
+        fragmentTransaction.replace(R.id.fragment_container, fragmentStart);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
@@ -69,12 +76,8 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-
-
 
 
     }
@@ -113,13 +116,33 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         }
 
-
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
 
         return true;
+    }
+
+
+    /**
+     *
+     */
+    private void initGlobalVariables(){
+
+        //Datenbank
+        GlobalVar.Database = new Database(this);
+
+        //Displaygroesse
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        GlobalVar.Display_Width = size.x;
+        GlobalVar.Display_Height = size.y;
+
+
+
+
+
     }
 
 

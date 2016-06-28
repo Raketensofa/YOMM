@@ -2,12 +2,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cgellner.yomm.Fragments.Fragment_Overview">
+    tools:context=".Activities.MainActivity">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
+    <android.support.v7.widget.RecyclerView
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_width="match_parent"
+        android:id="@+id/recyclerView_overview"
+        android:scrollbars="vertical"
+        android:background="@android:color/white">
+
+    </android.support.v7.widget.RecyclerView>
 
 </FrameLayout>

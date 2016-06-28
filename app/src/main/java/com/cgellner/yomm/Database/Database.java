@@ -191,25 +191,18 @@ public class Database extends SQLiteOpenHelper {
 
         double value = 0d;
 
-
-
-
-        return value;
-
-    }
-
-    public double getTransactionSum(long creditorId, long debtorId){
-
-        double value = 0d;
+        open();
 
         try {
 
-            Cursor cursor = Database.query(Sql.CREATE_TABLE_TRANSACTIONS,
-                            new String[]{Sql.NAME_COLUMN_VALUE},
-                            Sql.NAME_COLUMN_TYPE + "=1 AND "
+            Cursor cursor = Database.query(Sql.NAME_TABLE_TRANSACTIONS,
+                    new String[]{Sql.NAME_COLUMN_VALUE},
+                    Sql.NAME_COLUMN_TYPE + "= 0 AND "
                             + Sql.NAME_COLUMN_CREDITOR + "=" + creditorId + " AND "
                             + Sql.NAME_COLUMN_DEBTOR + "=" + debtorId,
-                            null, null, null,null);
+                    null, null, null,null);
+
+
 
             if (cursor != null) {
 
@@ -236,7 +229,9 @@ public class Database extends SQLiteOpenHelper {
         }
 
         return value;
+
     }
+
 
 
     /**
@@ -245,7 +240,7 @@ public class Database extends SQLiteOpenHelper {
      */
     public ArrayList<Person> getPersons(){
 
-        ArrayList<Person> list = null;
+        ArrayList<Person> list = new ArrayList<>();
 
         String[] columns = {Sql.NAME_COLUMN_ID, Sql.NAME_COLUMN_NAME};
 
@@ -255,11 +250,10 @@ public class Database extends SQLiteOpenHelper {
 
             try {
 
-                list = new ArrayList<>();
-
                 Cursor cursor = Database.query(Sql.NAME_TABLE_PERSONS, columns, null, null, null, null, null);
 
                 if (cursor != null) {
+
                     if (cursor.moveToFirst()) {
                         do {
 
@@ -280,7 +274,7 @@ public class Database extends SQLiteOpenHelper {
 
             } catch (Exception ex) {
 
-
+                Log.e("Database.getPersons()", ex.getMessage());
                 return null;
 
             }finally {

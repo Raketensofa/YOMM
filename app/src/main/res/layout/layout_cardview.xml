@@ -36,7 +36,7 @@
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
-                android:textSize="30dp"
+                android:textSize="30sp"
 
                 android:text="Test"
                 android:padding="10dp" />
@@ -46,10 +46,20 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/cv_debts"
 
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:layout_below="@+id/cv_personname"
 
                 android:padding="10dp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_height="100dp"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/cv_personname"
+                android:id="@+id/recyclerView_cardviewlist"
+                android:scrollbars="vertical"
+                >
+
+            </android.support.v7.widget.RecyclerView>
 
 
         </RelativeLayout>

@@ -48,11 +48,9 @@ public class MainActivity extends AppCompatActivity
 
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main3);
-
-
         initGlobalVariables();
 
+        setContentView(R.layout.activity_main3);
 
         //SharedPreferences
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -61,7 +59,7 @@ public class MainActivity extends AppCompatActivity
         //Start-Fragment anzeigen
         fragmentStart = new Fragment_Start();
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, fragmentStart);
+        fragmentTransaction.add(R.id.fragment_container, fragmentStart);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
@@ -138,11 +136,6 @@ public class MainActivity extends AppCompatActivity
         display.getSize(size);
         GlobalVar.Display_Width = size.x;
         GlobalVar.Display_Height = size.y;
-
-
-
-
-
     }
 
 

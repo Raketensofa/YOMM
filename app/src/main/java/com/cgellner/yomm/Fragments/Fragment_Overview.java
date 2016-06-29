@@ -62,13 +62,11 @@ public class Fragment_Overview extends Fragment {
 
         Log.v("ArrayListPersons.size", String.valueOf(data.size()));
 
-        RecyclerViewAdapter_OverviewCards adapter = new RecyclerViewAdapter_OverviewCards();
-
         if(data != null){
 
             Log.v("ArrayListPersons.size", "not null");
 
-            adapter.setDataList(data);
+            RecyclerViewAdapter_OverviewCards adapter = new RecyclerViewAdapter_OverviewCards(data);
             recyclerView.setAdapter(adapter);
         }
 
@@ -92,21 +90,26 @@ public class Fragment_Overview extends Fragment {
 
             for (Person person : persons) {
 
+                Log.d("Person1", person.getName());
+
                 Overview_Person overview_person = new Overview_Person();
                 overview_person.setID(person.getID());
                 overview_person.setName(person.getName());
 
-                HashMap<String, Double> valueList = new HashMap<>();
+                ArrayList<String[]> valueList = new ArrayList<>();
 
                 for (Person second_person : persons) {
 
+                    Log.d("Person2", second_person.getName());
+
                     Double money = getCalculatedMoneyValue(person.getID(), second_person.getID());
 
-                    Pair<String, Double> dataset = new Pair<>(second_person.getName(), money);
-                    valueList.put(dataset.first, dataset.second);
+                    valueList.add(new String[]{second_person.getName(), money.toString()});
                 }
 
-                overview_person.setData(valueList);
+                Log.d("ValueListSize", String.valueOf(valueList.size()));
+
+                overview_person.setDatalist(valueList);
                 data.add(overview_person);
             }
         }
@@ -134,6 +137,8 @@ public class Fragment_Overview extends Fragment {
 
         return money;
     }
+
+
 
 
 

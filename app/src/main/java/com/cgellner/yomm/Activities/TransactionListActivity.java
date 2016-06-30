@@ -5,30 +5,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.cgellner.yomm.Objects.Transaction;
 import com.cgellner.yomm.R;
 
-import com.cgellner.yomm.Activities.dummy.DummyContent;
+import com.cgellner.yomm.Objects.TransactionContent;
 
 import java.util.List;
 
-/**
- * An activity representing a list of Transactions. This activity
- * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link TransactionDetailActivity} representing
- * item details. On tablets, the activity presents the list of items and
- * item details side-by-side using two vertical panes.
- */
+
 public class TransactionListActivity extends AppCompatActivity {
 
     /**
@@ -46,14 +37,7 @@ public class TransactionListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
 
         View recyclerView = findViewById(R.id.transaction_list);
         assert recyclerView != null;
@@ -69,15 +53,22 @@ public class TransactionListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(DummyContent.ITEMS));
+
+        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(TransactionContent.ITEMS));
     }
+
+
+
+   // private List<Transaction>
+
+
 
     public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-        private final List<DummyContent.DummyItem> mValues;
+        private final List<TransactionContent.TransactionItem> mValues;
 
-        public SimpleItemRecyclerViewAdapter(List<DummyContent.DummyItem> items) {
+        public SimpleItemRecyclerViewAdapter(List<TransactionContent.TransactionItem> items) {
             mValues = items;
         }
 
@@ -121,17 +112,21 @@ public class TransactionListActivity extends AppCompatActivity {
             return mValues.size();
         }
 
+
+
+
         public class ViewHolder extends RecyclerView.ViewHolder {
+
             public final View mView;
             public final TextView mIdView;
             public final TextView mContentView;
-            public DummyContent.DummyItem mItem;
+            public TransactionContent.TransactionItem mItem;
 
             public ViewHolder(View view) {
                 super(view);
                 mView = view;
-                mIdView = (TextView) view.findViewById(R.id.id);
-                mContentView = (TextView) view.findViewById(R.id.content);
+                mIdView = (TextView) view.findViewById(R.id.listview_date);
+                mContentView = (TextView) view.findViewById(R.id.listview_value);
             }
 
             @Override

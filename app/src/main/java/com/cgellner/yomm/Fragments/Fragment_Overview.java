@@ -20,6 +20,7 @@ import com.cgellner.yomm.R;
 import java.lang.reflect.Array;
 import java.security.Key;
 import java.security.KeyPair;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -90,8 +91,6 @@ public class Fragment_Overview extends Fragment {
 
             for (Person person : persons) {
 
-                Log.d("Person1", person.getName());
-
                 Overview_Person overview_person = new Overview_Person();
                 overview_person.setID(person.getID());
                 overview_person.setName(person.getName());
@@ -100,14 +99,14 @@ public class Fragment_Overview extends Fragment {
 
                 for (Person second_person : persons) {
 
-                    Log.d("Person2", second_person.getName());
+                    if(person.getID() != second_person.getID()) {
 
-                    Double money = getCalculatedMoneyValue(person.getID(), second_person.getID());
+                        Double money = getCalculatedMoneyValue(person.getID(), second_person.getID());
 
-                    valueList.add(new String[]{second_person.getName(), money.toString()});
+                        valueList.add(new String[]{String.valueOf(second_person.getID()), second_person.getName(), String.format( "%.2f", money )});
+
+                    }
                 }
-
-                Log.d("ValueListSize", String.valueOf(valueList.size()));
 
                 overview_person.setDatalist(valueList);
                 data.add(overview_person);

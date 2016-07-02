@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +18,12 @@ import com.cgellner.yomm.GlobalVar;
 import com.cgellner.yomm.Objects.Transaction;
 import com.cgellner.yomm.R;
 
-import com.cgellner.yomm.Objects.TransactionContent;
+import com.cgellner.yomm.Objects.TransactionItem;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class Activity_TransactionList extends AppCompatActivity {
@@ -30,7 +33,9 @@ public class Activity_TransactionList extends AppCompatActivity {
     private long mainpersonId;
     private long secondpersonId;
 
-    private ArrayList<TransactionContent.TransactionItem> contentItems;
+    private List<TransactionItem> contentItems;
+    public static Map<String, TransactionItem> ITEM_MAP;
+
 
 
     @Override
@@ -46,9 +51,14 @@ public class Activity_TransactionList extends AppCompatActivity {
 
         getPersonIds();
 
-        ArrayList<Transaction> transactionArrayList = GlobalVar.Database.getTransactions(mainpersonId, secondpersonId);
+        List<Transaction> transactionArrayList = GlobalVar.Database.getTransactions(mainpersonId, secondpersonId);
         contentItems = prepareContentItems(transactionArrayList);
 
+        ITEM_MAP = new HashMap<String, TransactionItem>();
+        for (TransactionItem item : contentItems) {
+
+            ITEM_MAP.put(item.getId(), item);
+        }
 
 
         View recyclerView = findViewById(R.id.transaction_list);
@@ -83,30 +93,32 @@ public class Activity_TransactionList extends AppCompatActivity {
     }
 
 
-    private ArrayList<TransactionContent.TransactionItem> prepareContentItems(ArrayList<Transaction> transactions){
+    private List<TransactionItem> prepareContentItems(List<Transaction> transactions){
 
-        ArrayList<TransactionContent.TransactionItem> items = new ArrayList<>();
+        List<TransactionItem> items = new ArrayList<>();
 
         if(transactions != null) {
 
-            for (Transaction trans : transactions) {
+            for (int i= 0; i<transactions.size(); i++) {
 
-                String categoryName = GlobalVar.Database.getCategoryName(trans.getCategory());
-                String debtorName = GlobalVar.Database.getPersonName(trans.getDebtorId());
-                String creditorName = GlobalVar.Database.getPersonName(trans.getCreditorId());
+                String categoryName = GlobalVar.Database.getCategoryName(transactions.get(i).getCategory());
+                String debtorName = GlobalVar.Database.getPersonName(transactions.get(i).getDebtorId());
+                String creditorName = GlobalVar.Database.getPersonName(transactions.get(i).getCreditorId());
 
-                TransactionContent.TransactionItem item =
-                        new TransactionContent.TransactionItem(String.valueOf(trans.getID()),
-                                                                String.valueOf(trans.getValue()),
+                TransactionItem item =
+                        new TransactionItem(String.valueOf(transactions.get(i).getID()),
+                                                                String.valueOf(transactions.get(i).getValue()),
                                                                 debtorName,
                                                                 creditorName,
                                                                 categoryName,
-                                                                trans.getDetails(),
-                                                                trans.getDate(),
-                                                                trans.getTime(),
-                                                                String.valueOf(trans.getType()));
+                                                                transactions.get(i).getDetails(),
+                                                                transactions.get(i).getDate(),
+                                                                transactions.get(i).getTime(),
+                                                                String.valueOf(transactions.get(i).getType()));
 
                 items.add(item);
+                Log.d("", item.toString());
+
             }
         }
 
@@ -120,9 +132,9 @@ public class Activity_TransactionList extends AppCompatActivity {
     public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-        private final List<TransactionContent.TransactionItem> mValues;
+        private final List<TransactionItem> mValues;
 
-        public SimpleItemRecyclerViewAdapter(List<TransactionContent.TransactionItem> items) {
+        public SimpleItemRecyclerViewAdapter(List<TransactionItem> items) {
 
             mValues = items;
         }
@@ -139,9 +151,9 @@ public class Activity_TransactionList extends AppCompatActivity {
         public void onBindViewHolder(final ViewHolder holder, int position) {
 
             holder.mItem = mValues.get(position);
-            holder.listview_content_date.setText(mValues.get(position).date);
-            holder.listview_content_value.setText(mValues.get(position).value);
-            holder.listview_content_personwhopayed.setText(mValues.get(position).creditor);
+            holder.listview_content_date.setText(mValues.get(position).getDate());
+            holder.listview_content_value.setText(mValues.get(position).getValue());
+            holder.listview_content_personwhopayed.setText(mValues.get(position).getCreditor());
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -150,7 +162,7 @@ public class Activity_TransactionList extends AppCompatActivity {
                     if (mTwoPane) {
 
                         Bundle arguments = new Bundle();
-                        arguments.putString(TransactionDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                        arguments.putString(TransactionDetailFragment.ARG_ITEM_ID, holder.mItem.getId());
 
                         TransactionDetailFragment fragment = new TransactionDetailFragment();
                         fragment.setArguments(arguments);
@@ -163,8 +175,7 @@ public class Activity_TransactionList extends AppCompatActivity {
                         Context context = v.getContext();
 
                         Intent intent = new Intent(context, Activity_TransactionDetail.class);
-                        intent.putExtra(TransactionDetailFragment.ARG_ITEM_ID, holder.mItem.id);
-
+                        intent.putExtra(TransactionDetailFragment.ARG_ITEM_ID, holder.mItem.getId());
                         context.startActivity(intent);
                     }
                 }
@@ -187,7 +198,7 @@ public class Activity_TransactionList extends AppCompatActivity {
             public final TextView listview_content_value;
             public final TextView listview_content_personwhopayed;
 
-            public TransactionContent.TransactionItem mItem;
+            public TransactionItem mItem;
 
             public ViewHolder(View view) {
 

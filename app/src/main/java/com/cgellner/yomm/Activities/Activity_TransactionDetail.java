@@ -13,12 +13,7 @@ import android.view.MenuItem;
 import com.cgellner.yomm.Fragments.TransactionDetailFragment;
 import com.cgellner.yomm.R;
 
-/**
- * An activity representing a single Transaction detail screen. This
- * activity is only used narrow width devices. On tablet-size devices,
- * item details are presented side-by-side with a list of items
- * in a {@link Activity_TransactionList}.
- */
+
 public class Activity_TransactionDetail extends AppCompatActivity {
 
     @Override
@@ -37,14 +32,17 @@ public class Activity_TransactionDetail extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
+
+
             }
         });
 
-        // Show the Up button in the action bar.
+
         ActionBar actionBar = getSupportActionBar();
+
         if (actionBar != null) {
+
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
@@ -71,12 +69,13 @@ public class Activity_TransactionDetail extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == android.R.id.home) {
 
+        if (id == android.R.id.home) {
 
             navigateUpTo(new Intent(this, Activity_TransactionList.class));
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 }

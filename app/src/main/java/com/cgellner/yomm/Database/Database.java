@@ -13,6 +13,7 @@ import com.cgellner.yomm.Objects.Person;
 import com.cgellner.yomm.Objects.Transaction;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.microedition.khronos.opengles.GL;
 
@@ -234,9 +235,9 @@ public class Database extends SQLiteOpenHelper {
 
 
 
-    public ArrayList<Transaction> getTransactions(long mainpersonId, long secondPersonId){
+    public List<Transaction> getTransactions(long mainpersonId, long secondPersonId){
 
-        ArrayList<Transaction> list = new ArrayList<>();
+        List<Transaction> list = new ArrayList<>();
 
 
         open();
@@ -269,9 +270,9 @@ public class Database extends SQLiteOpenHelper {
 
                 if (cursor.moveToFirst()) {
 
-                    Transaction trans = new Transaction();
-
                     do {
+
+                        Transaction trans = new Transaction();
 
                         trans.setID(cursor.getLong(cursor.getColumnIndex(Sql.NAME_COLUMN_ID)));
                         trans.setType(cursor.getInt((cursor.getColumnIndex(Sql.NAME_COLUMN_TYPE))));
@@ -285,9 +286,8 @@ public class Database extends SQLiteOpenHelper {
 
                         list.add(trans);
 
-                        Log.d("Transaction", trans.toString());
-
                     } while (cursor.moveToNext());
+
                 }
             }
 

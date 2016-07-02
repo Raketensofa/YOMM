@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.cgellner.yomm.Activities.TransactionDetailActivity"
+    tools:context=".Activities.Activity_TransactionDetail"
     tools:ignore="MergeRootFrame">
 
     <android.support.design.widget.AppBarLayout
@@ -21,7 +21,8 @@
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:toolbarId="@+id/toolbar">
+            app:toolbarId="@+id/toolbar"
+            android:background="@color/material_blue_grey_800">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/detail_toolbar"

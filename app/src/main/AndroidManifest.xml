@@ -18,19 +18,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.Settings" />
+        <activity android:name=".Activities.Activity_Settings" />
         <activity
-            android:name=".Activities.TransactionListActivity"
+            android:name=".Activities.Activity_TransactionList"
             android:label="@string/title_transaction_list"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Activities.TransactionDetailActivity"
+            android:name=".Activities.Activity_TransactionDetail"
             android:label="@string/title_transaction_detail"
-            android:parentActivityName=".Activities.TransactionListActivity"
+            android:parentActivityName=".Activities.Activity_TransactionList"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.cgellner.yomm.Activities.TransactionListActivity" />
+                android:value=".Activities.Activity_TransactionList" />
         </activity>
         <activity android:name=".Activities.Activitiy_AddNewData">
             <intent-filter>

@@ -17,9 +17,9 @@ import com.cgellner.yomm.R;
 import java.util.ArrayList;
 
 
-public class Settings extends AppCompatActivity {
+public class Activity_Settings extends AppCompatActivity {
 
-    private final String TAG = Settings.class.getName();
+    private final String TAG = Activity_Settings.class.getName();
 
 
     private  Object object;
@@ -159,7 +159,7 @@ public class Settings extends AppCompatActivity {
             public void onClick(View view) {
 
                 DF_Setttings_AddNew newData = new DF_Setttings_AddNew();
-                newData.setActivity(Settings.this);
+                newData.setActivity(Activity_Settings.this);
                 newData.show(getFragmentManager(), object.toString());
             }
         });

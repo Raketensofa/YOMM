@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.cgellner.yomm.Activities.Settings;
+import com.cgellner.yomm.Activities.Activity_Settings;
 import com.cgellner.yomm.GlobalVar;
 import com.cgellner.yomm.Objects.Category;
 import com.cgellner.yomm.Objects.Person;
@@ -26,11 +26,11 @@ public class DF_Setttings_AddNew extends DialogFragment {
     private TextView header;
     private EditText inputName;
 
-    private Settings settings;
+    private Activity_Settings activitySettings;
 
-    public void setActivity(Settings settings) {
+    public void setActivity(Activity_Settings activitySettings) {
 
-        this.settings = settings;
+        this.activitySettings = activitySettings;
 
     }
 
@@ -71,7 +71,7 @@ public class DF_Setttings_AddNew extends DialogFragment {
             public void onClick(DialogInterface dialogInterface, int i) {
 
                 saveData();
-                settings.setListView();
+                activitySettings.setListView();
             }
         });
 

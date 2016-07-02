@@ -1,4 +1,4 @@
-package com.cgellner.yomm.Activities;
+package com.cgellner.yomm.Fragments;
 
 import android.app.Activity;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -9,13 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.cgellner.yomm.Activities.Activity_TransactionDetail;
+import com.cgellner.yomm.Activities.Activity_TransactionList;
 import com.cgellner.yomm.R;
 import com.cgellner.yomm.Objects.TransactionContent;
 
 /**
  * A fragment representing a single Transaction detail screen.
- * This fragment is either contained in a {@link TransactionListActivity}
- * in two-pane mode (on tablets) or a {@link TransactionDetailActivity}
+ * This fragment is either contained in a {@link Activity_TransactionList}
+ * in two-pane mode (on tablets) or a {@link Activity_TransactionDetail}
  * on handsets.
  */
 public class TransactionDetailFragment extends Fragment {
@@ -58,10 +60,11 @@ public class TransactionDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View rootView = inflater.inflate(R.layout.transaction_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
         if (mItem != null) {
+
             ((TextView) rootView.findViewById(R.id.transaction_detail)).setText(mItem.details);
         }
 

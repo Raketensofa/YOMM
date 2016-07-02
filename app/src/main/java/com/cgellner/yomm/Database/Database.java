@@ -234,6 +234,81 @@ public class Database extends SQLiteOpenHelper {
 
 
 
+    public ArrayList<Transaction> getTransactions(long mainpersonId, long secondPersonId){
+
+        ArrayList<Transaction> list = new ArrayList<>();
+
+
+        open();
+
+
+        try {
+
+            Cursor cursor = null;
+
+            if(mainpersonId != -1 && secondPersonId == -1){
+
+                 cursor = Database.query(Sql.NAME_TABLE_TRANSACTIONS,
+                        null,
+                        Sql.NAME_COLUMN_CREDITOR + "=" + mainpersonId + " OR " + Sql.NAME_COLUMN_DEBTOR + "=" + mainpersonId,
+                        null, null, null,null);
+
+
+            }else if(mainpersonId != -1 && secondPersonId != -1){
+
+                 cursor = Database.query(Sql.NAME_TABLE_TRANSACTIONS,
+                        null,
+                        "(" + Sql.NAME_COLUMN_CREDITOR + "=" + mainpersonId + " AND "
+                                + Sql.NAME_COLUMN_DEBTOR + "=" + secondPersonId + ") OR (" + Sql.NAME_COLUMN_CREDITOR + "=" + secondPersonId + " AND "
+                                + Sql.NAME_COLUMN_DEBTOR + "=" + mainpersonId + ")",
+                        null, null, null, null);
+
+            }
+
+            if (cursor != null) {
+
+                if (cursor.moveToFirst()) {
+
+                    Transaction trans = new Transaction();
+
+                    do {
+
+                        trans.setID(cursor.getLong(cursor.getColumnIndex(Sql.NAME_COLUMN_ID)));
+                        trans.setType(cursor.getInt((cursor.getColumnIndex(Sql.NAME_COLUMN_TYPE))));
+                        trans.setDate(cursor.getString((cursor.getColumnIndex(Sql.NAME_COLUMN_DATE))));
+                        trans.setTime(cursor.getString((cursor.getColumnIndex(Sql.NAME_COLUMN_TIME))));
+                        trans.setValue(cursor.getFloat((cursor.getColumnIndex(Sql.NAME_COLUMN_VALUE))));
+                        trans.setCreditorId(cursor.getLong((cursor.getColumnIndex(Sql.NAME_COLUMN_CREDITOR))));
+                        trans.setDebtorId(cursor.getLong((cursor.getColumnIndex(Sql.NAME_COLUMN_DEBTOR))));
+                        trans.setCategory(cursor.getLong((cursor.getColumnIndex(Sql.NAME_COLUMN_CATEGORY))));
+                        trans.setDetails(cursor.getString((cursor.getColumnIndex(Sql.NAME_COLUMN_DETAILS))));
+
+                        list.add(trans);
+
+                        Log.d("Transaction", trans.toString());
+
+                    } while (cursor.moveToNext());
+                }
+            }
+
+            cursor.close();
+
+        } catch (Exception ex) {
+
+
+            return null;
+
+        }finally {
+
+            close();
+        }
+
+        return list;
+
+    }
+
+
+
     /**
      *
      * @return
@@ -288,6 +363,88 @@ public class Database extends SQLiteOpenHelper {
     }
 
 
+    public String getCategoryName(long categoryId){
+
+        String category = null;
+
+        open();
+
+        if(Database.isOpen()) {
+
+            try {
+
+                Cursor cursor = Database.query(Sql.NAME_TABLE_CATEGORIES, new String[]{Sql.NAME_COLUMN_NAME}, Sql.NAME_COLUMN_ID + "=" + categoryId, null, null, null, null);
+
+                if (cursor != null) {
+
+                    if (cursor.moveToFirst()) {
+                        do {
+
+                            category = cursor.getString(cursor.getColumnIndex(Sql.NAME_COLUMN_NAME));
+
+                        } while (cursor.moveToNext());
+                    }
+                }
+
+                cursor.close();
+
+            } catch (Exception ex) {
+
+
+                return null;
+
+            } finally {
+
+                close();
+            }
+
+        }
+
+        return category;
+    }
+
+
+    public String getPersonName(long personId){
+
+        String person = null;
+
+        open();
+
+        if(Database.isOpen()) {
+
+            try {
+
+                Cursor cursor = Database.query(Sql.NAME_TABLE_PERSONS, new String[]{Sql.NAME_COLUMN_NAME}, Sql.NAME_COLUMN_ID + "=" + personId, null, null, null, null);
+
+                if (cursor != null) {
+
+                    if (cursor.moveToFirst()) {
+                        do {
+
+                            person = cursor.getString(cursor.getColumnIndex(Sql.NAME_COLUMN_NAME));
+
+                        } while (cursor.moveToNext());
+                    }
+                }
+
+                cursor.close();
+
+            } catch (Exception ex) {
+
+
+                return null;
+
+            }finally {
+
+                close();
+            }
+
+        }
+
+        return person;
+    }
+
+
     /**
      *
      * @return
@@ -300,6 +457,7 @@ public class Database extends SQLiteOpenHelper {
         String[] columns = {Sql.NAME_COLUMN_ID, Sql.NAME_COLUMN_NAME};
 
         open();
+
         if(Database.isOpen()) {
 
             try {

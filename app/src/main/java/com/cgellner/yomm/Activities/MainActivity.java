@@ -102,14 +102,14 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_personens) {
 
             //neue Activity starten
-            intent = new Intent(this, Settings.class);
+            intent = new Intent(this, Activity_Settings.class);
             intent.putExtra("object", Person.class.getName());
             startActivity(intent);
 
         } else if (id == R.id.nav_categories) {
 
             //neue Activity starten
-            intent = new Intent(this, Settings.class);
+            intent = new Intent(this, Activity_Settings.class);
             intent.putExtra("object", Category.class.getName());
             startActivity(intent);
         }

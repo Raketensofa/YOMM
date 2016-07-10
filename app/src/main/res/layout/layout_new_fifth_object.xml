@@ -3,9 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:stretchColumns="1"
+
     android:id="@+id/fifthview"
     android:rowCount="27"
     android:columnCount="1"
+    android:focusable="true"
     android:background="@android:color/white">
 
 

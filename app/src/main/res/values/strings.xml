@@ -12,9 +12,9 @@
     <string name="QuestionTransDetails">DETAILS</string>
 
 
-    <string name="QuestionClearDebtPerson">WER MÖCHTE SCHULDEN BEGLEICHEN?</string>
+    <string name="QuestionClearDebtPerson">WER MÖCHTE SEINE SCHULDEN BEGLEICHEN?</string>
     <string name="QuestionClearDebtOtherPerson">WELCHE SCHULDEN?</string>
-    <string name="QuestionClearDebtValue">KOMPLETTEN BETRAG ODER TEILBETRAG BEGLEICHEN?</string>
+    <string name="QuestionClearDebtTransaction">Wähle alle Beträge aus, die du begleichen möchtest !</string>
 
 
     <string name="AnswerTranTypeAdd">Ausgabe</string>

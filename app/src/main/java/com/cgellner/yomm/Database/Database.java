@@ -187,6 +187,63 @@ public class Database extends SQLiteOpenHelper {
 
     }
 
+    public ArrayList<Transaction> getOpenTransactions(long creditorId, long debtorId){
+
+        ArrayList<Transaction> transactions = null;
+
+        open();
+
+        try {
+
+                    Cursor cursor = Database.query(Sql.NAME_TABLE_TRANSACTIONS,
+                    null,
+                    Sql.NAME_COLUMN_TYPE + " = 0 AND "
+                            + Sql.NAME_COLUMN_CREDITOR + "=" + creditorId + " AND "
+                            + Sql.NAME_COLUMN_DEBTOR + "=" + debtorId,
+                    null, null, null,null);
+
+
+            if (cursor != null) {
+
+                transactions = new ArrayList<>();
+
+                if (cursor.moveToFirst()) {
+
+                    do {
+
+                        Transaction trans = new Transaction();
+
+                        trans.setID(cursor.getLong(cursor.getColumnIndex(Sql.NAME_COLUMN_ID)));
+                        trans.setType(cursor.getInt(cursor.getColumnIndex(Sql.NAME_COLUMN_TYPE)));
+                        trans.setCategory(cursor.getLong(cursor.getColumnIndex(Sql.NAME_COLUMN_CATEGORY)));
+                        trans.setValue(cursor.getFloat(cursor.getColumnIndex(Sql.NAME_COLUMN_VALUE)));
+                        trans.setDate(cursor.getString(cursor.getColumnIndex(Sql.NAME_COLUMN_DATE)));
+                        trans.setDebtorId(cursor.getLong(cursor.getColumnIndex(Sql.NAME_COLUMN_DEBTOR)));
+                        trans.setCreditorId(cursor.getLong(cursor.getColumnIndex(Sql.NAME_COLUMN_CREDITOR)));
+
+                        transactions.add(trans);
+                        Log.d("Trans" , trans.toString());
+
+                    } while (cursor.moveToNext());
+                }
+            }
+
+            cursor.close();
+
+        } catch (Exception ex) {
+
+
+            return null;
+
+        }finally {
+
+            close();
+        }
+
+        return transactions;
+
+    }
+
 
     public double getDebtSum(long creditorId, long debtorId){
 
@@ -198,7 +255,7 @@ public class Database extends SQLiteOpenHelper {
 
             Cursor cursor = Database.query(Sql.NAME_TABLE_TRANSACTIONS,
                     new String[]{Sql.NAME_COLUMN_VALUE},
-                    Sql.NAME_COLUMN_TYPE + "= 0 AND "
+                    Sql.NAME_COLUMN_TYPE + " = 0 AND "
                             + Sql.NAME_COLUMN_CREDITOR + "=" + creditorId + " AND "
                             + Sql.NAME_COLUMN_DEBTOR + "=" + debtorId,
                     null, null, null,null);
@@ -443,6 +500,52 @@ public class Database extends SQLiteOpenHelper {
 
         return person;
     }
+
+    public boolean havingDebts(long debtorId, long creditorId){
+
+        boolean hasDebts = false;
+
+        open();
+
+        if(Database.isOpen()) {
+
+            try {
+
+                Cursor c = Database.rawQuery("SELECT Sum(" + Sql.NAME_COLUMN_ID  + ") AS total FROM " + Sql.NAME_TABLE_TRANSACTIONS + " WHERE " + Sql.NAME_COLUMN_DEBTOR
+                        + " = " + debtorId + " AND " + Sql.NAME_COLUMN_CREDITOR + " = " + creditorId, null);
+
+                if (c != null) {
+
+                    if (c.moveToFirst()) {
+                        do {
+
+                             long count = c.getLong(c.getColumnIndex("total"));
+
+                              if(count > 0){
+
+                                  hasDebts = true;
+                              }
+
+                        } while (c.moveToNext());
+                    }
+                }
+
+                c.close();
+
+            } catch (Exception ex) {
+
+                return false;
+
+            }finally {
+
+                close();
+            }
+        }
+
+        return hasDebts;
+
+    }
+
 
 
     /**

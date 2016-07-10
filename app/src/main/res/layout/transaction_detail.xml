@@ -7,21 +7,22 @@
 
     >
 
-
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/trancaction_detail_value"
-        android:layout_alignParentTop="true"
         android:text="Test"
-        android:textSize="20dp"
-        android:layout_alignParentStart="true" />
+        android:textSize="20sp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/transaction_details_category"
+        android:layout_marginStart="90dp" />
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Test"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:id="@+id/transaction_details_category"
         android:layout_below="@+id/trancaction_detail_value"
        />
@@ -30,10 +31,66 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Test"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:layout_below="@id/transaction_details_category"
         android:id="@+id/transaction_detail_details"
       />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test"
+        android:textSize="20sp"
+        android:layout_below="@id/transaction_details_category"
+        android:id="@+id/transaction_detail_debtor"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test"
+        android:textSize="20sp"
+        android:layout_below="@id/transaction_details_category"
+        android:id="@+id/transaction_detail_creditor"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test"
+        android:textSize="20sp"
+        android:layout_below="@id/transaction_details_category"
+        android:id="@+id/transaction_detail_date_register"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test"
+        android:textSize="20sp"
+        android:layout_below="@id/transaction_details_category"
+        android:id="@+id/transaction_detail_time_register"
+        />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test"
+        android:textSize="20sp"
+        android:layout_below="@id/transaction_details_category"
+        android:id="@+id/transaction_detail_date_clear"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test"
+        android:textSize="20sp"
+        android:layout_below="@id/transaction_details_category"
+        android:id="@+id/transaction_detail_clear"
+        />
 
 
 

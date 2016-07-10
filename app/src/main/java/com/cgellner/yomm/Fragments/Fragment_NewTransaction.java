@@ -51,6 +51,10 @@ public class Fragment_NewTransaction extends Fragment {
     private  ViewGroup viewGroup;
     private SharedPreferences sharedPreferences;
 
+    long debtorid;
+    long creditorid;
+    private int option;
+
     //endregion
 
 
@@ -72,6 +76,19 @@ public class Fragment_NewTransaction extends Fragment {
         this.position = position;
     }
 
+    public void setOption(int option) {
+
+        this.option = option;
+    }
+
+    public void setDebtorid(long debtorid) {
+        this.debtorid = debtorid;
+    }
+
+    public void setCreditorid(long creditorid) {
+        this.creditorid = creditorid;
+    }
+
     //endregion
 
 
@@ -88,10 +105,51 @@ public class Fragment_NewTransaction extends Fragment {
         //Layout uebergeben
         viewGroup = (ViewGroup)inflater.inflate(layoutId, container, false);
 
-        //SharedPreferences initialiseren
+        //SharedPreferences holen
         //Dort werden die gewaehlten Daten zwischengespeichert
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.getContext());
 
+        if(option == 0){
+
+            setPageForCleaningDebts(position);
+
+        }else if(option == 1){
+
+            setPageForAddNewTransaction(position);
+        }
+
+        return viewGroup;
+    }
+
+    //endregion
+
+
+    //region Private Methods
+
+    private void setPageForCleaningDebts(int position){
+
+        if(position == 0){
+
+            setCleanDebtsRadioButtonFirst();
+
+        }else
+        if(position == 1){
+
+            setCleanDebtsRadioButtonSecond();
+
+        }else
+        if(position == 2){
+
+
+        }else
+        if(position == 3){
+
+
+        }
+    }
+
+
+    private void setPageForAddNewTransaction(int position){
 
         //Layoutelemente wie z.B. Listen der  Layouts des ViewPagers mit Daten befuellen
         if(position == 0){
@@ -118,14 +176,14 @@ public class Fragment_NewTransaction extends Fragment {
 
             setDetailsTextChangeListener();
         }
-
-        return viewGroup;
     }
 
-    //endregion
 
 
-    //region Private Methods
+
+
+
+
 
     /**
      * Die Methode uebergibt den TextChangedListener dem EditText des Betrags.
@@ -165,13 +223,15 @@ public class Fragment_NewTransaction extends Fragment {
 
 
                     //SharedPreferences auf Vollstaendigkeit ueberpruefen, um ggf. den Speicher-Button freigeben zu koennen
-                    checkInputData();
+                    checkInputDataNewTrans();
 
                 }
             });
         }
 
     }
+
+
 
     /**
      * Die Methode uebergibt den TextChangedListener dem EditText-Feld der Details.
@@ -200,7 +260,7 @@ public class Fragment_NewTransaction extends Fragment {
                     editor.commit();
 
                     //SharedPreferences auf Vollstaendigkeit pruefen um ggf. den Speicher-Button freigeben zu koennen
-                    checkInputData();
+                    checkInputDataNewTrans();
 
                 }
 
@@ -244,14 +304,7 @@ public class Fragment_NewTransaction extends Fragment {
 
         //RadioButtonGroup mit Personnamen befuellen
         RadioGroup groupPersons = (RadioGroup)viewGroup.findViewById(R.id.radioButtonGroupCreditor);
-        for (Person person : personList) {
 
-            RadioButton radioButton = new RadioButton(viewGroup.getContext());
-            radioButton.setText(person.getName());
-            radioButton.setTextSize(35);
-            radioButton.setId(new Integer(String.valueOf(person.getID())));
-            groupPersons.addView(radioButton);
-        }
 
         //OnCheckedChangeListener der RadioButtonGroup
         groupPersons.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -275,7 +328,7 @@ public class Fragment_NewTransaction extends Fragment {
 
 
                 //SharedPreferences auf Vollstaendigkeit pruefen, um ggf. Speicher-Button freigeben zu koennen
-                checkInputData();
+                checkInputDataNewTrans();
             }
         });
 
@@ -320,7 +373,7 @@ public class Fragment_NewTransaction extends Fragment {
 
 
                 //SharedPreferences auf Vollstaendigkeit pruefen um ggf. Speicher-Button freigeben zu koennen
-                checkInputData();
+                checkInputDataNewTrans();
 
             }
         });
@@ -331,14 +384,14 @@ public class Fragment_NewTransaction extends Fragment {
      * Hat der Anwender einen Betrag, einen Kreditor, Debitor(en) und eine Kategorie gewaehlt wird der Speichern-Button
      * freigeschaltet und in roter Farbe angezeigt
      */
-    private void checkInputData(){
+    private void checkInputDataNewTrans(){
 
         Set debtors = sharedPreferences.getStringSet(GlobalVar.SpVarNameDebtors, null);
         Float value = sharedPreferences.getFloat(GlobalVar.SpVarNameValue, 0);
         Long creditor = sharedPreferences.getLong(GlobalVar.SpVarNameCreditor, 0);
         Long category = sharedPreferences.getLong(GlobalVar.SpVarNameCategory, 0);
 
-        Button button = (Button)getActivity().findViewById(R.id.button_newdata_viepager_save);
+        Button button = (Button)getActivity().findViewById(R.id.button_viewpager_save);
 
 
         if(value != 0 && creditor != 0 && debtors.size() > 0 && category != 0){
@@ -356,6 +409,104 @@ public class Fragment_NewTransaction extends Fragment {
         }
     }
 
+
+    private void checkInputDataCleanDebts(){
+
+        Set transactions = sharedPreferences.getStringSet(GlobalVar.SpVarNameTransactions, null);
+        Float sum = sharedPreferences.getFloat(GlobalVar.SpVarNameSumClearValue, 0);
+        Long creditor = sharedPreferences.getLong(GlobalVar.SpVarNameClearCreditor, 0);
+        Long debtor = sharedPreferences.getLong(GlobalVar.SpVarNameClearDebitor, 0);
+
+        Button button = (Button)getActivity().findViewById(R.id.button_viewpager_save);
+
+
+        if(sum > 0 && creditor != 0 && debtor != 0 && transactions != null){
+
+            button.setBackgroundColor(Color.parseColor("#d50000"));
+            button.setClickable(true);
+            button.setEnabled(true);
+
+        }else{
+
+            button.setEnabled(false);
+            button.setClickable(false);
+            button.setBackgroundColor(Color.parseColor("#5a595b"));
+
+        }
+    }
+
+
+    private void setCleanDebtsRadioButtonFirst(){
+
+
+        RadioGroup groupPersons = (RadioGroup)viewGroup.findViewById(R.id.layout_viewpager_cleardebts_first_radioButtonGroup);
+
+        for (Person person : personList) {
+
+            RadioButton radioButton = new RadioButton(viewGroup.getContext());
+            radioButton.setText(person.getName());
+            radioButton.setTextSize(35);
+            radioButton.setId(new Integer(String.valueOf(person.getID())));
+            groupPersons.addView(radioButton);
+        }
+
+        //OnCheckedChangeListener der RadioButtonGroup
+        groupPersons.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                long personId = 0;
+                for (Person person : personList){
+
+                    if(person.getID() == new Long(checkedId)){
+
+                        personId = person.getID();
+                    }
+                }
+
+                //ID der Person (Creditor) in den SharedPreferences zwischenspeichern
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putLong(GlobalVar.SpVarNameClearDebitor, personId);
+                editor.putLong(GlobalVar.SpVarNameClearCreditor, 0);
+                editor.commit();
+
+
+
+                //new Transaction
+                editor.putLong(GlobalVar.SpVarNameCreditor, 0);
+
+                //SharedPreferences auf Vollstaendigkeit pruefen, um ggf. Speicher-Button freigeben zu koennen
+                checkInputDataCleanDebts();
+
+            }
+        });
+
+    }
+
+    private void setCleanDebtsRadioButtonSecond(){
+
+            RadioGroup groupPersons = (RadioGroup)viewGroup.findViewById(R.id.layout_viewpager_cleardebts_second_radioButtonGroup);
+
+
+            //OnCheckedChangeListener der RadioButtonGroup
+            groupPersons.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                    long personId = group.getCheckedRadioButtonId();
+
+                    //ID der Person (Creditor) in den SharedPreferences zwischenspeichern
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putLong(GlobalVar.SpVarNameClearCreditor, personId);
+                    editor.commit();
+
+
+                    //SharedPreferences auf Vollstaendigkeit pruefen, um ggf. Speicher-Button freigeben zu koennen
+                    checkInputDataCleanDebts();
+
+                }
+            });
+    }
 
 
     //endregion

@@ -15,6 +15,9 @@
     <string name="QuestionClearDebtPerson">WER MÖCHTE SEINE SCHULDEN BEGLEICHEN?</string>
     <string name="QuestionClearDebtOtherPerson">WELCHE SCHULDEN?</string>
     <string name="QuestionClearDebtTransaction">Wähle alle Beträge aus, die du begleichen möchtest !</string>
+    <string name="QuestionClearDebtSumHeaderText">Gesamtbetrag</string>
+    <string name="QuestionClearDebtSumInfoText">Bitte begleiche den Betrag und drücke auf "Speichern".</string>
+
 
 
     <string name="AnswerTranTypeAdd">Ausgabe</string>

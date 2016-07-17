@@ -32,7 +32,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.Activity_TransactionList" />
         </activity>
-        <activity android:name=".Activities.Activitiy_AddNewTransaction">
+        <activity android:name=".Activities.Activitiy_ViewPager">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

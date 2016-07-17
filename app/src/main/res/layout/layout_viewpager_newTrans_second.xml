@@ -30,7 +30,7 @@
     <android.support.v7.widget.RecyclerView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:id="@+id/recyclerViewSecondLayout"
+        android:id="@+id/layout_viewpager_newTrans_second_recyclerview_debtors"
         android:paddingTop="10dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="20dp"

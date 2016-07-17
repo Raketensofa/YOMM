@@ -3,11 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:stretchColumns="1"
-
-    android:id="@+id/fifthview"
+    android:id="@+id/thirdview"
     android:rowCount="27"
     android:columnCount="1"
-    android:focusable="true"
     android:background="@android:color/white">
 
 
@@ -15,36 +13,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="30dp"
-        android:text="@string/QuestionTransDetails"
+        android:text="@string/QuestionTransPayPersons"
         android:textStyle="bold"
         android:inputType="textMultiLine"
         android:paddingTop="50dp"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         android:paddingBottom="50dp"
         android:textAlignment="center"
         android:textColor="@android:color/secondary_text_light"
         android:layout_row="0"
         android:layout_column="0" />
 
-
-    <EditText
+    <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textImeMultiLine|textMultiLine"
-        android:ems="10"
-        android:id="@+id/eTTransDetails"
-        android:hint="z.B. Lebensmitteleinkauf"
-        android:layout_row="1"
+        android:layout_row="5"
         android:layout_column="0"
-        android:layout_marginTop="20dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginBottom="10dp"
-        android:textSize="25dp"
-        android:editable="true"
-        android:focusable="true"
-        android:enabled="true" />
+        android:layout_marginTop="30dp"
+        android:id="@+id/layout_viewpager_newTrans_third_radioGroupCreditor"
+        android:layout_marginBottom="30dp"></RadioGroup>
 
 
 </GridLayout>

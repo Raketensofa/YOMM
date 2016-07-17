@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import com.cgellner.yomm.Activities.Activitiy_AddNewTransaction;
+import com.cgellner.yomm.Activities.Activitiy_ViewPager;
 import com.cgellner.yomm.R;
 
 /**
@@ -53,8 +53,8 @@ public class Fragment_Start extends Fragment {
                 @Override
                 public void onClick(View view) {
 
-                    Intent intent = new Intent(getActivity(), Activitiy_AddNewTransaction.class);
-                    intent.putExtra("type", "cleanDebts");
+                    Intent intent = new Intent(getActivity(), Activitiy_ViewPager.class);
+                    intent.putExtra("type", "clean");
                     startActivity(intent);
                 }
             });
@@ -68,8 +68,8 @@ public class Fragment_Start extends Fragment {
                 @Override
                 public void onClick(View view) {
 
-                    Intent intent = new Intent(getActivity(), Activitiy_AddNewTransaction.class);
-                    intent.putExtra("type", "newTrans");
+                    Intent intent = new Intent(getActivity(), Activitiy_ViewPager.class);
+                    intent.putExtra("type", "new");
                     startActivity(intent);
 
                 }

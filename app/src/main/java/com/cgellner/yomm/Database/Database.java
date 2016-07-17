@@ -159,14 +159,16 @@ public class Database extends SQLiteOpenHelper {
 
 
 
-    /**
-     *
-     * @param object
-     */
-    public void update(Object object){
+
+    public void updateTransactionState(long transactionId){
 
         open();
 
+        if(Database.isOpen()){
+
+            String strSQL = "UPDATE " + Sql.NAME_TABLE_TRANSACTIONS + " SET " + Sql.NAME_COLUMN_TYPE + " = " + 1 + " WHERE " + Sql.NAME_COLUMN_ID + " = " + transactionId;
+            Database.execSQL(strSQL);
+        }
 
         close();
 
@@ -180,6 +182,9 @@ public class Database extends SQLiteOpenHelper {
     public void delete(Object object){
 
         open();
+
+
+
 
 
 
@@ -291,7 +296,6 @@ public class Database extends SQLiteOpenHelper {
     }
 
 
-
     public List<Transaction> getTransactions(long mainpersonId, long secondPersonId){
 
         List<Transaction> list = new ArrayList<>();
@@ -363,7 +367,6 @@ public class Database extends SQLiteOpenHelper {
         return list;
 
     }
-
 
 
     /**
@@ -501,6 +504,7 @@ public class Database extends SQLiteOpenHelper {
         return person;
     }
 
+
     public boolean havingDebts(long debtorId, long creditorId){
 
         boolean hasDebts = false;
@@ -545,7 +549,6 @@ public class Database extends SQLiteOpenHelper {
         return hasDebts;
 
     }
-
 
 
     /**

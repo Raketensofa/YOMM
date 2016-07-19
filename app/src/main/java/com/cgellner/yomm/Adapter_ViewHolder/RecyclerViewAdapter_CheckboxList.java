@@ -43,7 +43,8 @@ public class RecyclerViewAdapter_CheckboxList extends RecyclerView.Adapter<Recyc
     public void setSharedPreferences(SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
     }
-//endregion
+
+    //endregion
 
 
     //region Public Methods
@@ -82,19 +83,14 @@ public class RecyclerViewAdapter_CheckboxList extends RecyclerView.Adapter<Recyc
 
                 Set<String> persons = sharedPreferences.getStringSet(GlobalVar.SpVarNameDebtors, null);
 
-                if (persons != null) {
 
                 if (persons.size() > 0) {
 
-                    for (String str : persons) {
+                    if (persons.contains(String.valueOf(holder.ID))) {
 
-                        if (str == String.valueOf(holder.ID)) {
-
-                            holder.checkBox.setChecked(true);
-                        }
+                        holder.checkBox.setChecked(true);
                     }
                 }
-            }
             }
 
         }catch (Exception ex){

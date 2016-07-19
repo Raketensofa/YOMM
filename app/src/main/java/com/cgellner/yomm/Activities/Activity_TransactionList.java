@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.cgellner.yomm.Fragments.TransactionDetailFragment;
 import com.cgellner.yomm.GlobalVar;
-import com.cgellner.yomm.Objects.Transaction;
+import com.cgellner.yomm.Objects.Payment;
 import com.cgellner.yomm.R;
 
 import com.cgellner.yomm.Objects.TransactionItem;
@@ -51,8 +51,8 @@ public class Activity_TransactionList extends AppCompatActivity {
 
         getPersonIds();
 
-        List<Transaction> transactionArrayList = GlobalVar.Database.getTransactions(mainpersonId, secondpersonId);
-        contentItems = prepareContentItems(transactionArrayList);
+        List<Payment> paymentArrayList = GlobalVar.Database.getTransactions(mainpersonId, secondpersonId);
+        contentItems = prepareContentItems(paymentArrayList);
 
         ITEM_MAP = new HashMap<String, TransactionItem>();
         for (TransactionItem item : contentItems) {
@@ -93,28 +93,28 @@ public class Activity_TransactionList extends AppCompatActivity {
     }
 
 
-    private List<TransactionItem> prepareContentItems(List<Transaction> transactions){
+    private List<TransactionItem> prepareContentItems(List<Payment> payments){
 
         List<TransactionItem> items = new ArrayList<>();
 
-        if(transactions != null) {
+        if(payments != null) {
 
-            for (int i= 0; i<transactions.size(); i++) {
+            for (int i = 0; i< payments.size(); i++) {
 
-                String categoryName = GlobalVar.Database.getCategoryName(transactions.get(i).getCategory());
-                String debtorName = GlobalVar.Database.getPersonName(transactions.get(i).getDebtorId());
-                String creditorName = GlobalVar.Database.getPersonName(transactions.get(i).getCreditorId());
+                String categoryName = GlobalVar.Database.getCategoryName(payments.get(i).getCategory());
+                String debtorName = GlobalVar.Database.getPersonName(payments.get(i).getDebtorId());
+                String creditorName = GlobalVar.Database.getPersonName(payments.get(i).getCreditorId());
 
                 TransactionItem item =
-                        new TransactionItem(String.valueOf(transactions.get(i).getID()),
-                                                                String.valueOf(transactions.get(i).getValue()),
+                        new TransactionItem(String.valueOf(payments.get(i).getID()),
+                                                                String.valueOf(payments.get(i).getValue()),
                                                                 debtorName,
                                                                 creditorName,
                                                                 categoryName,
-                                                                transactions.get(i).getDetails(),
-                                                                transactions.get(i).getDate(),
-                                                                transactions.get(i).getTime(),
-                                                                String.valueOf(transactions.get(i).getType()));
+                                                                payments.get(i).getDetails(),
+                                                                payments.get(i).getDate(),
+                                                                payments.get(i).getTime(),
+                                                                String.valueOf(payments.get(i).getType()));
 
                 items.add(item);
                 Log.d("", item.toString());

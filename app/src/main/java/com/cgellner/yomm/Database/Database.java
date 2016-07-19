@@ -7,15 +7,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.cgellner.yomm.GlobalVar;
 import com.cgellner.yomm.Objects.Category;
 import com.cgellner.yomm.Objects.Person;
-import com.cgellner.yomm.Objects.Transaction;
+import com.cgellner.yomm.Objects.Payment;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.microedition.khronos.opengles.GL;
 
 
 /**
@@ -147,20 +144,20 @@ public class Database extends SQLiteOpenHelper {
 
     /**
      *
-     * @param transaction
+     * @param payment
      */
-    public void insertTransaction(Transaction transaction){
+    public void insertPaymentDataset(Payment payment){
 
         open();
-        insertData(transaction.getSqlInsert());
-        Log.v("Transaction", transaction.toString());
+        insertData(payment.getSqlInsert());
+        Log.v("Payment", payment.toString());
         close();
     }
 
 
 
 
-    public void updateTransactionState(long transactionId){
+    public void updatePaymentState(long transactionId){
 
         open();
 
@@ -192,9 +189,9 @@ public class Database extends SQLiteOpenHelper {
 
     }
 
-    public ArrayList<Transaction> getOpenTransactions(long creditorId, long debtorId){
+    public ArrayList<Payment> getOpenTransactions(long creditorId, long debtorId){
 
-        ArrayList<Transaction> transactions = null;
+        ArrayList<Payment> payments = null;
 
         open();
 
@@ -210,13 +207,13 @@ public class Database extends SQLiteOpenHelper {
 
             if (cursor != null) {
 
-                transactions = new ArrayList<>();
+                payments = new ArrayList<>();
 
                 if (cursor.moveToFirst()) {
 
                     do {
 
-                        Transaction trans = new Transaction();
+                        Payment trans = new Payment();
 
                         trans.setID(cursor.getLong(cursor.getColumnIndex(Sql.NAME_COLUMN_ID)));
                         trans.setType(cursor.getInt(cursor.getColumnIndex(Sql.NAME_COLUMN_TYPE)));
@@ -226,7 +223,7 @@ public class Database extends SQLiteOpenHelper {
                         trans.setDebtorId(cursor.getLong(cursor.getColumnIndex(Sql.NAME_COLUMN_DEBTOR)));
                         trans.setCreditorId(cursor.getLong(cursor.getColumnIndex(Sql.NAME_COLUMN_CREDITOR)));
 
-                        transactions.add(trans);
+                        payments.add(trans);
                         Log.d("Trans" , trans.toString());
 
                     } while (cursor.moveToNext());
@@ -245,7 +242,7 @@ public class Database extends SQLiteOpenHelper {
             close();
         }
 
-        return transactions;
+        return payments;
 
     }
 
@@ -296,9 +293,9 @@ public class Database extends SQLiteOpenHelper {
     }
 
 
-    public List<Transaction> getTransactions(long mainpersonId, long secondPersonId){
+    public List<Payment> getTransactions(long mainpersonId, long secondPersonId){
 
-        List<Transaction> list = new ArrayList<>();
+        List<Payment> list = new ArrayList<>();
 
 
         open();
@@ -333,7 +330,7 @@ public class Database extends SQLiteOpenHelper {
 
                     do {
 
-                        Transaction trans = new Transaction();
+                        Payment trans = new Payment();
 
                         trans.setID(cursor.getLong(cursor.getColumnIndex(Sql.NAME_COLUMN_ID)));
                         trans.setType(cursor.getInt((cursor.getColumnIndex(Sql.NAME_COLUMN_TYPE))));
@@ -505,7 +502,7 @@ public class Database extends SQLiteOpenHelper {
     }
 
 
-    public boolean havingDebts(long debtorId, long creditorId){
+    public boolean hasOpenPaymentsAsDebtor(long debtorId){
 
         boolean hasDebts = false;
 
@@ -516,7 +513,54 @@ public class Database extends SQLiteOpenHelper {
             try {
 
                 Cursor c = Database.rawQuery("SELECT Sum(" + Sql.NAME_COLUMN_ID  + ") AS total FROM " + Sql.NAME_TABLE_TRANSACTIONS + " WHERE " + Sql.NAME_COLUMN_DEBTOR
-                        + " = " + debtorId + " AND " + Sql.NAME_COLUMN_CREDITOR + " = " + creditorId, null);
+                        + " = " + debtorId + " AND " + Sql.NAME_COLUMN_TYPE + " = 0" , null);
+
+                if (c != null) {
+
+                    if (c.moveToFirst()) {
+                        do {
+
+                            long count = c.getLong(c.getColumnIndex("total"));
+
+                            if(count > 0){
+
+                                hasDebts = true;
+                            }
+
+                        } while (c.moveToNext());
+                    }
+                }
+
+                c.close();
+
+            } catch (Exception ex) {
+
+                return false;
+
+            }finally {
+
+                close();
+            }
+        }
+
+        return hasDebts;
+
+    }
+
+
+
+    public boolean havingDebtsToCreditor(long debtorId, long creditorId){
+
+        boolean hasDebts = false;
+
+        open();
+
+        if(Database.isOpen()) {
+
+            try {
+
+                Cursor c = Database.rawQuery("SELECT Sum(" + Sql.NAME_COLUMN_ID  + ") AS total FROM " + Sql.NAME_TABLE_TRANSACTIONS + " WHERE " + Sql.NAME_COLUMN_DEBTOR
+                        + " = " + debtorId + " AND " + Sql.NAME_COLUMN_CREDITOR + " = " + creditorId + " AND " + Sql.NAME_COLUMN_TYPE + " = 0", null);
 
                 if (c != null) {
 

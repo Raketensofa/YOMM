@@ -5,7 +5,7 @@ import com.cgellner.yomm.Database.Sql;
 /**
  * Created by Carolin on 31.05.2016.
  */
-public class Transaction {
+public class Payment {
 
     //region Fields
 
@@ -121,7 +121,7 @@ public class Transaction {
 
     @Override
     public String toString() {
-        return "Transaction{" +
+        return "Payment{" +
                 " ID=" + ID +
                 ", Type=" + Type +
                 ", Date=" + Date +

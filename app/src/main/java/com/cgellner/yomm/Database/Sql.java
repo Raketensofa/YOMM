@@ -1,7 +1,9 @@
 package com.cgellner.yomm.Database;
 
 /**
- * Created by Carolin on 31.05.2016.
+ * Die Klasse beinhaltet alle Tabellen- und Spaltennamen der Datenbank sowie Sql-Befehle zum Erstellen der Tabellen.
+ * @since 31.05.2016
+ * @author Carolin Gellner
  */
 public abstract class Sql {
 
@@ -18,10 +20,9 @@ public abstract class Sql {
     //endregion
 
 
-
     //region Database Table Names
 
-    public static final String NAME_TABLE_TRANSACTIONS = "transactions";
+    public static final String NAME_TABLE_PAYMENTS = "payments";
     public static final String NAME_TABLE_CATEGORIES = "categories";
     public static final String NAME_TABLE_PERSONS = "persons";
 
@@ -33,30 +34,36 @@ public abstract class Sql {
     public static final String NAME_COLUMN_ID = "id";
     public static final String NAME_COLUMN_CREDITOR = "creditorId";
     public static final String NAME_COLUMN_DEBTOR = "debtorId";
-    public static final String NAME_COLUMN_TYPE = "type";
+    public static final String NAME_COLUMN_STATE = "state";
     public static final String NAME_COLUMN_VALUE = "value";
     public static final String NAME_COLUMN_CATEGORY = "categoryId";
     public static final String NAME_COLUMN_DETAILS = "details";
     public static final String NAME_COLUMN_NAME = "name";
-    public static final String NAME_COLUMN_DATE = "date";
-    public static final String NAME_COLUMN_TIME = "time";
+    public static final String NAME_COLUMN_PAYMENT_DATE = "date";
+    public static final String NAME_COLUMN_PAYMENT_TIME = "time";
+    public static final String NAME_COLUMN_SUM = "sum";
+    public static final String NAME_COLUMN_REPAYMENT_DATE = "repayment_date";
+    public static final String NAME_COLUMN_REPAYMENT_TIME = "repayment_time";
 
     //endregion
 
 
     //region CreateTables
 
-    public static final String CREATE_TABLE_TRANSACTIONS = "CREATE TABLE " +
-                NAME_TABLE_TRANSACTIONS + "(" +
+    public static final String CREATE_TABLE_PAYMENTS = "CREATE TABLE " +
+            NAME_TABLE_PAYMENTS + "(" +
                 NAME_COLUMN_ID + " " + DATATYPE_INTEGER + " " + PRIMARYKEY_AUTO + "," +
-                NAME_COLUMN_TYPE + " " + DATATYPE_INTEGER + " " + NOTNULL + ", " +
-                NAME_COLUMN_DATE + " " + DATATYPE_TEXT + " " + NOTNULL + ", " +
-                NAME_COLUMN_TIME + " " + DATATYPE_TEXT + " " + NOTNULL + ", " +
+                NAME_COLUMN_STATE + " " + DATATYPE_INTEGER + " " + NOTNULL + ", " +
+                NAME_COLUMN_PAYMENT_DATE + " " + DATATYPE_TEXT + " " + NOTNULL + ", " +
+                NAME_COLUMN_PAYMENT_TIME + " " + DATATYPE_TEXT + " " + NOTNULL + ", " +
                 NAME_COLUMN_CREDITOR + " " + DATATYPE_INTEGER + " " + NOTNULL + ", " +
                 NAME_COLUMN_DEBTOR + " " + DATATYPE_INTEGER + " " + NOTNULL + ", " +
                 NAME_COLUMN_VALUE + " " + DATATYPE_DECIMAL + " " + NOTNULL + ", " +
                 NAME_COLUMN_CATEGORY + " " + DATATYPE_INTEGER + ", " +
-                NAME_COLUMN_DETAILS + " " + DATATYPE_TEXT + " )";
+                NAME_COLUMN_DETAILS + " " + DATATYPE_TEXT + "," +
+                NAME_COLUMN_SUM + " " + DATATYPE_DECIMAL + " " + NOTNULL + ", " +
+                NAME_COLUMN_REPAYMENT_DATE + " " + DATATYPE_TEXT + ", " +
+                NAME_COLUMN_REPAYMENT_TIME + " " + DATATYPE_TEXT + ")";
 
 
     public static final String CREATE_TABLE_PERSONS = "CREATE TABLE " +

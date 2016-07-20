@@ -2,7 +2,6 @@ package com.cgellner.yomm.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,23 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.cgellner.yomm.Adapter_ViewHolder.RecyclerViewAdapter_OverviewCards;
-import com.cgellner.yomm.Database.Database;
 import com.cgellner.yomm.GlobalVar;
 import com.cgellner.yomm.Objects.Overview_Person;
 import com.cgellner.yomm.Objects.Person;
 import com.cgellner.yomm.R;
 
-import java.lang.reflect.Array;
-import java.security.Key;
-import java.security.KeyPair;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Set;
-
-import javax.microedition.khronos.opengles.GL;
 
 
 public class Fragment_Overview extends Fragment {
@@ -126,8 +114,8 @@ public class Fragment_Overview extends Fragment {
 
         double money = -1d;
 
-        double valuePersonOne = GlobalVar.Database.getDebtSum(personId, secondPersonId);
-        double valuePersoTwo = GlobalVar.Database.getDebtSum(secondPersonId, personId);
+        double valuePersonOne = GlobalVar.Database.getOpenPaymentSum(personId, secondPersonId);
+        double valuePersoTwo = GlobalVar.Database.getOpenPaymentSum(secondPersonId, personId);
 
         if(valuePersonOne != -1 && valuePersoTwo != -1){
 

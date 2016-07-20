@@ -17,10 +17,10 @@ import com.cgellner.yomm.Objects.Person;
 import com.cgellner.yomm.R;
 
 
-public class DF_Setttings_AddNew extends DialogFragment {
+public class DF_Setttings extends DialogFragment {
 
 
-    private final String TAG = DF_Setttings_AddNew.class.getName();
+    private final String TAG = DF_Setttings.class.getName();
     private View view;
     private String type;
     private TextView header;
@@ -60,7 +60,7 @@ public class DF_Setttings_AddNew extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-                DF_Setttings_AddNew.this.getDialog().cancel();
+                DF_Setttings.this.getDialog().cancel();
             }
         });
 

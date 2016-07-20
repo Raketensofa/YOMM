@@ -81,7 +81,7 @@ public class RecyclerViewAdapter_CheckboxList extends RecyclerView.Adapter<Recyc
                 holder.ID = personsList.get(position).getID();
                 holder.preferences = sharedPreferences;
 
-                Set<String> persons = sharedPreferences.getStringSet(GlobalVar.SpVarNameDebtors, null);
+                Set<String> persons = sharedPreferences.getStringSet(GlobalVar.SpPaymentDebtors, null);
 
 
                 if (persons.size() > 0) {
@@ -144,7 +144,7 @@ public class RecyclerViewAdapter_CheckboxList extends RecyclerView.Adapter<Recyc
 
                     try {
 
-                        debtors  = preferences.getStringSet(GlobalVar.SpVarNameDebtors, null);
+                        debtors  = preferences.getStringSet(GlobalVar.SpPaymentDebtors, null);
 
                         if(isChecked == true){
 
@@ -156,7 +156,7 @@ public class RecyclerViewAdapter_CheckboxList extends RecyclerView.Adapter<Recyc
                         }
 
                         SharedPreferences.Editor editor = preferences.edit();
-                        editor.putStringSet(GlobalVar.SpVarNameDebtors, debtors);
+                        editor.putStringSet(GlobalVar.SpPaymentDebtors, debtors);
                         editor.commit();
 
                     }catch (Exception ex){
@@ -166,7 +166,7 @@ public class RecyclerViewAdapter_CheckboxList extends RecyclerView.Adapter<Recyc
                             HashSet<String> personHash = new HashSet<String>();
                             personHash.add(String.valueOf(String.valueOf(ID)));
                             SharedPreferences.Editor editor = preferences.edit();
-                            editor.putStringSet(GlobalVar.SpVarNameDebtors, personHash);
+                            editor.putStringSet(GlobalVar.SpPaymentDebtors, personHash);
                             editor.commit();
 
                         }

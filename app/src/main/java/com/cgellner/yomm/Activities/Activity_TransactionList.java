@@ -51,7 +51,7 @@ public class Activity_TransactionList extends AppCompatActivity {
 
         getPersonIds();
 
-        List<Payment> paymentArrayList = GlobalVar.Database.getTransactions(mainpersonId, secondpersonId);
+        List<Payment> paymentArrayList = GlobalVar.Database.getPayments(mainpersonId, secondpersonId);
         contentItems = prepareContentItems(paymentArrayList);
 
         ITEM_MAP = new HashMap<String, TransactionItem>();
@@ -114,7 +114,7 @@ public class Activity_TransactionList extends AppCompatActivity {
                                                                 payments.get(i).getDetails(),
                                                                 payments.get(i).getDate(),
                                                                 payments.get(i).getTime(),
-                                                                String.valueOf(payments.get(i).getType()));
+                                                                String.valueOf(payments.get(i).getState()));
 
                 items.add(item);
                 Log.d("", item.toString());

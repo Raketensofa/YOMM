@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity
     //endregion
 
 
+    //region Public Methods
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -65,6 +67,7 @@ public class MainActivity extends AppCompatActivity
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("YOMM");
         setSupportActionBar(toolbar);
 
 
@@ -88,7 +91,6 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         Intent intent = null;
-
 
         if (id == R.id.nav_overview) {
 
@@ -121,6 +123,10 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    //endregion
+
+
+    //region private Methods
 
     /**
      *
@@ -138,5 +144,6 @@ public class MainActivity extends AppCompatActivity
         GlobalVar.Display_Height = size.y;
     }
 
+    //endregion
 
 }

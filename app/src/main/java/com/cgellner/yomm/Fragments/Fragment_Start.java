@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import com.cgellner.yomm.Activities.Activitiy_ViewPager;
+import com.cgellner.yomm.GlobalVar;
 import com.cgellner.yomm.R;
 
 /**
@@ -17,21 +18,31 @@ import com.cgellner.yomm.R;
 public class Fragment_Start extends Fragment {
 
 
-    private final String TAG = Fragment_Start.class.getName();
+    //region Fields
 
-    private Button buttonCleanDebts;
-    private Button buttonNewTrans;
+    private Button buttonRepayment;
+    private Button buttonPayment;
+
+    //endregion
 
 
+    //region Methods
 
+    /**
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.content_main3, container, false);
 
-        buttonCleanDebts = (Button) view.findViewById(R.id.buttonClearDebts);
-        buttonNewTrans = (Button)view.findViewById(R.id.buttonNewTrans);
+        buttonRepayment = (Button) view.findViewById(R.id.buttonRepayment);
+        buttonPayment = (Button) view.findViewById(R.id.buttonPayment);
+
         addListenerOnButton();
 
         return view;
@@ -40,41 +51,40 @@ public class Fragment_Start extends Fragment {
 
     /**
      *
-     * @return
-    /**
-     *
      */
-    public void addListenerOnButton() {
+    private void addListenerOnButton() {
 
-        if (buttonCleanDebts != null) {
+        if (buttonRepayment != null) {
 
-            buttonCleanDebts.setOnClickListener(new View.OnClickListener() {
+            buttonRepayment.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View view) {
 
                     Intent intent = new Intent(getActivity(), Activitiy_ViewPager.class);
-                    intent.putExtra("type", "clean");
+                    intent.putExtra("type", GlobalVar.typeRePpayment);
                     startActivity(intent);
                 }
             });
 
         }
 
-        if (buttonNewTrans != null) {
+        if (buttonPayment != null) {
 
-            buttonNewTrans.setOnClickListener(new View.OnClickListener() {
+            buttonPayment.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View view) {
 
                     Intent intent = new Intent(getActivity(), Activitiy_ViewPager.class);
-                    intent.putExtra("type", "new");
+                    intent.putExtra("type", GlobalVar.typePayment);
                     startActivity(intent);
 
                 }
             });
         }
     }
+
+    //endregion
 
 }

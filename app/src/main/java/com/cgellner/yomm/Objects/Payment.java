@@ -139,9 +139,6 @@ public class Payment {
      */
     public String getSqlInsert(){
 
-
-
-
         return  "INSERT INTO " + Sql.NAME_TABLE_PAYMENTS +
                 " (" + Sql.NAME_COLUMN_STATE + "," +
                 Sql.NAME_COLUMN_PAYMENT_DATE + ", " +

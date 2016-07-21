@@ -23,7 +23,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:id="@+id/buttonNewTrans"
+        android:id="@+id/buttonPayment"
         android:background="@android:color/holo_red_light"
         android:text="Ausgabe erfassen"
         android:onClick="onClick"
@@ -37,13 +37,13 @@
         android:textColor="@android:color/white"
         android:clickable="true"
         android:layout_marginTop="92dp"
-        android:layout_below="@+id/buttonClearDebts"
+        android:layout_below="@+id/buttonRepayment"
         android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:id="@+id/buttonClearDebts"
+        android:id="@+id/buttonRepayment"
         android:onClick="onClick"
         android:background="@color/accent_material_light"
         android:text="Schulden begleichen"
@@ -59,11 +59,6 @@
         android:clickable="true"
         android:layout_alignTop="@+id/linearLayout"
         android:layout_alignParentStart="true" />
-
-
-
-
-
 
 </RelativeLayout>
 

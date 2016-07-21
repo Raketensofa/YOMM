@@ -1,7 +1,6 @@
 package com.cgellner.yomm;
 
 
-
 /**
  * Created by Carolin on 31.05.2016.
  */
@@ -15,6 +14,9 @@ public abstract class GlobalVar {
 
 
     //endregion
+
+    public static String typePayment = "payment";
+    public static String typeRePpayment = "repayment";
 
 
     //region Names of Shared Preferences (Sp) for Payment

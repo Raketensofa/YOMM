@@ -1,6 +1,8 @@
 package com.cgellner.yomm;
 
 
+import java.text.DecimalFormat;
+
 /**
  * Created by Carolin on 31.05.2016.
  */
@@ -48,4 +50,25 @@ public abstract class GlobalVar {
 
 
     //endregion
+
+
+
+    /**
+     *
+     * @param moneyValue
+     * @return
+     */
+    public static String formatMoney(String moneyValue){
+
+        String str = "";
+
+        if(moneyValue.contains(",")){
+            moneyValue.replace(",", ".");
+        }
+
+        DecimalFormat f = new DecimalFormat("#0.00");
+        double toFormat = ((double)Math.round(new Double(moneyValue)*100))/100;
+
+        return  f.format(toFormat);
+    }
 }

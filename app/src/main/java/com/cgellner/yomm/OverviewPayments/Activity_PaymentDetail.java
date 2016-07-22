@@ -1,20 +1,18 @@
-package com.cgellner.yomm.Activities;
+package com.cgellner.yomm.OverviewPayments;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
-import com.cgellner.yomm.Fragments.TransactionDetailFragment;
 import com.cgellner.yomm.R;
 
 
-public class Activity_TransactionDetail extends AppCompatActivity {
+public class Activity_PaymentDetail extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,15 +51,15 @@ public class Activity_TransactionDetail extends AppCompatActivity {
 
             Bundle arguments = new Bundle();
 
-            arguments.putString(TransactionDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(TransactionDetailFragment.ARG_ITEM_ID));
+            arguments.putString(Fragment_PaymentDetail.ARG_ITEM_ID,
+                    getIntent().getStringExtra(Fragment_PaymentDetail.ARG_ITEM_ID));
 
 
-            TransactionDetailFragment fragment = new TransactionDetailFragment();
+            Fragment_PaymentDetail fragment = new Fragment_PaymentDetail();
             fragment.setArguments(arguments);
 
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.transaction_detail_container, fragment)
+                    .add(R.id.payment_detail_container, fragment)
                     .commit();
         }
     }
@@ -72,7 +70,7 @@ public class Activity_TransactionDetail extends AppCompatActivity {
 
         if (id == android.R.id.home) {
 
-            navigateUpTo(new Intent(this, Activity_TransactionList.class));
+            navigateUpTo(new Intent(this, Activity_PaymentsList.class));
             return true;
         }
 

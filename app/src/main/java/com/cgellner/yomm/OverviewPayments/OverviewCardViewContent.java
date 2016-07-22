@@ -1,19 +1,26 @@
-package com.cgellner.yomm.Objects;
+package com.cgellner.yomm.OverviewPayments;
 
 import java.util.ArrayList;
 
 
 /**
- * Created by Carolin on 28-Jun-16.
+ *
+ * @since 28.06.2016
+ * @author Carolin Gellner
  */
-public class Overview_Person {
+public class OverviewCardViewContent {
+
+
+    //region Fields
 
     private long ID;
     private String Name;
-    //private HashMap<String, Double> Data;
-
     private ArrayList<String[]> datalist;
 
+    //endregion
+
+
+    //region Getter & Setter
 
     public long getID() {
         return ID;
@@ -38,4 +45,6 @@ public class Overview_Person {
     public void setDatalist(ArrayList<String[]> datalist) {
         this.datalist = datalist;
     }
+
+    //endregion
 }

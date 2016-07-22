@@ -1,4 +1,4 @@
-package com.cgellner.yomm.Activities;
+package com.cgellner.yomm.Settings;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.cgellner.yomm.DialogFragments.DF_Setttings;
 import com.cgellner.yomm.GlobalVar;
 import com.cgellner.yomm.Objects.Category;
 import com.cgellner.yomm.Objects.Person;
@@ -158,7 +157,7 @@ public class Activity_Settings extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                DF_Setttings newData = new DF_Setttings();
+                DialogFrag_AddSetting newData = new DialogFrag_AddSetting();
                 newData.setActivity(Activity_Settings.this);
                 newData.show(getFragmentManager(), object.toString());
             }

@@ -1,4 +1,4 @@
-package com.cgellner.yomm.Fragments;
+package com.cgellner.yomm.OverviewPayments;
 
 import android.app.Activity;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -9,21 +9,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.cgellner.yomm.Activities.Activity_TransactionList;
 import com.cgellner.yomm.R;
-import com.cgellner.yomm.Objects.TransactionItem;
 
 
-public class TransactionDetailFragment extends Fragment {
+public class Fragment_PaymentDetail extends Fragment {
 
 
     public static final String ARG_ITEM_ID = "item_id";
 
 
-    private TransactionItem mItem;
+    private PaymentItem mItem;
 
 
-    public TransactionDetailFragment() {
+    public Fragment_PaymentDetail() {
     }
 
     @Override
@@ -33,7 +31,7 @@ public class TransactionDetailFragment extends Fragment {
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
 
-            mItem = Activity_TransactionList.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            mItem = Activity_PaymentsList.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
 
             Activity activity = this.getActivity();
 

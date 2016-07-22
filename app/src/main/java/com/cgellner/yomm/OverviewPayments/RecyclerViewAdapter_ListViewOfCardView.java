@@ -1,4 +1,4 @@
-package com.cgellner.yomm.Adapter_ViewHolder;
+package com.cgellner.yomm.OverviewPayments;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.cgellner.yomm.Activities.Activity_TransactionList;
 import com.cgellner.yomm.R;
 
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ import java.util.ArrayList;
 /**
  * Created by Carolin on 28-Jun-16.
  */
-public class RecyclerViewAdapter_Cardview_Listview extends RecyclerView.Adapter<RecyclerViewAdapter_Cardview_Listview.ViewHolder_Cardview_RecyclerView> {
+public class RecyclerViewAdapter_ListViewOfCardView extends RecyclerView.Adapter<RecyclerViewAdapter_ListViewOfCardView.ViewHolder_Cardview_RecyclerView> {
 
 
     //region Fields
@@ -33,7 +32,7 @@ public class RecyclerViewAdapter_Cardview_Listview extends RecyclerView.Adapter<
 
     //region Getter & Setter
 
-    public RecyclerViewAdapter_Cardview_Listview(ArrayList<String[]> data) {
+    public RecyclerViewAdapter_ListViewOfCardView(ArrayList<String[]> data) {
 
         this.data = data;
     }
@@ -134,7 +133,7 @@ public class RecyclerViewAdapter_Cardview_Listview extends RecyclerView.Adapter<
                 @Override
                 public void onClick(View v) {
 
-                    Intent intent = new Intent(v.getContext(), Activity_TransactionList.class);
+                    Intent intent = new Intent(v.getContext(), Activity_PaymentsList.class);
                     intent.putExtra("mainperson", mainPersonId);
                     intent.putExtra("second_person", personId);
                     v.getContext().startActivity(intent);

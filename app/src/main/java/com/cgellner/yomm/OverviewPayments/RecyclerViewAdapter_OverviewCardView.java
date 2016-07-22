@@ -1,4 +1,4 @@
-package com.cgellner.yomm.Adapter_ViewHolder;
+package com.cgellner.yomm.OverviewPayments;
 
 import android.content.Intent;
 import android.support.v7.widget.CardView;
@@ -9,23 +9,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.cgellner.yomm.Activities.Activity_TransactionList;
-import com.cgellner.yomm.Objects.Overview_Person;
 import com.cgellner.yomm.R;
 
 import java.util.ArrayList;
 
 /**
- * Created by Carolin on 26-Jun-16.
+ *
+ * @since 26.06.2016
+ * @author Carolin Gellner
  */
-public class RecyclerViewAdapter_OverviewCards extends RecyclerView.Adapter<RecyclerViewAdapter_OverviewCards.ViewHolder_OverviewCards> {
+public class RecyclerViewAdapter_OverviewCardView extends RecyclerView.Adapter<RecyclerViewAdapter_OverviewCardView.ViewHolder_OverviewCards> {
 
 
     //region Fields
 
-    private ArrayList<Overview_Person> dataList;
+    private ArrayList<OverviewCardViewContent> dataList;
     private View v;
     private ViewHolder_OverviewCards pvh;
+
     //endregion
 
 
@@ -34,13 +35,15 @@ public class RecyclerViewAdapter_OverviewCards extends RecyclerView.Adapter<Recy
     /**
      * @param data
      */
-    public RecyclerViewAdapter_OverviewCards(ArrayList<Overview_Person> data) {
+    public RecyclerViewAdapter_OverviewCardView(ArrayList<OverviewCardViewContent> data) {
 
         this.dataList = data;
     }
 
     //endregion
 
+
+    //region Publis Methods
 
     @Override
     public ViewHolder_OverviewCards onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -59,7 +62,7 @@ public class RecyclerViewAdapter_OverviewCards extends RecyclerView.Adapter<Recy
         holder.personName.setText(dataList.get(position).getName());
 
 
-        RecyclerViewAdapter_Cardview_Listview adapter = new RecyclerViewAdapter_Cardview_Listview(dataList.get(position).getDatalist());
+        RecyclerViewAdapter_ListViewOfCardView adapter = new RecyclerViewAdapter_ListViewOfCardView(dataList.get(position).getDatalist());
         adapter.setMainPersonId(dataList.get(position).getID());
         LinearLayoutManager llm = new LinearLayoutManager(v.getContext());
         holder.dataRecyclerView.setLayoutManager(llm);
@@ -70,10 +73,18 @@ public class RecyclerViewAdapter_OverviewCards extends RecyclerView.Adapter<Recy
 
     @Override
     public int getItemCount() {
+
         return dataList.size();
     }
 
+    //endregion
 
+
+    //region Class ViewHolder
+
+    /**
+     *
+     */
     public static class ViewHolder_OverviewCards extends RecyclerView.ViewHolder {
 
         long ID;
@@ -81,7 +92,10 @@ public class RecyclerViewAdapter_OverviewCards extends RecyclerView.Adapter<Recy
         TextView personName;
         RecyclerView dataRecyclerView;
 
-
+        /**
+         *
+         * @param itemView
+         */
         ViewHolder_OverviewCards(final View itemView) {
 
             super(itemView);
@@ -90,12 +104,13 @@ public class RecyclerViewAdapter_OverviewCards extends RecyclerView.Adapter<Recy
             personName = (TextView) itemView.findViewById(R.id.cv_personname);
             dataRecyclerView = (RecyclerView) itemView.findViewById(R.id.recyclerView_cardviewlist);
 
+
             cardView.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(final View view) {
 
-                    Intent intent = new Intent(itemView.getContext(), Activity_TransactionList.class);
+                    Intent intent = new Intent(itemView.getContext(), Activity_PaymentsList.class);
                     intent.putExtra("mainperson", ID);
                     intent.putExtra("second_person", -1);
                     view.getContext().startActivity(intent);
@@ -104,6 +119,8 @@ public class RecyclerViewAdapter_OverviewCards extends RecyclerView.Adapter<Recy
 
         }
     }
+
+    //endregion
 
 }
 

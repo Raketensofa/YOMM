@@ -1,4 +1,4 @@
-package com.cgellner.yomm.Fragments;
+package com.cgellner.yomm.OverviewPayments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,21 +9,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.cgellner.yomm.Adapter_ViewHolder.RecyclerViewAdapter_OverviewCards;
 import com.cgellner.yomm.GlobalVar;
-import com.cgellner.yomm.Objects.Overview_Person;
 import com.cgellner.yomm.Objects.Person;
 import com.cgellner.yomm.R;
 
 import java.util.ArrayList;
 
 
-public class Fragment_Overview extends Fragment {
+public class Fragment_OverviewCardViewList extends Fragment {
 
     private RecyclerView recyclerView;
 
 
-    public Fragment_Overview() {
+    public Fragment_OverviewCardViewList() {
 
     }
 
@@ -47,15 +45,11 @@ public class Fragment_Overview extends Fragment {
 
     private void setRecyclerViewItems() {
 
-        ArrayList<Overview_Person> data = getCalculatedData();
-
-        Log.v("ArrayListPersons.size", String.valueOf(data.size()));
+        ArrayList<OverviewCardViewContent> data = getCalculatedData();
 
         if(data != null){
 
-            Log.v("ArrayListPersons.size", "not null");
-
-            RecyclerViewAdapter_OverviewCards adapter = new RecyclerViewAdapter_OverviewCards(data);
+            RecyclerViewAdapter_OverviewCardView adapter = new RecyclerViewAdapter_OverviewCardView(data);
             recyclerView.setAdapter(adapter);
         }
 
@@ -68,20 +62,20 @@ public class Fragment_Overview extends Fragment {
      *
      * @return
      */
-    private ArrayList<Overview_Person> getCalculatedData() {
+    private ArrayList<OverviewCardViewContent> getCalculatedData() {
 
         ArrayList<Person> persons = new ArrayList<>();
         persons = GlobalVar.Database.getPersons();
 
-        ArrayList<Overview_Person> data = new ArrayList<>();
+        ArrayList<OverviewCardViewContent> data = new ArrayList<>();
 
         if (persons != null) {
 
             for (Person person : persons) {
 
-                Overview_Person overview_person = new Overview_Person();
-                overview_person.setID(person.getID());
-                overview_person.setName(person.getName());
+                OverviewCardViewContent overview_cardViewContent = new OverviewCardViewContent();
+                overview_cardViewContent.setID(person.getID());
+                overview_cardViewContent.setName(person.getName());
 
                 ArrayList<String[]> valueList = new ArrayList<>();
 
@@ -96,8 +90,8 @@ public class Fragment_Overview extends Fragment {
                     }
                 }
 
-                overview_person.setDatalist(valueList);
-                data.add(overview_person);
+                overview_cardViewContent.setDatalist(valueList);
+                data.add(overview_cardViewContent);
             }
         }
 

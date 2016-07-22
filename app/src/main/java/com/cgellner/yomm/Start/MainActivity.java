@@ -1,4 +1,4 @@
-package com.cgellner.yomm.Activities;
+package com.cgellner.yomm.Start;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,12 +18,12 @@ import android.view.Display;
 import android.view.MenuItem;
 
 import com.cgellner.yomm.Database.Database;
-import com.cgellner.yomm.Fragments.Fragment_Overview;
-import com.cgellner.yomm.Fragments.Fragment_Start;
+import com.cgellner.yomm.OverviewPayments.Fragment_OverviewCardViewList;
 import com.cgellner.yomm.GlobalVar;
 import com.cgellner.yomm.Objects.Category;
 import com.cgellner.yomm.Objects.Person;
 import com.cgellner.yomm.R;
+import com.cgellner.yomm.Settings.Activity_Settings;
 
 
 /**
@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity
         fragmentStart = new Fragment_Start();
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.fragment_container, fragmentStart);
-        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
 
@@ -95,7 +94,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_overview) {
 
             //Fragment wechseln
-            Fragment_Overview fragment = new Fragment_Overview();
+            Fragment_OverviewCardViewList fragment = new Fragment_OverviewCardViewList();
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.addToBackStack(null);

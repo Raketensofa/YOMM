@@ -1,4 +1,4 @@
-package com.cgellner.yomm.Fragments;
+package com.cgellner.yomm.ViewPager;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

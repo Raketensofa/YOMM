@@ -1,4 +1,4 @@
-package com.cgellner.yomm.Adapter_ViewHolder;
+package com.cgellner.yomm.ViewPager;
 
 import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;

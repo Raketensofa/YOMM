@@ -1,4 +1,4 @@
-package com.cgellner.yomm.DialogFragments;
+package com.cgellner.yomm.Settings;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -10,17 +10,16 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.cgellner.yomm.Activities.Activity_Settings;
 import com.cgellner.yomm.GlobalVar;
 import com.cgellner.yomm.Objects.Category;
 import com.cgellner.yomm.Objects.Person;
 import com.cgellner.yomm.R;
 
 
-public class DF_Setttings extends DialogFragment {
+public class DialogFrag_AddSetting extends DialogFragment {
 
 
-    private final String TAG = DF_Setttings.class.getName();
+    private final String TAG = DialogFrag_AddSetting.class.getName();
     private View view;
     private String type;
     private TextView header;
@@ -60,7 +59,7 @@ public class DF_Setttings extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-                DF_Setttings.this.getDialog().cancel();
+                DialogFrag_AddSetting.this.getDialog().cancel();
             }
         });
 

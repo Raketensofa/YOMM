@@ -63,6 +63,7 @@ public class Database extends SQLiteOpenHelper {
 
 
     //region Public Methods
+
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
@@ -348,19 +349,22 @@ public class Database extends SQLiteOpenHelper {
 
                     do {
 
-                        Payment trans = new Payment();
+                        Payment payment = new Payment();
 
-                        trans.setID(cursor.getLong(cursor.getColumnIndex(Sql.NAME_COLUMN_ID)));
-                        trans.setState(cursor.getInt((cursor.getColumnIndex(Sql.NAME_COLUMN_STATE))));
-                        trans.setDate(cursor.getString((cursor.getColumnIndex(Sql.NAME_COLUMN_PAYMENT_DATE))));
-                        trans.setTime(cursor.getString((cursor.getColumnIndex(Sql.NAME_COLUMN_PAYMENT_TIME))));
-                        trans.setValue(cursor.getFloat((cursor.getColumnIndex(Sql.NAME_COLUMN_VALUE))));
-                        trans.setCreditorId(cursor.getLong((cursor.getColumnIndex(Sql.NAME_COLUMN_CREDITOR))));
-                        trans.setDebtorId(cursor.getLong((cursor.getColumnIndex(Sql.NAME_COLUMN_DEBTOR))));
-                        trans.setCategory(cursor.getLong((cursor.getColumnIndex(Sql.NAME_COLUMN_CATEGORY))));
-                        trans.setDetails(cursor.getString((cursor.getColumnIndex(Sql.NAME_COLUMN_DETAILS))));
+                        payment.setID(cursor.getLong(cursor.getColumnIndex(Sql.NAME_COLUMN_ID)));
+                        payment.setState(cursor.getInt((cursor.getColumnIndex(Sql.NAME_COLUMN_STATE))));
+                        payment.setDate(cursor.getString((cursor.getColumnIndex(Sql.NAME_COLUMN_PAYMENT_DATE))));
+                        payment.setTime(cursor.getString((cursor.getColumnIndex(Sql.NAME_COLUMN_PAYMENT_TIME))));
+                        payment.setValue(cursor.getFloat((cursor.getColumnIndex(Sql.NAME_COLUMN_VALUE))));
+                        payment.setCreditorId(cursor.getLong((cursor.getColumnIndex(Sql.NAME_COLUMN_CREDITOR))));
+                        payment.setDebtorId(cursor.getLong((cursor.getColumnIndex(Sql.NAME_COLUMN_DEBTOR))));
+                        payment.setCategory(cursor.getLong((cursor.getColumnIndex(Sql.NAME_COLUMN_CATEGORY))));
+                        payment.setDetails(cursor.getString((cursor.getColumnIndex(Sql.NAME_COLUMN_DETAILS))));
+                        payment.setMoneysum(cursor.getFloat(cursor.getColumnIndex(Sql.NAME_COLUMN_SUM)));
+                        payment.setRepayment_date(cursor.getString(cursor.getColumnIndex(Sql.NAME_COLUMN_REPAYMENT_DATE)));
+                        payment.setRepayment_time(cursor.getString(cursor.getColumnIndex(Sql.NAME_COLUMN_REPAYMENT_TIME)));
 
-                        list.add(trans);
+                        list.add(payment);
 
                     } while (cursor.moveToNext());
 

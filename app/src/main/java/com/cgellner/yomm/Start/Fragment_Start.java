@@ -1,4 +1,4 @@
-package com.cgellner.yomm.Fragments;
+package com.cgellner.yomm.Start;
 
 
 import android.content.Intent;
@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import com.cgellner.yomm.Activities.Activitiy_ViewPager;
+import com.cgellner.yomm.ViewPager.Activitiy_ViewPager;
 import com.cgellner.yomm.GlobalVar;
 import com.cgellner.yomm.R;
 

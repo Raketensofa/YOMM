@@ -18,8 +18,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.cgellner.yomm.Activities.Activitiy_ViewPager;
-import com.cgellner.yomm.Adapter_ViewHolder.RecyclerViewAdapter_CheckboxList;
 import com.cgellner.yomm.GlobalVar;
 import com.cgellner.yomm.Objects.Category;
 import com.cgellner.yomm.Objects.Person;
@@ -264,8 +262,6 @@ public class ViewpagerElements {
 
         if (debtor != 0) {
 
-            Log.d("DebtorID", String.valueOf(debtor));
-
             for (Person person : personsList) {
 
                 if (person.getID() != debtor) {
@@ -328,9 +324,9 @@ public class ViewpagerElements {
 
                 ArrayList<String> values = new ArrayList<>();
 
-                for (Payment trans : openPaymentsList) {
+                for (Payment payment : openPaymentsList) {
 
-                    values.add(String.valueOf(trans.getValue()));
+                    values.add(GlobalVar.formatMoney(String.valueOf(payment.getValue())));
                 }
 
 
@@ -442,7 +438,7 @@ public class ViewpagerElements {
                 }
             }
 
-            repaymentFourthPageTV.setText(String.valueOf(sum) + " Euro");
+            repaymentFourthPageTV.setText(GlobalVar.formatMoney(String.valueOf(sum)) + " Euro");
 
 
         } else {

@@ -1,4 +1,4 @@
-package com.cgellner.yomm.Activities;
+package com.cgellner.yomm.ViewPager;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -14,11 +14,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
-import com.cgellner.yomm.Fragments.Fragment_ViewPager;
 import com.cgellner.yomm.GlobalVar;
 import com.cgellner.yomm.Objects.Payment;
 import com.cgellner.yomm.R;
-import com.cgellner.yomm.ViewPager.ViewpagerElements;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -277,6 +275,7 @@ public class Activitiy_ViewPager extends AppCompatActivity {
 
 
     /**
+     *
      * @param type
      * @param date
      * @param time
@@ -291,10 +290,14 @@ public class Activitiy_ViewPager extends AppCompatActivity {
 
         ArrayList<Payment> payments = new ArrayList<>();
 
+        String sumStr = String.valueOf(value).replace(",", ".");
 
         String[] debtorIds = debtors.split(",");
 
-        float valuePerPerson = Math.round(((value / debtorIds.length) * 100f)) / 100f;
+        float valuePerPerson = value / debtorIds.length;
+        String valStr = GlobalVar.formatMoney(String.valueOf(valuePerPerson));
+        float money = new Float(valStr);
+
 
         for (String debtor : debtorIds) {
 
@@ -308,10 +311,8 @@ public class Activitiy_ViewPager extends AppCompatActivity {
                 payment.setDebtorId(new Long(debtor));
                 payment.setCategory(category);
                 payment.setDetails(details);
-                payment.setValue(valuePerPerson);
-                payment.setMoneysum(value);
-
-                Log.d("Payment", payment.toString());
+                payment.setValue(money);
+                payment.setMoneysum(new Float(sumStr));
 
                 payments.add(payment);
             }
@@ -392,10 +393,9 @@ public class Activitiy_ViewPager extends AppCompatActivity {
         RelativeLayout.LayoutParams paramButtonSave = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         paramButtonSave.width = GlobalVar.Display_Width / 2;
         paramButtonSave.height = GlobalVar.Display_Height / 100 * 20;
-        paramButtonSave.addRule(RelativeLayout.BELOW, viewPager.getId());
         paramButtonSave.addRule(RelativeLayout.RIGHT_OF, buttonCancel.getId());
+        paramButtonSave.addRule(RelativeLayout.BELOW, viewPager.getId());
         buttonSave.setLayoutParams(paramButtonSave);
-
     }
 
 

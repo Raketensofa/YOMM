@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".Activities.Activity_TransactionDetail"
+    tools:context=".OverviewPayments.Activity_PaymentDetail"
     tools:ignore="MergeRootFrame">
 
     <android.support.design.widget.AppBarLayout
@@ -36,7 +36,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
-        android:id="@+id/transaction_detail_container"
+        android:id="@+id/payment_detail_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
@@ -48,7 +48,7 @@
         android:layout_gravity="center_vertical|start"
         android:layout_margin="@dimen/fab_margin"
         android:src="@android:drawable/stat_notify_chat"
-        app:layout_anchor="@+id/transaction_detail_container"
+        app:layout_anchor="@+id/payment_detail_container"
         app:layout_anchorGravity="top|end" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -148,11 +147,14 @@ public class Activity_PaymentsList extends AppCompatActivity {
 
         List<PaymentItem> items = new ArrayList<>();
 
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
+
         if(payments != null) {
 
             for (int i = 0; i< payments.size(); i++) {
 
-                String categoryName = GlobalVar.Database.getCategoryName(payments.get(i).getCategory());
+                String categoryName = GlobalVar.Database.getCategoryName(payments.get(i).getCategoryId());
                 String debtorName = GlobalVar.Database.getPersonName(payments.get(i).getDebtorId());
                 String creditorName = GlobalVar.Database.getPersonName(payments.get(i).getCreditorId());
 
@@ -163,12 +165,9 @@ public class Activity_PaymentsList extends AppCompatActivity {
                 item.setCategory(categoryName);
                 item.setValue(String.valueOf(payments.get(i).getValue()));
                 item.setDetails( payments.get(i).getDetails());
-                item.setDate(payments.get(i).getDate());
-                item.setTime(payments.get(i).getTime());
-                item.setState(String.valueOf(payments.get(i).getState()));
-                item.setRepaymentTime(payments.get(i).getRepayment_date());
-                item.setRepaymentTime(payments.get(i).getRepayment_time());
-                item.setMainMoneyValue(String.valueOf(payments.get(i).getMoneysum()));
+                item.setDate(dateFormatter.format(payments.get(i).getDateTime()));
+                item.setTime(timeFormatter.format(payments.get(i).getDateTime()));
+                item.setMainMoneyValue(String.valueOf(payments.get(i).getMoneySum()));
 
                 items.add(item);
 
@@ -225,12 +224,6 @@ public class Activity_PaymentsList extends AppCompatActivity {
 
             holder.mItem = mValues.get(position);
 
-            String state = mValues.get(position).getState();
-            //Zahlungen mit dem Status 1, die also bereit beglichen wurden, mit einen grauem Hintergrund versehen
-            if(state.equals("1")){
-
-                holder.mView.setBackgroundColor(Color.LTGRAY);
-            }
 
             holder.listview_content_date.setText(formatDate(mValues.get(position).getDate()));
             holder.listview_content_value.setText(GlobalVar.formatMoney(mValues.get(position).getValue()));

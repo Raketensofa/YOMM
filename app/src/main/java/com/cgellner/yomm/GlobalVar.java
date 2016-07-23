@@ -37,7 +37,8 @@ public abstract class GlobalVar {
     public static final String SpRepaymentMoneySum = "repaymentMoneySum";
     public static final String SpRepaymentCreditor = "repaymentCreditor";
     public static final String SpRepaymentDebtor = "repaymentDebtor";
-    public static final String SpRepaymentPaymentIds = "repaymentPaymentIds";
+    public static final String SpRepaymentDetails = "repaymentDetails";
+
 
     //endregion
 
@@ -71,4 +72,33 @@ public abstract class GlobalVar {
 
         return  f.format(toFormat);
     }
+
+
+    /**
+     *
+     * @param debtorId
+     * @param creditorId
+     * @return
+     */
+    public static double getPaymentDifference(long debtorId, long creditorId){
+
+        double diff = 0d;
+
+        double creditorPaySum =  Database.getPaymentSum(creditorId, debtorId);
+        double debtorPaySum =  Database.getPaymentSum(debtorId, creditorId);
+
+        double debtorRepaySum =  Database.getRepaymentSum(debtorId, creditorId);
+        double creditorRepaySum =  Database.getRepaymentSum(creditorId, debtorId);
+
+
+        //Differenz aus Sicht des Debtors ermitteln
+        //Wie viel muss der Debtor dem Creditor noch zurueckzahlen
+        //wenn der Wert negativ, dann hat er Schulden, wenn der Wert positiv, dann bekommt der
+        //Debtor Geld vom Creditor
+        diff = (debtorPaySum - debtorRepaySum) - (creditorPaySum - creditorRepaySum);
+
+
+        return diff;
+    }
+
 }

@@ -6,14 +6,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -25,7 +19,6 @@ import com.cgellner.yomm.Objects.Payment;
 import com.cgellner.yomm.R;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -51,8 +44,7 @@ public class ViewpagerElements {
     public static final int[] layouts_viewpager_repayment =
             {R.layout.layout_viewpager_repayment_firstpage,
                     R.layout.layout_viewpager_repayment_secondpage,
-                    R.layout.layout_viewpager_repayment_thirdpage,
-                    R.layout.layout_viewpager_repayment_fourthpage
+                    R.layout.layout_viewpager_repayment_thirdpage
             };
 
 
@@ -60,9 +52,7 @@ public class ViewpagerElements {
     //RG: RadioGroup, LV: ListView, CB: Checkbox, TV: TextView
     private RadioGroup repaymentFirstPageRG;
     private RadioGroup repaymentSecondPageRG = null;
-    private ListView repaymentThirdPageLV = null;
-    private CheckBox repaymentThirdPageCB = null;
-    private TextView repaymentFourthPageTV = null;
+    private TextView repaymentThirdPageTV = null;
 
 
     //Bestandteile der Views im Viewpager bei "Neue Ausgabe" (Payment)
@@ -181,14 +171,9 @@ public class ViewpagerElements {
 
         } else if (position == 2) {
 
-            //Listview welche die offen Beträge beinhaltet der dritten ViewpagerSeite
-            //Checkbox mit welcher auf Seite 3 des Viewpagers alle Beträge markiert werden können
-            setLvAndCbAtThirdPageOfRepay(view);
-
-        } else if (position == 3) {
-
             //TextView in welcher der Gesamtbetrag auf Seite 4 angezeigt wird
-            setTvAtFourthPageOfRepay(view);
+            setTvAtThirdPageOfRepay(view);
+
         }
     }
 
@@ -214,21 +199,26 @@ public class ViewpagerElements {
 
             for (Person person : personsList) {
 
-                boolean havingDebts = GlobalVar.Database.hasOpenPayments(person.getID());
+                for (Person secondPerson : personsList){
 
-                if (havingDebts == true) {
+                    double debts = GlobalVar.getPaymentDifference(person.getID(), secondPerson.getID());
 
-                    RadioButton radioButton = new RadioButton(view.getContext());
-                    radioButton.setText(person.getName());
-                    radioButton.setTextSize(35);
-                    radioButton.setId(new Integer(String.valueOf(person.getID())));
+                    if(debts < 0){
 
-                    if (person.getID() == debtor) {
+                        RadioButton radioButton = new RadioButton(view.getContext());
+                        radioButton.setText(person.getName());
+                        radioButton.setTextSize(30);
+                        radioButton.setId(new Integer(String.valueOf(person.getID())));
 
-                        radioButton.setChecked(true);
+                        if (person.getID() == debtor) {
+
+                            radioButton.setChecked(true);
+                        }
+
+                        repaymentFirstPageRG.addView(radioButton);
+
+                        break;
                     }
-
-                    repaymentFirstPageRG.addView(radioButton);
                 }
             }
         }
@@ -266,13 +256,13 @@ public class ViewpagerElements {
 
                 if (person.getID() != debtor) {
 
-                    boolean havingDebts = GlobalVar.Database.hasOpenPaymentsToCreditor(debtor, person.getID());
+                    double debts = GlobalVar.getPaymentDifference(person.getID(), debtor);
 
-                    if (havingDebts == true) {
+                    if (debts > 0) {
 
                         RadioButton radioButton = new RadioButton(view.getContext());
                         radioButton.setText(person.getName());
-                        radioButton.setTextSize(35);
+                        radioButton.setTextSize(30);
                         radioButton.setId(new Integer(String.valueOf(person.getID())));
 
                         if (creditor == person.getID()) {
@@ -302,150 +292,35 @@ public class ViewpagerElements {
         }
     }
 
-    /**
-     * @param view Seite im Viewpager
-     */
-    private void setLvAndCbAtThirdPageOfRepay(final View view) {
-
-        Long creditorId = sharedPreferences.getLong(GlobalVar.SpRepaymentCreditor, 0);
-        Long debtorId = sharedPreferences.getLong(GlobalVar.SpRepaymentDebtor, 0);
-        Set opentrans = sharedPreferences.getStringSet(GlobalVar.SpRepaymentPaymentIds, null);
-
-
-        //LISTVIEW
-        repaymentThirdPageLV = (ListView) view.findViewById(R.id.layout_viewpager_cleardebts_third_listview);
-
-
-        if (debtorId != 0 && creditorId != 0) {
-
-            openPaymentsList = GlobalVar.Database.getOpenPayments(creditorId, debtorId);
-
-            if (openPaymentsList != null) {
-
-                ArrayList<String> values = new ArrayList<>();
-
-                for (Payment payment : openPaymentsList) {
-
-                    values.add(GlobalVar.formatMoney(String.valueOf(payment.getValue())));
-                }
-
-
-                ArrayAdapter adapter = new ArrayAdapter(view.getContext(), android.R.layout.simple_list_item_1, android.R.id.text1, values);
-
-                repaymentThirdPageLV.setAdapter(adapter);
-            }
-        }
-
-
-        repaymentThirdPageLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Set trans = sharedPreferences.getStringSet(GlobalVar.SpRepaymentPaymentIds, null);
-
-                //wenn Element deaktivert wird
-                if (trans.contains(String.valueOf(openPaymentsList.get(position).getID()))) {
-
-                    trans.remove(String.valueOf(openPaymentsList.get(position).getID()));
-                    view.setBackgroundColor(Color.WHITE);
-
-
-                } else {
-
-                    //wenn Element aktiviert wird
-
-                    view.setBackgroundColor(Color.YELLOW);
-
-                    long transId = openPaymentsList.get(position).getID();
-                    trans.add(String.valueOf(transId));
-
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putStringSet(GlobalVar.SpRepaymentPaymentIds, trans);
-                    editor.commit();
-
-                }
-
-                checkRepaymentData();
-
-            }
-        });
-
-
-        //CHECKBOX
-        repaymentThirdPageCB = (CheckBox) view.findViewById(R.id.layout_viewpager_cleardebts_third_checkbox);
-        repaymentThirdPageCB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                int count = repaymentThirdPageLV.getChildCount();
-
-                if (isChecked == true) {
-
-                    for (int i = 0; i < count; i++) {
-
-                        repaymentThirdPageLV.getChildAt(i).setBackgroundColor(Color.YELLOW);
-                    }
-
-                    Set<String> set = sharedPreferences.getStringSet(GlobalVar.SpRepaymentPaymentIds, new HashSet<String>());
-                    for (Payment trans : openPaymentsList) {
-
-                        set.add(String.valueOf(trans.getID()));
-                    }
-
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putStringSet(GlobalVar.SpRepaymentPaymentIds, set);
-                    editor.commit();
-
-
-                } else if (isChecked == false) {
-
-                    for (int i = 0; i < count; i++) {
-
-                        repaymentThirdPageLV.getChildAt(i).setBackgroundColor(Color.WHITE);
-                    }
-
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putStringSet(GlobalVar.SpRepaymentPaymentIds, new HashSet<String>());
-                    editor.commit();
-                }
-
-                checkRepaymentData();
-
-            }
-        });
-    }
 
     /**
      * @param view Seite vom Viewpager
      */
-    private void setTvAtFourthPageOfRepay(View view) {
+    private void setTvAtThirdPageOfRepay(View view) {
 
-        repaymentFourthPageTV = (TextView) view.findViewById(R.id.layout_viewpager_repayment_fourth_sum);
+        repaymentThirdPageTV = (TextView) view.findViewById(R.id.layout_viewpager_repayment_fourth_sum);
 
-        double sum = 0.00d;
+        long debtorId = sharedPreferences.getLong(GlobalVar.SpRepaymentDebtor, 0);
+        long creditorId = sharedPreferences.getLong(GlobalVar.SpRepaymentCreditor, 0);
 
-        Set paymentIds = sharedPreferences.getStringSet(GlobalVar.SpRepaymentPaymentIds, null);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
 
+        if(creditorId != 0 && debtorId != 0) {
 
-        if (paymentIds != null && openPaymentsList != null) {
+            double sum = GlobalVar.getPaymentDifference(debtorId, creditorId);
+            repaymentThirdPageTV.setText(GlobalVar.formatMoney(String.valueOf(sum * -1)) + " Euro");
 
-            for (Payment payment : openPaymentsList) {
+            editor.putFloat(GlobalVar.SpRepaymentMoneySum, new Float(sum * -1));
 
-                if (paymentIds.contains(String.valueOf(payment.getID()))) {
+        }else{
 
-                    sum += payment.getValue();
-                }
-            }
+            repaymentThirdPageTV.setText("0.00 Euro");
+            editor.putFloat(GlobalVar.SpRepaymentMoneySum, 0.00f);
 
-            repaymentFourthPageTV.setText(GlobalVar.formatMoney(String.valueOf(sum)) + " Euro");
-
-
-        } else {
-
-            repaymentFourthPageTV.setText("0.00 Euro");
         }
 
+        editor.commit();
+        checkRepaymentData();
     }
 
     /**
@@ -456,12 +331,12 @@ public class ViewpagerElements {
     private void checkRepaymentData() {
 
         //Zwischengespeicherte Daten abfragen
-        Set values = sharedPreferences.getStringSet(GlobalVar.SpRepaymentPaymentIds, null);
-        Long creditor = sharedPreferences.getLong(GlobalVar.SpRepaymentCreditor, 0);
-        Long debtor = sharedPreferences.getLong(GlobalVar.SpRepaymentDebtor, 0);
+        long creditor = sharedPreferences.getLong(GlobalVar.SpRepaymentCreditor, 0);
+        long debtor = sharedPreferences.getLong(GlobalVar.SpRepaymentDebtor, 0);
+        float value = sharedPreferences.getFloat(GlobalVar.SpRepaymentMoneySum, 0);
 
 
-        if (values.size() > 0 && creditor != 0 && debtor != 0) {
+        if (value > 0 && creditor != 0 && debtor != 0) {
 
             //Button freischalten und rot faerben
             Activitiy_ViewPager.buttonSave.setBackgroundColor(Color.parseColor("#d50000"));

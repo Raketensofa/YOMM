@@ -23,6 +23,7 @@ public abstract class Sql {
     //region Database Table Names
 
     public static final String NAME_TABLE_PAYMENTS = "payments";
+    public static final String NAME_TABLE_REPAYMENTS = "repayments";
     public static final String NAME_TABLE_CATEGORIES = "categories";
     public static final String NAME_TABLE_PERSONS = "persons";
 
@@ -39,11 +40,9 @@ public abstract class Sql {
     public static final String NAME_COLUMN_CATEGORY = "categoryId";
     public static final String NAME_COLUMN_DETAILS = "details";
     public static final String NAME_COLUMN_NAME = "name";
-    public static final String NAME_COLUMN_PAYMENT_DATE = "date";
-    public static final String NAME_COLUMN_PAYMENT_TIME = "time";
+    public static final String NAME_COLUMN_DATETIME = "datetime";
     public static final String NAME_COLUMN_SUM = "sum";
-    public static final String NAME_COLUMN_REPAYMENT_DATE = "repayment_date";
-    public static final String NAME_COLUMN_REPAYMENT_TIME = "repayment_time";
+
 
     //endregion
 
@@ -51,19 +50,26 @@ public abstract class Sql {
     //region CreateTables
 
     public static final String CREATE_TABLE_PAYMENTS = "CREATE TABLE " +
-            NAME_TABLE_PAYMENTS + "(" +
+                NAME_TABLE_PAYMENTS + "(" +
                 NAME_COLUMN_ID + " " + DATATYPE_INTEGER + " " + PRIMARYKEY_AUTO + "," +
-                NAME_COLUMN_STATE + " " + DATATYPE_INTEGER + " " + NOTNULL + ", " +
-                NAME_COLUMN_PAYMENT_DATE + " " + DATATYPE_TEXT + " " + NOTNULL + ", " +
-                NAME_COLUMN_PAYMENT_TIME + " " + DATATYPE_TEXT + " " + NOTNULL + ", " +
+                NAME_COLUMN_DATETIME + " " + DATATYPE_TEXT + " " + NOTNULL + ", " +
                 NAME_COLUMN_CREDITOR + " " + DATATYPE_INTEGER + " " + NOTNULL + ", " +
                 NAME_COLUMN_DEBTOR + " " + DATATYPE_INTEGER + " " + NOTNULL + ", " +
                 NAME_COLUMN_VALUE + " " + DATATYPE_DECIMAL + " " + NOTNULL + ", " +
                 NAME_COLUMN_CATEGORY + " " + DATATYPE_INTEGER + ", " +
                 NAME_COLUMN_DETAILS + " " + DATATYPE_TEXT + "," +
-                NAME_COLUMN_SUM + " " + DATATYPE_DECIMAL + " " + NOTNULL + ", " +
-                NAME_COLUMN_REPAYMENT_DATE + " " + DATATYPE_TEXT + ", " +
-                NAME_COLUMN_REPAYMENT_TIME + " " + DATATYPE_TEXT + ")";
+                NAME_COLUMN_SUM + " " + DATATYPE_DECIMAL + " " + NOTNULL + ")";
+
+
+    public static final String CREATE_TABLE_REPAYMENTS = "CREATE TABLE " +
+            NAME_TABLE_REPAYMENTS + "(" +
+            NAME_COLUMN_ID + " " + DATATYPE_INTEGER + " " + PRIMARYKEY_AUTO + "," +
+            NAME_COLUMN_DATETIME + " " + DATATYPE_TEXT + " " + NOTNULL + ", " +
+            NAME_COLUMN_VALUE + " " + DATATYPE_DECIMAL + " " + NOTNULL + ", " +
+            NAME_COLUMN_CREDITOR + " " + DATATYPE_INTEGER + " " + NOTNULL + ", " +
+            NAME_COLUMN_DEBTOR + " " + DATATYPE_INTEGER + " " + NOTNULL + ", " +
+            NAME_COLUMN_DETAILS + " " + DATATYPE_TEXT + ")";
+
 
 
     public static final String CREATE_TABLE_PERSONS = "CREATE TABLE " +

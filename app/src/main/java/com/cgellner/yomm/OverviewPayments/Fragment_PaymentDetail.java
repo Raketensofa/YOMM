@@ -47,13 +47,18 @@ public class Fragment_PaymentDetail extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.transaction_detail, container, false);
+        View rootView = inflater.inflate(R.layout.payment_detail, container, false);
 
         if (mItem != null) {
 
-            ((TextView) rootView.findViewById(R.id.trancaction_detail_value)).setText(mItem.getValue());
-            ((TextView) rootView.findViewById(R.id.transaction_detail_details)).setText(mItem.getDetails());
-            ((TextView) rootView.findViewById(R.id.transaction_details_category)).setText(mItem.getCategory());
+            ((TextView) rootView.findViewById(R.id.payment_detail_value)).setText(mItem.getValue());
+            ((TextView) rootView.findViewById(R.id.payment_detail_details)).setText(mItem.getDetails());
+            ((TextView) rootView.findViewById(R.id.payment_details_category)).setText(mItem.getCategory());
+            ((TextView) rootView.findViewById(R.id.payment_detail_debtor)).setText(mItem.getDebtor());
+            ((TextView) rootView.findViewById(R.id.payment_detail_creditor)).setText(mItem.getCreditor());
+            ((TextView) rootView.findViewById(R.id.payment_detail_sum)).setText(mItem.getMainMoneyValue());
+            ((TextView) rootView.findViewById(R.id.payment_detail_date)).setText(mItem.getDate());
+            ((TextView) rootView.findViewById(R.id.payment_detail_time)).setText(mItem.getTime());
         }
 
         return rootView;

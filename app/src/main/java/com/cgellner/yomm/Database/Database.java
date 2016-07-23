@@ -8,13 +8,13 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.cgellner.yomm.Objects.Category;
+import com.cgellner.yomm.Objects.Pay;
 import com.cgellner.yomm.Objects.Person;
 import com.cgellner.yomm.Objects.Payment;
 
-import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 
@@ -29,7 +29,7 @@ public class Database extends SQLiteOpenHelper {
     private final String TAG = Database.class.getName();
 
     private static final String DATABASE_NAME = "Yomm_Database.db";
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 7;
 
     private SQLiteDatabase Database;
     private Context context;
@@ -72,6 +72,7 @@ public class Database extends SQLiteOpenHelper {
             Database = sqLiteDatabase;
 
             Database.execSQL(Sql.CREATE_TABLE_PAYMENTS);
+            Database.execSQL(Sql.CREATE_TABLE_REPAYMENTS);
             Database.execSQL(Sql.CREATE_TABLE_PERSONS);
             Database.execSQL(Sql.CREATE_TABLE_CATEGORIES);
 
@@ -89,12 +90,12 @@ public class Database extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
-        Log.d(TAG, "Upgrade der Datenbank");
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + Sql.NAME_TABLE_PAYMENTS);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + Sql.NAME_TABLE_REPAYMENTS);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + Sql.NAME_TABLE_CATEGORIES);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + Sql.NAME_TABLE_PERSONS);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + Sql.NAME_TABLE_PAYMENTS);
 
-       this.onCreate(sqLiteDatabase);
+        this.onCreate(sqLiteDatabase);
 
     }
 
@@ -107,6 +108,7 @@ public class Database extends SQLiteOpenHelper {
         Database = this.getWritableDatabase();
         Log.v(TAG, "Datenbank wurde geoeffnet");
     }
+
 
 
     /**
@@ -122,6 +124,7 @@ public class Database extends SQLiteOpenHelper {
     }
 
 
+
     /**
      * Die Methode speichert die uebergebe Person in der Datenbank.
      * @param person Person
@@ -133,6 +136,7 @@ public class Database extends SQLiteOpenHelper {
         Log.v("Person", person.toString());
         close();
     }
+
 
 
     /**
@@ -147,6 +151,34 @@ public class Database extends SQLiteOpenHelper {
         close();
     }
 
+    /**
+     *
+     * @param repayment
+     */
+    public void insertRepayment(Pay repayment){
+
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+
+        open();
+
+        String sql = "INSERT INTO " + Sql.NAME_TABLE_REPAYMENTS + " (" +
+                Sql.NAME_COLUMN_VALUE + ", " +
+                Sql.NAME_COLUMN_DATETIME + ", " +
+                Sql.NAME_COLUMN_DEBTOR + ", " +
+                Sql.NAME_COLUMN_CREDITOR + ", " +
+                Sql.NAME_COLUMN_DETAILS + ")" +
+                " VALUES (" +
+                repayment.getValue() + ", " +
+                "'" + dateFormatter.format(repayment.getDateTime()) + "'," +
+                repayment.getDebtorId() + ", " +
+                repayment.getCreditorId() + ", " +
+                "'" + repayment.getDetails() + "')";
+
+        insertData(sql);
+
+        close();
+    }
+
 
     /**
      * Die Methode schreibt eine erfasste Zahlung in die Datenbank.
@@ -154,41 +186,33 @@ public class Database extends SQLiteOpenHelper {
      */
     public void insertPaymentDataset(Payment payment){
 
-        open();
-        insertData(payment.getSqlInsert());
-        close();
-    }
-
-
-    /**
-     * Die Methode aendert den Status der Zahlung und setzt das Datum und die Uhrzeit des Ruckzaehlungszeitpunkts in der Datenbank.
-     * @param paymentId ID der Zahlung
-     */
-    public void updatePayment(long paymentId){
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
         open();
 
-        if(Database.isOpen()){
+        String sql = "INSERT INTO " + Sql.NAME_TABLE_PAYMENTS + " (" +
+                Sql.NAME_COLUMN_VALUE + ", " +
+                Sql.NAME_COLUMN_DATETIME + ", " +
+                Sql.NAME_COLUMN_DEBTOR + ", " +
+                Sql.NAME_COLUMN_CREDITOR + ", " +
+                Sql.NAME_COLUMN_SUM + ", " +
+                Sql.NAME_COLUMN_CATEGORY + ", " +
+                Sql.NAME_COLUMN_DETAILS + ")" +
+                " VALUES (" +
+                payment.getValue() + ", " +
+                "'" + dateFormatter.format(payment.getDateTime()) + "'," +
+                payment.getDebtorId() + ", " +
+                payment.getCreditorId() + ", " +
+                payment.getMoneySum() + ", " +
+                payment.getCategoryId() + ", " +
+                "'" + payment.getDetails() + "')";
 
-            GregorianCalendar now = new GregorianCalendar();
-            Date date = now.getTime();
-            DateFormat dfDate = DateFormat.getDateInstance(DateFormat.MEDIUM);
-            DateFormat dfTime = DateFormat.getTimeInstance(DateFormat.SHORT);
 
-
-
-            String strSQL = "UPDATE " + Sql.NAME_TABLE_PAYMENTS +
-                    " SET " +
-                    Sql.NAME_COLUMN_STATE + " = " + 1 + ", " +
-                    Sql.NAME_COLUMN_REPAYMENT_DATE + " = '" + dfDate.format(date) + "' ," +
-                    Sql.NAME_COLUMN_REPAYMENT_TIME + " = '" + dfTime.format(date) + "'" +
-                    " WHERE " + Sql.NAME_COLUMN_ID + " = " + paymentId;
-
-            Database.execSQL(strSQL);
-        }
+        insertData(sql);
 
         close();
     }
+
 
 
     /**
@@ -197,85 +221,18 @@ public class Database extends SQLiteOpenHelper {
      * @param debtorId
      * @return
      */
-    public ArrayList<Payment> getOpenPayments(long creditorId, long debtorId){
+    public double getPaymentSum(long creditorId, long debtorId){
 
-        ArrayList<Payment> payments = null;
-
-        open();
-
-        try {
-
-            Cursor cursor = Database.query(Sql.NAME_TABLE_PAYMENTS, null,
-                            Sql.NAME_COLUMN_STATE + " = 0 AND " +
-                            Sql.NAME_COLUMN_CREDITOR + "=" + creditorId + " AND " +
-                            Sql.NAME_COLUMN_DEBTOR + "=" + debtorId,
-
-                    null, null, null,null);
-
-
-            if (cursor != null) {
-
-                payments = new ArrayList<>();
-
-                if (cursor.moveToFirst()) {
-
-                    do {
-
-                        Payment trans = new Payment();
-
-                        trans.setID(cursor.getLong(cursor.getColumnIndex(Sql.NAME_COLUMN_ID)));
-                        trans.setState(cursor.getInt(cursor.getColumnIndex(Sql.NAME_COLUMN_STATE)));
-                        trans.setCategory(cursor.getLong(cursor.getColumnIndex(Sql.NAME_COLUMN_CATEGORY)));
-                        trans.setValue(cursor.getFloat(cursor.getColumnIndex(Sql.NAME_COLUMN_VALUE)));
-                        trans.setDate(cursor.getString(cursor.getColumnIndex(Sql.NAME_COLUMN_PAYMENT_DATE)));
-                        trans.setDebtorId(cursor.getLong(cursor.getColumnIndex(Sql.NAME_COLUMN_DEBTOR)));
-                        trans.setCreditorId(cursor.getLong(cursor.getColumnIndex(Sql.NAME_COLUMN_CREDITOR)));
-
-
-                        payments.add(trans);
-                        Log.d("Trans" , trans.toString());
-
-                    } while (cursor.moveToNext());
-                }
-            }
-
-            cursor.close();
-
-        } catch (Exception ex) {
-
-
-            return null;
-
-        }finally {
-
-            close();
-        }
-
-        return payments;
-
-    }
-
-
-    /**
-     *
-     * @param creditorId
-     * @param debtorId
-     * @return
-     */
-    public double getOpenPaymentSum(long creditorId, long debtorId){
-
-        double value = 0d;
+        double sum = 0d;
 
         open();
 
         try {
 
-            Cursor cursor = Database.query(Sql.NAME_TABLE_PAYMENTS,
-                    new String[]{Sql.NAME_COLUMN_VALUE},
-                    Sql.NAME_COLUMN_STATE + " = 0 AND " +
+            Cursor cursor = Database.query(Sql.NAME_TABLE_PAYMENTS, new String[]{Sql.NAME_COLUMN_VALUE},
                     Sql.NAME_COLUMN_CREDITOR + "=" + creditorId + " AND " +
-                    Sql.NAME_COLUMN_DEBTOR + "=" + debtorId,
-                    null, null, null,null);
+                            Sql.NAME_COLUMN_DEBTOR + "=" + debtorId, null, null, null,null);
+
 
             if (cursor != null) {
 
@@ -283,7 +240,7 @@ public class Database extends SQLiteOpenHelper {
 
                     do {
 
-                        value += cursor.getFloat(cursor.getColumnIndex(Sql.NAME_COLUMN_VALUE));
+                        sum += cursor.getDouble(cursor.getColumnIndex(Sql.NAME_COLUMN_VALUE));
 
                     } while (cursor.moveToNext());
                 }
@@ -294,16 +251,65 @@ public class Database extends SQLiteOpenHelper {
         } catch (Exception ex) {
 
 
-            return -1d;
+            return 0;
 
         }finally {
 
             close();
         }
 
-        return value;
+        return sum;
 
     }
+
+
+    /**
+     *
+     * @param creditorId
+     * @param debtorId
+     * @return
+     */
+    public double getRepaymentSum(long creditorId, long debtorId){
+
+        double sum = 0d;
+
+        open();
+
+        try {
+
+              Cursor cursor = Database.query(Sql.NAME_TABLE_REPAYMENTS, new String[]{Sql.NAME_COLUMN_VALUE},
+                            Sql.NAME_COLUMN_CREDITOR + "=" + creditorId + " AND " +
+                            Sql.NAME_COLUMN_DEBTOR + "=" + debtorId, null, null, null,null);
+
+
+            if (cursor != null) {
+
+                if (cursor.moveToFirst()) {
+
+                    do {
+
+                        sum += cursor.getDouble(cursor.getColumnIndex(Sql.NAME_COLUMN_VALUE));
+
+                    } while (cursor.moveToNext());
+                }
+            }
+
+            cursor.close();
+
+        } catch (Exception ex) {
+
+
+            return -1;
+
+        }finally {
+
+            close();
+        }
+
+        return sum;
+
+    }
+
 
 
     /**
@@ -351,18 +357,17 @@ public class Database extends SQLiteOpenHelper {
 
                         Payment payment = new Payment();
 
+                        SimpleDateFormat sdfToDate = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+                        Date dateTime = sdfToDate.parse(cursor.getString((cursor.getColumnIndex(Sql.NAME_COLUMN_DATETIME))));
+
                         payment.setID(cursor.getLong(cursor.getColumnIndex(Sql.NAME_COLUMN_ID)));
-                        payment.setState(cursor.getInt((cursor.getColumnIndex(Sql.NAME_COLUMN_STATE))));
-                        payment.setDate(cursor.getString((cursor.getColumnIndex(Sql.NAME_COLUMN_PAYMENT_DATE))));
-                        payment.setTime(cursor.getString((cursor.getColumnIndex(Sql.NAME_COLUMN_PAYMENT_TIME))));
+                        payment.setDateTime(dateTime);
                         payment.setValue(cursor.getFloat((cursor.getColumnIndex(Sql.NAME_COLUMN_VALUE))));
                         payment.setCreditorId(cursor.getLong((cursor.getColumnIndex(Sql.NAME_COLUMN_CREDITOR))));
                         payment.setDebtorId(cursor.getLong((cursor.getColumnIndex(Sql.NAME_COLUMN_DEBTOR))));
-                        payment.setCategory(cursor.getLong((cursor.getColumnIndex(Sql.NAME_COLUMN_CATEGORY))));
+                        payment.setCategoryId(cursor.getLong((cursor.getColumnIndex(Sql.NAME_COLUMN_CATEGORY))));
                         payment.setDetails(cursor.getString((cursor.getColumnIndex(Sql.NAME_COLUMN_DETAILS))));
-                        payment.setMoneysum(cursor.getFloat(cursor.getColumnIndex(Sql.NAME_COLUMN_SUM)));
-                        payment.setRepayment_date(cursor.getString(cursor.getColumnIndex(Sql.NAME_COLUMN_REPAYMENT_DATE)));
-                        payment.setRepayment_time(cursor.getString(cursor.getColumnIndex(Sql.NAME_COLUMN_REPAYMENT_TIME)));
+                        payment.setMoneySum(cursor.getFloat(cursor.getColumnIndex(Sql.NAME_COLUMN_SUM)));
 
                         list.add(payment);
 
@@ -386,6 +391,7 @@ public class Database extends SQLiteOpenHelper {
         return list;
 
     }
+
 
 
     /**
@@ -418,8 +424,6 @@ public class Database extends SQLiteOpenHelper {
 
                             list.add(person);
 
-                            Log.d("PERSON", person.toString());
-
                         } while (cursor.moveToNext());
                     }
                 }
@@ -440,6 +444,7 @@ public class Database extends SQLiteOpenHelper {
         return list;
 
     }
+
 
 
     /**
@@ -481,11 +486,11 @@ public class Database extends SQLiteOpenHelper {
 
                 close();
             }
-
         }
 
         return category;
     }
+
 
 
     /**
@@ -533,108 +538,6 @@ public class Database extends SQLiteOpenHelper {
         return person;
     }
 
-
-    /**
-     *
-     * @param debtorId
-     * @return
-     */
-    public boolean hasOpenPayments(long debtorId){
-
-        boolean hasDebts = false;
-
-        open();
-
-        if(Database.isOpen()) {
-
-            try {
-
-                Cursor c = Database.rawQuery("SELECT Sum(" + Sql.NAME_COLUMN_ID  + ") AS total FROM " + Sql.NAME_TABLE_PAYMENTS + " WHERE " + Sql.NAME_COLUMN_DEBTOR
-                        + " = " + debtorId + " AND " + Sql.NAME_COLUMN_STATE + " = 0" , null);
-
-                if (c != null) {
-
-                    if (c.moveToFirst()) {
-                        do {
-
-                            long count = c.getLong(c.getColumnIndex("total"));
-
-                            if(count > 0){
-
-                                hasDebts = true;
-                            }
-
-                        } while (c.moveToNext());
-                    }
-                }
-
-                c.close();
-
-            } catch (Exception ex) {
-
-                return false;
-
-            }finally {
-
-                close();
-            }
-        }
-
-        return hasDebts;
-
-    }
-
-
-    /**
-     *
-     * @param debtorId
-     * @param creditorId
-     * @return
-     */
-    public boolean hasOpenPaymentsToCreditor(long debtorId, long creditorId){
-
-        boolean hasDebts = false;
-
-        open();
-
-        if(Database.isOpen()) {
-
-            try {
-
-                Cursor c = Database.rawQuery("SELECT Sum(" + Sql.NAME_COLUMN_ID  + ") AS total FROM " + Sql.NAME_TABLE_PAYMENTS + " WHERE " + Sql.NAME_COLUMN_DEBTOR
-                        + " = " + debtorId + " AND " + Sql.NAME_COLUMN_CREDITOR + " = " + creditorId + " AND " + Sql.NAME_COLUMN_STATE + " = 0", null);
-
-                if (c != null) {
-
-                    if (c.moveToFirst()) {
-                        do {
-
-                             long count = c.getLong(c.getColumnIndex("total"));
-
-                              if(count > 0){
-
-                                  hasDebts = true;
-                              }
-
-                        } while (c.moveToNext());
-                    }
-                }
-
-                c.close();
-
-            } catch (Exception ex) {
-
-                return false;
-
-            }finally {
-
-                close();
-            }
-        }
-
-        return hasDebts;
-
-    }
 
 
     /**

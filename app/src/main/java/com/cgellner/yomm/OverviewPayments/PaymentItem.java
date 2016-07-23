@@ -16,9 +16,6 @@ public class PaymentItem {
         private String details;
         private String date;
         private String time;
-        private String state;
-        private String repaymentDate;
-        private String repaymentTime;
         private String mainMoneyValue;
 
     //endregion
@@ -26,27 +23,12 @@ public class PaymentItem {
 
     //region Getter & Setter
 
-        public String getRepaymentDate() {
-            return repaymentDate;
-        }
 
-        public void setRepaymentDate(String repaymentDate) {
-            this.repaymentDate = repaymentDate;
-        }
-
-        public String getRepaymentTime() {
-            return repaymentTime;
-        }
-
-        public void setRepaymentTime(String repaymentTime) {
-            this.repaymentTime = repaymentTime;
-        }
-
-        public String getMainMoneyValue() {
+    public String getMainMoneyValue() {
         return mainMoneyValue;
     }
 
-        public void setMainMoneyValue(String mainMoneyValue) {
+    public void setMainMoneyValue(String mainMoneyValue) {
         this.mainMoneyValue = mainMoneyValue;
     }
 
@@ -114,13 +96,6 @@ public class PaymentItem {
         this.time = time;
     }
 
-        public String getState() {
-        return state;
-    }
-
-        public void setState(String state) {
-        this.state = state;
-    }
 
     //endregion
 
@@ -153,9 +128,6 @@ public class PaymentItem {
                 ", details='" + details + '\'' +
                 ", date='" + date + '\'' +
                 ", time='" + time + '\'' +
-                ", state='" + state + '\'' +
-                ", repaymentDate='" + repaymentDate + '\'' +
-                ", repaymentTime='" + repaymentTime + '\'' +
                 ", mainMoneyValue='" + mainMoneyValue + '\'' +
                 '}';
     }

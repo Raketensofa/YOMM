@@ -9,12 +9,12 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.cgellner.yomm.GlobalVar;
+import com.cgellner.yomm.Objects.Pay;
 import com.cgellner.yomm.Objects.Payment;
 import com.cgellner.yomm.R;
 
@@ -200,18 +200,21 @@ public class Activitiy_ViewPager extends AppCompatActivity {
      */
     private void saveRepayment() {
 
-        Set transIds = vpElements.getSharedPreferences().getStringSet(GlobalVar.SpRepaymentPaymentIds, null);
+        long creditorId = vpElements.getSharedPreferences().getLong(GlobalVar.SpRepaymentCreditor, 0);
+        long debtorId = vpElements.getSharedPreferences().getLong(GlobalVar.SpRepaymentDebtor, 0);
+        float value = vpElements.getSharedPreferences().getFloat(GlobalVar.SpRepaymentMoneySum, 0);
 
-        if (transIds != null) {
 
-            for (Payment trans : vpElements.getOpenPaymentList()) {
+        Pay repayment = new Pay();
+        repayment.setCreditorId(creditorId);
+        repayment.setDebtorId(debtorId);
+        repayment.setValue(value);
+        repayment.setDetails("");
+        repayment.setDateTime(new Date());
 
-                if (transIds.contains(String.valueOf(trans.getID()))) {
 
-                    GlobalVar.Database.updatePayment(trans.getID());
-                }
-            }
-        }
+        GlobalVar.Database.insertRepayment(repayment);
+
     }
 
 
@@ -221,16 +224,8 @@ public class Activitiy_ViewPager extends AppCompatActivity {
     private ArrayList<Payment> preparePaymentDatasets() {
 
 
-        //Typ: 0 = offen (noch nicht beglichen)
-        // 1: Zahlung beglichen
-        int state = 0;
-
         //aktuelles Datum und Uhrzeit ermitteln
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
-        SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
         Date currentTimestamp = new Date();
-        String date = dateFormatter.format(currentTimestamp);
-        String time = timeFormatter.format(currentTimestamp);
 
 
         //SharedPreferences auslesen...
@@ -266,7 +261,7 @@ public class Activitiy_ViewPager extends AppCompatActivity {
 
 
         //Zahlungsdatensatz pro betreffende Person (Debtors) erzeugen
-        ArrayList<Payment> payments = createPaymentDatasets(state, date, time, value, creditor, debtors, category, details);
+        ArrayList<Payment> payments = createPaymentDatasets(currentTimestamp, value, creditor, debtors, category, details);
 
 
         return payments;
@@ -276,9 +271,7 @@ public class Activitiy_ViewPager extends AppCompatActivity {
 
     /**
      *
-     * @param type
-     * @param date
-     * @param time
+     * @param datetime
      * @param value
      * @param creditor
      * @param debtors
@@ -286,7 +279,7 @@ public class Activitiy_ViewPager extends AppCompatActivity {
      * @param details
      * @return
      */
-    private ArrayList<Payment> createPaymentDatasets(int type, String date, String time, float value, long creditor, String debtors, long category, String details) {
+    private ArrayList<Payment> createPaymentDatasets(Date datetime, float value, long creditor, String debtors, long category, String details) {
 
         ArrayList<Payment> payments = new ArrayList<>();
 
@@ -304,15 +297,13 @@ public class Activitiy_ViewPager extends AppCompatActivity {
             if (new Long(debtor) != creditor) {
 
                 Payment payment = new Payment();
-                payment.setState(type);
-                payment.setDate(date);
-                payment.setTime(time);
+                payment.setDateTime(datetime);
                 payment.setCreditorId(creditor);
                 payment.setDebtorId(new Long(debtor));
-                payment.setCategory(category);
+                payment.setCategoryId(category);
                 payment.setDetails(details);
                 payment.setValue(money);
-                payment.setMoneysum(new Float(sumStr));
+                payment.setMoneySum(new Float(sumStr));
 
                 payments.add(payment);
             }
@@ -377,7 +368,7 @@ public class Activitiy_ViewPager extends AppCompatActivity {
         editor.putFloat(GlobalVar.SpRepaymentMoneySum, 0);
         editor.putLong(GlobalVar.SpRepaymentCreditor, 0);
         editor.putLong(GlobalVar.SpRepaymentDebtor, 0);
-        editor.putStringSet(GlobalVar.SpRepaymentPaymentIds, new HashSet<String>());
+        editor.putString(GlobalVar.SpRepaymentDetails, "");
 
 
         editor.commit();

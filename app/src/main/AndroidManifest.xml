@@ -13,7 +13,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <categoryId android:name="android.intent.categoryId.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".Settings.Activity_Settings" />
@@ -31,7 +31,7 @@
         <activity android:name=".ViewPager.Activitiy_ViewPager">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <categoryId android:name="android.intent.categoryId.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>

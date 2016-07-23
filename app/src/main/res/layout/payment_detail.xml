@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Betrag"
+        android:textSize="12sp"
+        android:layout_alignParentTop="true"
+        android:id="@+id/payment_detail_value_header"
+        android:layout_margin="5dp"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="22.50 Euro"
+        android:textSize="20dp"
+        android:id="@+id/payment_detail_value"
+        android:paddingLeft="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Kategorie"
+        android:textSize="12sp"
+        android:background="@drawable/shape_border"
+        android:layout_alignParentTop="true"
+        android:id="@+id/payment_detail_category_header"
+        android:layout_margin="5dp"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lebensmittel"
+        android:textSize="20dp"
+        android:layout_below="@+id/payment_detail_value"
+        android:id="@+id/payment_details_category"
+        android:paddingLeft="10dp"
+        android:layout_marginLeft="5dp"
+        android:textColor="@android:color/black" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Details"
+        android:textSize="12sp"
+        android:layout_alignParentTop="true"
+        android:id="@+id/payment_detail_details_header"
+        android:layout_margin="5dp"
+        android:paddingTop="10dp"
+        android:background="@drawable/shape_border"
+        android:paddingLeft="10dp" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Netto"
+        android:textSize="20dp"
+        android:layout_below="@id/payment_details_category"
+        android:id="@+id/payment_detail_details"
+        android:paddingLeft="10dp"
+        android:layout_marginLeft="5dp"
+        android:textColor="@android:color/black" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Datum"
+        android:textSize="12sp"
+        android:background="@drawable/shape_border"
+        android:id="@+id/payment_detail_date_header"
+        android:layout_margin="5dp"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="01.01.2016"
+        android:textSize="20dp"
+        android:layout_below="@id/payment_detail_date_header"
+        android:id="@+id/payment_detail_date"
+        android:paddingLeft="10dp"
+        android:layout_marginLeft="5dp"
+        android:textColor="@android:color/black" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Uhrzeit"
+        android:textSize="12sp"
+        android:background="@drawable/shape_border"
+        android:layout_alignParentTop="true"
+        android:id="@+id/payment_detail_time_header"
+        android:layout_margin="5dp"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="23:23:00"
+        android:textSize="20dp"
+        android:layout_below="@id/payment_detail_date"
+        android:id="@+id/payment_detail_time"
+        android:paddingLeft="10dp"
+        android:layout_marginLeft="5dp"
+        android:textColor="@android:color/black" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Betrifft folgende Person"
+        android:textSize="12sp"
+        android:background="@drawable/shape_border"
+        android:layout_below="@id/payment_detail_time"
+        android:id="@+id/payment_detail_debtor_header"
+        android:layout_margin="5dp"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Carolin"
+        android:textSize="20dp"
+        android:layout_below="@id/payment_detail_details"
+        android:id="@+id/payment_detail_debtor"
+        android:paddingLeft="10dp"
+        android:layout_marginLeft="5dp"
+        android:textColor="@android:color/black" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bezahlt von"
+        android:textSize="12sp"
+        android:layout_below="@id/payment_detail_time"
+        android:id="@+id/payment_detail_creditor_header"
+        android:layout_margin="5dp"
+        android:background="@drawable/shape_border"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dimitri"
+        android:textSize="20dp"
+        android:layout_below="@id/payment_detail_debtor"
+        android:id="@+id/payment_detail_creditor"
+        android:paddingLeft="10dp"
+        android:layout_marginLeft="5dp"
+        android:textColor="@android:color/black" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gesamtbetrag der ehemaligen Ausgabe"
+        android:textSize="12sp"
+        android:layout_below="@id/payment_detail_time"
+        android:id="@+id/payment_detail_sum_header"
+        android:layout_margin="5dp"
+        android:background="@drawable/shape_border"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="50.00 Euro"
+        android:textSize="20dp"
+        android:layout_below="@id/payment_detail_time"
+        android:id="@+id/payment_detail_sum"
+        android:paddingLeft="10dp"
+        android:layout_marginLeft="5dp"
+        android:textColor="@android:color/black" />
+
+
+
+</LinearLayout>

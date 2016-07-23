@@ -15,6 +15,8 @@ import com.cgellner.yomm.R;
 
 import java.util.ArrayList;
 
+import javax.microedition.khronos.opengles.GL;
+
 
 public class Fragment_OverviewCardViewList extends Fragment {
 
@@ -83,7 +85,7 @@ public class Fragment_OverviewCardViewList extends Fragment {
 
                     if(person.getID() != second_person.getID()) {
 
-                        Double money = getCalculatedMoneyValue(person.getID(), second_person.getID());
+                        Double money = GlobalVar.getPaymentDifference(second_person.getID(), person.getID());
 
                         valueList.add(new String[]{String.valueOf(second_person.getID()), second_person.getName(), String.format( "%.2f", money )});
 
@@ -98,26 +100,7 @@ public class Fragment_OverviewCardViewList extends Fragment {
         return data;
     }
 
-    /**
-     *
-     * @param personId
-     * @param secondPersonId
-     * @return
-     */
-    private Double getCalculatedMoneyValue(long personId, long secondPersonId){
 
-        double money = -1d;
-
-        double valuePersonOne = GlobalVar.Database.getOpenPaymentSum(personId, secondPersonId);
-        double valuePersoTwo = GlobalVar.Database.getOpenPaymentSum(secondPersonId, personId);
-
-        if(valuePersonOne != -1 && valuePersoTwo != -1){
-
-            money = valuePersonOne - valuePersoTwo;
-        }
-
-        return money;
-    }
 
 
 

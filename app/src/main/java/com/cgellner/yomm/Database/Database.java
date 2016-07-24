@@ -110,7 +110,6 @@ public class Database extends SQLiteOpenHelper {
     }
 
 
-
     /**
      * Die Methode schliesst die SQLite-Datenbank.
      */
@@ -122,7 +121,6 @@ public class Database extends SQLiteOpenHelper {
             Log.v(TAG, "Datenbank wurde geschlossen.");
         }
     }
-
 
 
     /**
@@ -138,7 +136,6 @@ public class Database extends SQLiteOpenHelper {
     }
 
 
-
     /**
      * Die Methode speichert die uebergebene Kategorie in der Datenbank.
      * @param category Kategorie
@@ -150,6 +147,7 @@ public class Database extends SQLiteOpenHelper {
         Log.v("Category", category.toString());
         close();
     }
+
 
     /**
      *
@@ -212,7 +210,6 @@ public class Database extends SQLiteOpenHelper {
 
         close();
     }
-
 
 
     /**
@@ -311,7 +308,6 @@ public class Database extends SQLiteOpenHelper {
     }
 
 
-
     /**
      *
      * @param mainpersonId
@@ -393,7 +389,6 @@ public class Database extends SQLiteOpenHelper {
     }
 
 
-
     /**
      *
      * @return
@@ -446,7 +441,6 @@ public class Database extends SQLiteOpenHelper {
     }
 
 
-
     /**
      *
      * @param categoryId
@@ -490,7 +484,6 @@ public class Database extends SQLiteOpenHelper {
 
         return category;
     }
-
 
 
     /**
@@ -537,7 +530,6 @@ public class Database extends SQLiteOpenHelper {
 
         return person;
     }
-
 
 
     /**
@@ -602,6 +594,8 @@ public class Database extends SQLiteOpenHelper {
      */
     private void insertData(String sql){
 
+        open();
+
         if(sql != null){
 
             try{
@@ -628,6 +622,90 @@ public class Database extends SQLiteOpenHelper {
                 close();
             }
         }
+    }
+
+
+    /**
+     *
+     * @param categoryId
+     * @param newCategoryName
+     */
+    public void updateCategoryName(long categoryId, String newCategoryName){
+
+        String sql = "UPDATE " + Sql.NAME_TABLE_CATEGORIES + " SET " + Sql.NAME_COLUMN_NAME + " = '" + newCategoryName + "'" +
+                " WHERE " + Sql.NAME_COLUMN_ID + " = " + categoryId;
+
+        insertData(sql);
+
+
+    }
+
+
+    /**
+     *
+     * @param personId
+     * @param newPersonName
+     */
+    public void updatePersonName(long personId, String newPersonName){
+
+        String sql = "UPDATE " + Sql.NAME_TABLE_PERSONS + " SET " + Sql.NAME_COLUMN_NAME + " = '" + newPersonName + "'" +
+                " WHERE " + Sql.NAME_COLUMN_ID + " = " + personId;
+
+        Log.d("Update", sql.toString());
+
+        insertData(sql);
+
+    }
+
+
+    /**
+     *
+     * @param personId
+     */
+    public void deletePerson(long personId){
+
+        String sql = "DELETE FROM " +  Sql.NAME_TABLE_PERSONS + " WHERE " + Sql.NAME_COLUMN_ID + " = " + personId;
+
+        insertData(sql);
+
+    }
+
+
+    /**
+     *
+     * @param categoryId
+     */
+    public void deleteCateogry(long categoryId){
+
+        String sql = "DELETE FROM " +  Sql.NAME_TABLE_CATEGORIES + " WHERE " + Sql.NAME_COLUMN_ID + " = " + categoryId;
+
+        insertData(sql);
+
+    }
+
+
+    /**
+     *
+     * @param personId
+     */
+    public void deletePayments(long personId){
+
+        String sql = "DELETE FROM " + Sql.NAME_TABLE_PAYMENTS +
+                " WHERE " + Sql.NAME_COLUMN_CREDITOR + "=" + personId +  " OR " + Sql.NAME_COLUMN_DEBTOR + "=" + personId;
+
+        insertData(sql);
+    }
+
+    /**
+     *
+     * @param personId
+     */
+    public void deleteRepayment(long personId){
+
+        String sql = "DELETE FROM " + Sql.NAME_TABLE_REPAYMENTS +
+                " WHERE " + Sql.NAME_COLUMN_CREDITOR + "=" + personId +  " OR " + Sql.NAME_COLUMN_DEBTOR + "=" + personId;
+
+        insertData(sql);
     }
 
     //endregion

@@ -13,14 +13,14 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:text="@string/QuestionTransPersons"
+        android:textSize="20dp"
+        android:text="@string/QuestionPaymentDebtors"
         android:textStyle="bold"
         android:inputType="textMultiLine"
-        android:paddingTop="50dp"
+        android:paddingTop="40dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:paddingBottom="50dp"
+        android:paddingBottom="30dp"
         android:textAlignment="center"
         android:textColor="@android:color/secondary_text_light"
         android:layout_row="0"
@@ -31,11 +31,14 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:id="@+id/layout_viewpager_newTrans_second_recyclerview_debtors"
-        android:paddingTop="10dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"
-        android:paddingLeft="30dp">
+        android:paddingTop="20dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="10dp"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:paddingBottom="10dp"
+        android:layout_marginTop="20dp">
 
     </android.support.v7.widget.RecyclerView>
 

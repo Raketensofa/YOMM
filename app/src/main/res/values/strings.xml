@@ -4,29 +4,30 @@
     <string name="save">Speichern</string>
     <string name="saved">Gespeichert!</string>
 
-
-    <string name="QuestionTransValue">BETRAG</string>
-    <string name="QuestionTransPersons">WEN BETRIFFT DIE AUSGABE?</string>
-    <string name="QuestionTransPayPersons">WER HAT BEZAHLT?</string>
-    <string name="QuestionTransCategory">KATEGORIE</string>
-    <string name="QuestionTransDetails">DETAILS</string>
+    <string name="edit">Bearbeiten</string>
+    <string name="delete">Löschen</string>
 
 
-    <string name="QuestionClearDebtPerson">WER MÖCHTE SEINE SCHULDEN BEGLEICHEN?</string>
-    <string name="QuestionClearDebtOtherPerson">WELCHE SCHULDEN?</string>
-    <string name="QuestionClearDebtTransaction">Wähle alle Beträge aus, die du begleichen möchtest !</string>
-    <string name="QuestionClearDebtSumHeaderText">Gesamtbetrag</string>
-    <string name="QuestionClearDebtSumInfoText">Bitte begleiche den Betrag und drücke auf "Speichern".</string>
+    <string name="QuestionPaymentValue">BETRAG</string>
+    <string name="QuestionPaymentDebtors">WELCHE PERSONEN BETRIFFT DIE AUSGABE?</string>
+    <string name="QuestionPaymentCreditor">WER HAT BEZAHLT?</string>
+    <string name="QuestionPaymentsCategory">KATEGORIE</string>
+    <string name="QuestionPaymentDetails">DETAILS</string>
 
 
-
-    <string name="AnswerTranTypeAdd">Ausgabe</string>
-    <string name="AnswerTranTypeSub">Einnahme</string>
-    <string name="AnswerTranTypeChange">Transfer</string>
+    <string name="QuestionRepaymentDebtor">WELCHE PERSPN MÖCHTE IHRE SCHULDEN BEGLEICHEN?</string>
+    <string name="QuestionRepaymentCreditor">DIE PERSON HAT ZU FOLGENDEN PERSONEN SCHULEN. WELCHE SOLL BEGLICHEN WERDEN?</string>
+    <string name="QuestionRepaymentSum">GESAMTBETRAG</string>
+    <string name="QuestionRepaymentInfoText">Bitte begleiche den Betrag und drücke auf "Speichern".</string>
 
 
     <string name="LabelAddNewPersonHeadline">Person anlegen</string>
     <string name="LabelAddNewMainCatHeadline">Kategorie anlegen</string>
+    <string name="LabelUpdatePersonHeadline">Person umbennen</string>
+    <string name="LabelUpdateNewMainCatHeadline">Kategorie umbennen</string>
+    <string name="LabelDeletePersonHeadline">Person löschen</string>
+    <string name="LabelDeleteNewMainCatHeadline">Kategorie löschen</string>
+
 
 
     <string name="LabelAddNewPersonName">Name</string>
@@ -35,17 +36,6 @@
 
     <string name="navigation_drawer_open">Menü öffnen</string>
     <string name="navigation_drawer_close">Menü schließen</string>
-
-    <string name="title_activity_main3">YOMM</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_payment_list">Transactions</string>
-    <string name="title_payment_detail">Transaction Detail</string>
-
-    <string name="title_activity_activity__add_new_data">Activity_AddNewData</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 
 </resources>

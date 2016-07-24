@@ -3,7 +3,11 @@ package com.cgellner.yomm.Settings;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -18,16 +22,18 @@ import java.util.ArrayList;
 
 public class Activity_Settings extends AppCompatActivity {
 
-    private final String TAG = Activity_Settings.class.getName();
 
+    //region Fields
 
     private  Object object;
     private  ArrayList<Person> listPersons;
     private  ArrayList<Category> listCategories;
 
-
     private  Button button;
     private  ListView listview;
+
+    //endregion
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +48,7 @@ public class Activity_Settings extends AppCompatActivity {
         setButton();
 
     }
+
 
     /**
      *
@@ -60,7 +67,6 @@ public class Activity_Settings extends AppCompatActivity {
 
             object = Category.class;
         }
-
     }
 
 
@@ -84,6 +90,7 @@ public class Activity_Settings extends AppCompatActivity {
         }
     }
 
+
     /**
      *
      */
@@ -103,8 +110,9 @@ public class Activity_Settings extends AppCompatActivity {
                     R.id.listview_settings_item,
                     list);
 
-
             listview.setAdapter(adapter);
+
+            registerForContextMenu(listview);
 
         }
     }
@@ -138,6 +146,29 @@ public class Activity_Settings extends AppCompatActivity {
 
     }
 
+
+    /**
+     *
+     * @param position
+     * @return
+     */
+    private long getId(int position) {
+
+        long id = 0;
+
+        if (listPersons != null && object == Person.class) {
+
+            id = listPersons.get(position).getID();
+
+        } else if (listCategories != null && object == Category.class) {
+
+            id = listCategories.get(position).getID();
+        }
+
+        return  id;
+    }
+
+
     /**
      *
      */
@@ -163,4 +194,71 @@ public class Activity_Settings extends AppCompatActivity {
             }
         });
     }
+
+
+    /**
+     *
+     * @param menu
+     * @param v
+     * @param menuInfo
+     */
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+
+        MenuInflater inflater = getMenuInflater();
+
+        String[] names = new String[getNames().size()];
+        for (int i = 0; i <getNames().size(); i++){
+            names[i] = getNames().get(i);
+        }
+
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+        menu.setHeaderTitle(names[info.position]);
+        inflater.inflate( R.menu.contextmenu, menu);
+
+    }
+
+
+    /**
+     *
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        int position = info.position;
+
+
+        switch (item.getItemId()) {
+
+            case R.id.contentmenu_item_edit:
+
+                DialogFrag_AddSetting dialogFragEdit = new DialogFrag_AddSetting();
+                dialogFragEdit.setActivity(Activity_Settings.this);
+                dialogFragEdit.setId(getId(position));
+                dialogFragEdit.show(getFragmentManager(), object.toString() + "+edit");
+
+                return true;
+
+            case R.id.contentmenu_item_delete:
+
+                DialogFrag_AddSetting dialogFragDelete = new DialogFrag_AddSetting();
+                dialogFragDelete.setActivity(Activity_Settings.this);
+                dialogFragDelete.setId(getId(position));
+                dialogFragDelete.setPersons(listPersons);
+                dialogFragDelete.show(getFragmentManager(), object.toString() + "+delete");
+
+                return true;
+
+            default:
+
+                return super.onContextItemSelected(item);
+        }
+    }
+
+
+
+
 }

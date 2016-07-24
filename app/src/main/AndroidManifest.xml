@@ -9,17 +9,22 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".Start.MainActivity"
-            android:label="YOMM"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <categoryId android:name="android.intent.categoryId.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
         <activity android:name=".Settings.Activity_Settings" />
+
+
         <activity
             android:name=".OverviewPayments.Activity_PaymentsList"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".OverviewPayments.Activity_PaymentDetail"
             android:parentActivityName=".OverviewPayments.Activity_PaymentsList"
@@ -28,12 +33,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".OverviewPayments.Activity_PaymentsList" />
         </activity>
-        <activity android:name=".ViewPager.Activitiy_ViewPager">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <categoryId android:name="android.intent.categoryId.LAUNCHER" />
-            </intent-filter>
-        </activity>
+
+        <activity
+            android:name=".ViewPager.Activitiy_ViewPager"
+            />
+
     </application>
 
 </manifest>

@@ -20,7 +20,6 @@ import com.cgellner.yomm.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +51,7 @@ public class Activity_PaymentsList extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_payments_list);
+        setContentView(R.layout.activity_pay_list);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -208,7 +207,7 @@ public class Activity_PaymentsList extends AppCompatActivity {
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.payment_list_content, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.pay_list_content, parent, false);
 
             return new ViewHolder(view);
         }

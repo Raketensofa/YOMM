@@ -28,7 +28,7 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <include layout="@layout/transaction_list" />
+        <include layout="@layout/pay_list" />
     </LinearLayout>
 
 

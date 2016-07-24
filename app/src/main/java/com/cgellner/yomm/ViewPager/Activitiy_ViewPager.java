@@ -18,7 +18,6 @@ import com.cgellner.yomm.Objects.Pay;
 import com.cgellner.yomm.Objects.Payment;
 import com.cgellner.yomm.R;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -83,6 +82,9 @@ public class Activitiy_ViewPager extends AppCompatActivity {
     }
 
 
+    /**
+     *
+     */
     private void initSharedPreferences() {
 
         //Zischenspeicher fuer eingegebene Daten
@@ -94,6 +96,9 @@ public class Activitiy_ViewPager extends AppCompatActivity {
     }
 
 
+    /**
+     *
+     */
     private void setButtons() {
 
         buttonCancel = (Button) findViewById(R.id.button_viewpager_cancel);
@@ -115,6 +120,9 @@ public class Activitiy_ViewPager extends AppCompatActivity {
     }
 
 
+    /**
+     *
+     */
     private void setViewPager() {
 
         viewPager = (ViewPager) findViewById(R.id.activity_viewpager);
@@ -288,7 +296,7 @@ public class Activitiy_ViewPager extends AppCompatActivity {
         String[] debtorIds = debtors.split(",");
 
         float valuePerPerson = value / debtorIds.length;
-        String valStr = GlobalVar.formatMoney(String.valueOf(valuePerPerson));
+        String valStr = GlobalVar.formatMoney(String.valueOf(valuePerPerson)).replace(",", ".");
         float money = new Float(valStr);
 
 

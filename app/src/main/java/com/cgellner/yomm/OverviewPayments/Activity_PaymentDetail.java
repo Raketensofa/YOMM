@@ -19,7 +19,7 @@ public class Activity_PaymentDetail extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_transaction_detail);
+        setContentView(R.layout.activity_pay_detail);
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);

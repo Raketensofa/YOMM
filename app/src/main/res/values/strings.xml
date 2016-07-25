@@ -15,8 +15,8 @@
     <string name="QuestionPaymentDetails">DETAILS</string>
 
 
-    <string name="QuestionRepaymentDebtor">WELCHE PERSPN MÖCHTE IHRE SCHULDEN BEGLEICHEN?</string>
-    <string name="QuestionRepaymentCreditor">DIE PERSON HAT ZU FOLGENDEN PERSONEN SCHULEN. WELCHE SOLL BEGLICHEN WERDEN?</string>
+    <string name="QuestionRepaymentDebtor">WELCHE PERSON MÖCHTE IHRE SCHULDEN BEGLEICHEN?</string>
+    <string name="QuestionRepaymentCreditor">DIE PERSON HAT ZU FOLGENDEN PERSONEN SCHULDEN. WELCHE SOLL BEGLICHEN WERDEN?</string>
     <string name="QuestionRepaymentSum">GESAMTBETRAG</string>
     <string name="QuestionRepaymentInfoText">Bitte begleiche den Betrag und drücke auf "Speichern".</string>
 

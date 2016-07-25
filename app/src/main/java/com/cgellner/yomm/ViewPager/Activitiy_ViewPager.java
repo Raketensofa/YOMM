@@ -12,11 +12,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.cgellner.yomm.GlobalVar;
 import com.cgellner.yomm.Objects.Pay;
 import com.cgellner.yomm.Objects.Payment;
 import com.cgellner.yomm.R;
+import com.cgellner.yomm.Start.MainActivity;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -200,6 +202,7 @@ public class Activitiy_ViewPager extends AppCompatActivity {
         ArrayList<Payment> payments = preparePaymentDatasets();
 
         addPaymentsToDb(payments);
+
     }
 
 
@@ -222,6 +225,8 @@ public class Activitiy_ViewPager extends AppCompatActivity {
 
 
         GlobalVar.Database.insertRepayment(repayment);
+
+        Toast.makeText(this, "Gespeichert", Toast.LENGTH_LONG).show();
 
     }
 

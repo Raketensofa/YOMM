@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.cgellner.yomm.GlobalVar;
 import com.cgellner.yomm.Objects.Category;
 import com.cgellner.yomm.Objects.Person;
-import com.cgellner.yomm.Objects.Payment;
 import com.cgellner.yomm.R;
 
 import java.util.ArrayList;
@@ -69,7 +68,6 @@ public class ViewpagerElements {
 
     private ArrayList<Person> personsList;
     private ArrayList<Category> categoriesList;
-    private ArrayList<Payment> openPaymentsList;
 
 
     //endregion
@@ -77,14 +75,6 @@ public class ViewpagerElements {
 
     //region Getter & Setter
 
-    /**
-     * Getter fuer die Liste mit allen offenen Zahlungen
-     *
-     * @return Liste mit allen offenen Zahlungen zu den betreffenden Personen
-     */
-    public ArrayList<Payment> getOpenPaymentList() {
-        return openPaymentsList;
-    }
 
     /**
      * Getter fuer den Zwischenspeichern (Shared Preferences)
@@ -190,7 +180,7 @@ public class ViewpagerElements {
 
         long debtor = sharedPreferences.getLong(GlobalVar.SpRepaymentDebtor, 0);
 
-        repaymentFirstPageRG = (RadioGroup) view.findViewById(R.id.layout_viewpager_cleardebts_first_radioButtonGroup);
+        repaymentFirstPageRG = (RadioGroup) view.findViewById(R.id.layout_viewpager_repayments_first_radioButtonGroup);
 
         repaymentFirstPageRG.removeAllViews();
 
@@ -247,7 +237,7 @@ public class ViewpagerElements {
         long debtor = sharedPreferences.getLong(GlobalVar.SpRepaymentDebtor, 0);
         long creditor = sharedPreferences.getLong(GlobalVar.SpRepaymentCreditor, 0);
 
-        repaymentSecondPageRG = (RadioGroup) view.findViewById(R.id.layout_viewpager_cleardebts_second_radioButtonGroup);
+        repaymentSecondPageRG = (RadioGroup) view.findViewById(R.id.layout_viewpager_repayment_second_radioButtonGroup);
         repaymentSecondPageRG.removeAllViews();
 
         if (debtor != 0) {
@@ -395,7 +385,7 @@ public class ViewpagerElements {
      */
     private void setTvAtFirstPageOfPay(View view) {
 
-        paymentFirstPageET = (EditText) view.findViewById(R.id.layout_viewpager_newTrans_first_editText);
+        paymentFirstPageET = (EditText) view.findViewById(R.id.layout_viewpager_payment_first_editText);
 
         Float val = sharedPreferences.getFloat(GlobalVar.SpPaymentMoneyValue, 0);
 
@@ -404,6 +394,9 @@ public class ViewpagerElements {
             paymentFirstPageET.setText(String.valueOf(val));
         }
 
+
+
+        //TextChangesListener
         paymentFirstPageET.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -427,13 +420,14 @@ public class ViewpagerElements {
 
             }
 
+
+            //diese beiden Methoden muessen implementiert sein, ansonsten wird von der Entwicklungsumgebung eine Fehlermeldung
+            //angezeigt - sie werden aber eigentlich nicht benoetigt
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
         });
 
     }
@@ -444,7 +438,7 @@ public class ViewpagerElements {
     private void setRvAtSecondPageOfPay(View view) {
 
 
-        paymentSecondPageRV = (RecyclerView) view.findViewById(R.id.layout_viewpager_newTrans_second_recyclerview_debtors);
+        paymentSecondPageRV = (RecyclerView) view.findViewById(R.id.layout_viewpager_payment_second_recyclerview_debtors);
         paymentSecondPageRV.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(view.getContext());
         paymentSecondPageRV.setLayoutManager(llm);
@@ -463,7 +457,7 @@ public class ViewpagerElements {
      */
     private void setRbgAtThirdPageOfPay(View view) {
 
-        paymentThirdPageRG = (RadioGroup) view.findViewById(R.id.layout_viewpager_newTrans_third_radioGroupCreditor);
+        paymentThirdPageRG = (RadioGroup) view.findViewById(R.id.layout_viewpager_payment_third_radioGroupCreditor);
         paymentThirdPageRG.removeAllViews();
 
         long creditor = sharedPreferences.getLong(GlobalVar.SpPaymentCreditor, 0);
@@ -518,7 +512,7 @@ public class ViewpagerElements {
      */
     private void setRgbAtFourthPageOfPay(View view) {
 
-        paymentFourthPageRG = (RadioGroup) view.findViewById(R.id.layout_viewpager_newTrans_fourth_radioGroup_Category);
+        paymentFourthPageRG = (RadioGroup) view.findViewById(R.id.layout_viewpager_payment_fourth_radioGroup_Category);
         paymentFourthPageRG.removeAllViews();
 
         long cat = sharedPreferences.getLong(GlobalVar.SpPaymentCategory, 0);
@@ -573,7 +567,7 @@ public class ViewpagerElements {
      */
     private void setEtAtFifthPageOfPay(View view) {
 
-        paymentFifthPageET = (EditText) view.findViewById(R.id.layout_viewpager_newtrans_fifth_edittext_details);
+        paymentFifthPageET = (EditText) view.findViewById(R.id.layout_viewpager_payment_fifth_edittext_details);
 
         String detail = sharedPreferences.getString(GlobalVar.SpPaymentDetails, null);
 

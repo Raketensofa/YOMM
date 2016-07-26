@@ -54,16 +54,12 @@ public class MainActivity extends AppCompatActivity
 
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main3);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("YOMM");
-        setSupportActionBar(toolbar);
-
-
         //Globale Variablen initialisieren
         //d.h. Groesse des Displays ermitteln und die Datenbank initialisieren
         initGlobalVariables();
+
+
+        setContentView(R.layout.activity_main3);
 
 
         //SharedPreferences initialisieren
@@ -76,6 +72,10 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.add(R.id.fragment_container, fragmentStart);
         fragmentTransaction.commit();
 
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("YOMM");
+        setSupportActionBar(toolbar);
 
 
         //Navigation (Menue)

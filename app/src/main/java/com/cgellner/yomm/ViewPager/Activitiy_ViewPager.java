@@ -319,7 +319,7 @@ public class Activitiy_ViewPager extends AppCompatActivity {
         long creditor = vpElements.getSharedPreferences().getLong(GlobalVar.SpPaymentCreditor, 0);
         long category = vpElements.getSharedPreferences().getLong(GlobalVar.SpPaymentCategory, 0);
         Set<String> persons = vpElements.getSharedPreferences().getStringSet(GlobalVar.SpPaymentDebtors, null);
-        String[] debtors = (String[])persons.toArray();
+        ArrayList<String> debtors = new ArrayList<>(persons);
 
 
         //Zahlungsdatensatze erzeugen (Pro gewaehlten Debitor ein Payment-Datensatz)
@@ -340,16 +340,16 @@ public class Activitiy_ViewPager extends AppCompatActivity {
      * @param details Details / Sonstige Informationen
      * @return Liste mit Payment-Datensaetzen
      */
-    private ArrayList<Payment> createPaymentDatasets(Date datetime, float value, long creditor, String[] debtors, long category, String details) {
+    private ArrayList<Payment> createPaymentDatasets(Date datetime, float value, long creditor, ArrayList<String> debtors, long category, String details) {
 
         ArrayList<Payment> payments = new ArrayList<>();
 
         //Komma im Geldbetrag durch einen Punkt ersetzen
         String sumStr = String.valueOf(value).replace(",", ".");
         //Berechnung, welcher Betrag pro Kreditor anfaellt (Betrag dividiert durch die Anzahl der Debitoren)
-        float valuePerPerson = value / debtors.length;
+        float valuePerPerson = value / debtors.size();
         //Den Betrag auf zwei Nachkommastellen runden und wieder in einen float-Wert umwandeln
-        String valStr = GlobalVar.formatMoney(String.valueOf(valuePerPerson));
+        String valStr = GlobalVar.formatMoney(String.valueOf(valuePerPerson)).replace(",", ".");
         float money = new Float(valStr);
 
 

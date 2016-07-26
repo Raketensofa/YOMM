@@ -9,12 +9,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.cgellner.yomm.Database.Database;
 import com.cgellner.yomm.GlobalVar;
+import com.cgellner.yomm.Objects.Category;
+import com.cgellner.yomm.Objects.Pay;
 import com.cgellner.yomm.Objects.Payment;
 import com.cgellner.yomm.R;
 
@@ -24,7 +32,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * Die Klasse repraesentiert eine Activity, welche Teil den Master-Teil des sogenannten Master-Details-Layouts beinhaltet und
+ * in diesem Fall eine Liste von Payment- und Repayment-Datensaetzen beinhaltet.
+ * @author Carolin Gellner
+ */
 public class Activity_PaymentsList extends AppCompatActivity {
 
 
@@ -33,9 +45,14 @@ public class Activity_PaymentsList extends AppCompatActivity {
     private boolean mTwoPane;
     private long mainpersonId;
     private long secondpersonId;
-
+    private Spinner categorySpinner;
     private List<PaymentItem> contentItems;
+    private ArrayList<Category> categorieList;
+
     public static Map<String, PaymentItem> ITEM_MAP;
+
+    private ArrayList<Pay> payDatasets;
+    private View recyclerView;
 
     //endregion
 
@@ -53,15 +70,23 @@ public class Activity_PaymentsList extends AppCompatActivity {
 
         setContentView(R.layout.activity_pay_list);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        GlobalVar.Database = new Database(this);
 
         getPersonIds();
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setActivtityTitle();
 
-        List<Payment> paymentArrayList = GlobalVar.Database.getPayments(mainpersonId, secondpersonId);
-        contentItems = prepareContentItems(paymentArrayList);
+
+        //Spinner erstellen zur Auswahl der Kategorie
+        categorySpinner = (Spinner)findViewById(R.id.activity_pay_list_spinner_category);
+        setCategorySpinner(categorySpinner);
+
+        payDatasets = GlobalVar.Database.getPaymentsAndRepayments(mainpersonId, secondpersonId, 0);
+        contentItems = prepareContentItems(payDatasets);
 
         ITEM_MAP = new HashMap<String, PaymentItem>();
         for (PaymentItem item : contentItems) {
@@ -70,7 +95,7 @@ public class Activity_PaymentsList extends AppCompatActivity {
         }
 
 
-        View recyclerView = findViewById(R.id.payment_list);
+        recyclerView = findViewById(R.id.activity_pay_list_recyclerView_paylist);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
 
@@ -80,6 +105,80 @@ public class Activity_PaymentsList extends AppCompatActivity {
             mTwoPane = true;
         }
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
+
+
+
+    /**
+     *
+     * @param spinner
+     */
+    private void setCategorySpinner(Spinner spinner){
+
+        String[] payTypes = new String[3];
+        payTypes[0] = "Alle anzeigen";
+        payTypes[1] = "Nur Ausgaben";
+        payTypes[2] = "Nur Rückzahlungen";
+
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this, android.R.layout.simple_spinner_item, payTypes);
+        adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
+        spinner.setAdapter(adapter);
+
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                    updateRecyclerView(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+    }
+
+
+    /**
+     *
+     * @param position
+     */
+    private void updateRecyclerView(int position){
+
+        payDatasets = GlobalVar.Database.getPaymentsAndRepayments(mainpersonId, secondpersonId, position);
+
+        contentItems = prepareContentItems(payDatasets);
+
+        ITEM_MAP = new HashMap<String, PaymentItem>();
+        for (PaymentItem item : contentItems) {
+
+            ITEM_MAP.put(item.getId(), item);
+        }
+
+        setupRecyclerView((RecyclerView) recyclerView);
+    }
+
+
 
     /**
      *
@@ -133,7 +232,7 @@ public class Activity_PaymentsList extends AppCompatActivity {
             title = "Zahlungen";
         }
 
-        this.setTitle(title);
+        getSupportActionBar().setTitle(title);
     }
 
 
@@ -142,7 +241,7 @@ public class Activity_PaymentsList extends AppCompatActivity {
      * @param payments
      * @return
      */
-    private List<PaymentItem> prepareContentItems(List<Payment> payments){
+    private List<PaymentItem> prepareContentItems(List<Pay> payments){
 
         List<PaymentItem> items = new ArrayList<>();
 
@@ -153,9 +252,29 @@ public class Activity_PaymentsList extends AppCompatActivity {
 
             for (int i = 0; i< payments.size(); i++) {
 
-                String categoryName = GlobalVar.Database.getCategoryName(payments.get(i).getCategoryId());
-                String debtorName = GlobalVar.Database.getPersonName(payments.get(i).getDebtorId());
-                String creditorName = GlobalVar.Database.getPersonName(payments.get(i).getCreditorId());
+                String categoryName = "";
+                String debtorName = "";
+                String creditorName = "";
+                String moneySum = "";
+
+
+                if(payments.get(i) instanceof Payment){
+
+                    Payment paym = (Payment)payments.get(i);
+
+                     categoryName = GlobalVar.Database.getCategoryName(paym.getCategoryId());
+                     debtorName = GlobalVar.Database.getPersonName(paym.getDebtorId());
+                     creditorName = GlobalVar.Database.getPersonName(paym.getCreditorId());
+                     moneySum = String.valueOf(paym.getMoneySum());
+
+
+                }else{
+
+                     debtorName = GlobalVar.Database.getPersonName(payments.get(i).getDebtorId());
+                     creditorName = GlobalVar.Database.getPersonName(payments.get(i).getCreditorId());
+
+                }
+
 
                 PaymentItem item = new PaymentItem();
                 item.setId(String.valueOf(payments.get(i).getID()));
@@ -166,7 +285,7 @@ public class Activity_PaymentsList extends AppCompatActivity {
                 item.setDetails( payments.get(i).getDetails());
                 item.setDate(dateFormatter.format(payments.get(i).getDateTime()));
                 item.setTime(timeFormatter.format(payments.get(i).getDateTime()));
-                item.setMainMoneyValue(String.valueOf(payments.get(i).getMoneySum()));
+                item.setMainMoneyValue(moneySum);
 
                 items.add(item);
 

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 
 /**
  * Die Klasse stellt eine Activity dar, in welcher Elemente wie Personen oder Kategorien verwaltet werden koennen.
+ * @author Carolin Gellner
  */
 public class Activity_Settings extends AppCompatActivity {
 
@@ -125,6 +127,21 @@ public class Activity_Settings extends AppCompatActivity {
 
                 return super.onContextItemSelected(item);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
     }
 
     //endregion

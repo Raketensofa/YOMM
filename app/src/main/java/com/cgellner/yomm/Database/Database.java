@@ -313,16 +313,67 @@ public class Database extends SQLiteOpenHelper {
 
     }
 
+    /**
+     *
+     * @param creditorId
+     * @param debtorId
+     * @return
+     */
+    public ArrayList<Pay> getPaymentsAndRepayments(long creditorId, long debtorId, long position){
+
+        ArrayList<Pay> list = new ArrayList<>();
+
+        if(position == 0){
+
+            ArrayList<Payment> payments = getPayments(creditorId, debtorId);
+            ArrayList<Pay> repayments = getRepayments(creditorId, debtorId);
+
+            for (Payment payment:payments) {
+
+                list.add(payment);
+            }
+
+            for (Pay repayment : repayments) {
+
+                list.add(repayment);
+            }
+
+        }else if(position == 1){
+
+            ArrayList<Payment> payments = getPayments(creditorId, debtorId);
+
+            for (Payment payment:payments) {
+
+                list.add(payment);
+            }
+
+        }else if(position == 2){
+
+            ArrayList<Pay> repayments = getRepayments(creditorId, debtorId);
+
+            for (Pay repayment : repayments) {
+
+                list.add(repayment);
+            }
+
+        }
+
+
+        ArrayList<Pay> sortedList = sort(list);
+
+        return sortedList;
+    }
+
 
     /**
-     * Die Methode holt alle Payment-Datensaetze aus der Datenbank, welche die beiden angegeben Personen betreffen.
-     * @param mainpersonId ID des Kreditors
-     * @param secondPersonId ID des Debitors
-     * @return Liste mit Payment-Datensaetzen
+     *
+     * @param mainpersonId
+     * @param secondPersonId
+     * @return
      */
-    public List<Payment> getPayments(long mainpersonId, long secondPersonId){
+    public ArrayList<Pay> getRepayments(long mainpersonId, long secondPersonId){
 
-        List<Payment> list = new ArrayList<>();
+        ArrayList<Pay> list = new ArrayList<>();
 
 
         open();
@@ -334,20 +385,108 @@ public class Database extends SQLiteOpenHelper {
 
             if(mainpersonId != -1 && secondPersonId == -1){
 
-                 cursor = Database.query(Sql.NAME_TABLE_PAYMENTS,
-                        null,
-                        Sql.NAME_COLUMN_CREDITOR + "=" + mainpersonId + " OR " + Sql.NAME_COLUMN_DEBTOR + "=" + mainpersonId,
-                        null, null, null,null);
+
+                    cursor = Database.query(Sql.NAME_TABLE_REPAYMENTS,
+                            null,
+                            Sql.NAME_COLUMN_CREDITOR + "=" + mainpersonId + " OR " + Sql.NAME_COLUMN_DEBTOR + "=" + mainpersonId,
+                            null, null, null, null);
+
 
 
             }else if(mainpersonId != -1 && secondPersonId != -1){
 
-                 cursor = Database.query(Sql.NAME_TABLE_PAYMENTS,
-                        null,
-                        "(" + Sql.NAME_COLUMN_CREDITOR + "=" + mainpersonId + " AND "
-                                + Sql.NAME_COLUMN_DEBTOR + "=" + secondPersonId + ") OR (" + Sql.NAME_COLUMN_CREDITOR + "=" + secondPersonId + " AND "
-                                + Sql.NAME_COLUMN_DEBTOR + "=" + mainpersonId + ")",
-                        null, null, null, null);
+
+
+                    cursor = Database.query(Sql.NAME_TABLE_REPAYMENTS,
+                            null,
+                            "(" + Sql.NAME_COLUMN_CREDITOR + "=" + mainpersonId + " AND "
+                                    + Sql.NAME_COLUMN_DEBTOR + "=" + secondPersonId + ") OR (" + Sql.NAME_COLUMN_CREDITOR + "=" + secondPersonId + " AND "
+                                    + Sql.NAME_COLUMN_DEBTOR + "=" + mainpersonId + ")",
+                            null, null, null, null);
+
+
+
+
+            }
+
+            if (cursor != null) {
+
+                if (cursor.moveToFirst()) {
+
+                    do {
+
+                        Pay repayment = new Pay();
+
+                        SimpleDateFormat sdfToDate = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+                        Date dateTime = sdfToDate.parse(cursor.getString((cursor.getColumnIndex(Sql.NAME_COLUMN_DATETIME))));
+
+                        repayment.setID(cursor.getLong(cursor.getColumnIndex(Sql.NAME_COLUMN_ID)));
+                        repayment.setDateTime(dateTime);
+                        repayment.setValue(cursor.getFloat((cursor.getColumnIndex(Sql.NAME_COLUMN_VALUE))));
+                        repayment.setCreditorId(cursor.getLong((cursor.getColumnIndex(Sql.NAME_COLUMN_CREDITOR))));
+                        repayment.setDebtorId(cursor.getLong((cursor.getColumnIndex(Sql.NAME_COLUMN_DEBTOR))));
+                        repayment.setDetails(cursor.getString((cursor.getColumnIndex(Sql.NAME_COLUMN_DETAILS))));
+
+                        list.add(repayment);
+
+                    } while (cursor.moveToNext());
+
+                }
+            }
+
+            cursor.close();
+
+        } catch (Exception ex) {
+
+
+            return null;
+
+        }finally {
+
+            close();
+        }
+
+        return list;
+
+    }
+
+
+
+    /**
+     * Die Methode holt alle Payment-Datensaetze aus der Datenbank, welche die beiden angegeben Personen betreffen.
+     * @param mainpersonId ID des Kreditors
+     * @param secondPersonId ID des Debitors
+     * @return Liste mit Payment-Datensaetzen
+     */
+    public ArrayList<Payment> getPayments(long mainpersonId, long secondPersonId){
+
+        ArrayList<Payment> list = new ArrayList<>();
+
+
+        open();
+
+
+        try {
+
+            Cursor cursor = null;
+
+            if(mainpersonId != -1 && secondPersonId == -1){
+
+
+                    cursor = Database.query(Sql.NAME_TABLE_PAYMENTS,
+                            null,
+                            Sql.NAME_COLUMN_CREDITOR + "=" + mainpersonId + " OR " + Sql.NAME_COLUMN_DEBTOR + "=" + mainpersonId,
+                            null, null, null,null);
+
+
+            }else if(mainpersonId != -1 && secondPersonId != -1){
+
+                    cursor = Database.query(Sql.NAME_TABLE_PAYMENTS,
+                            null,
+                            "(" + Sql.NAME_COLUMN_CREDITOR + "=" + mainpersonId + " AND "
+                                    + Sql.NAME_COLUMN_DEBTOR + "=" + secondPersonId + ") OR (" + Sql.NAME_COLUMN_CREDITOR + "=" + secondPersonId + " AND "
+                                    + Sql.NAME_COLUMN_DEBTOR + "=" + mainpersonId + ")",
+                            null, null, null, null);
 
             }
 
@@ -716,5 +855,32 @@ public class Database extends SQLiteOpenHelper {
     }
 
     //endregion
+
+
+
+    /**
+     * Die Methode sortiert die Liste der Pay-Datensaetze absteigend nach deren Zeitstempel.
+     * @param pays Liste mit Pays-Datensaetze
+     * @return Sortierte Liste
+     */
+    private ArrayList<Pay> sort(ArrayList<Pay> pays) {
+
+        Pay p;
+        for (int i = 0; i < pays.size() - 1; i++) {
+
+            if (pays.get(i).getDateTime().getTime() > pays.get(i + 1).getDateTime().getTime()) {
+
+                continue;
+            }
+
+            p = pays.get(i);
+            pays.set(i,pays.get(i + 1));
+            pays.set(i+1,p);
+
+            sort(pays);
+        }
+
+        return pays;
+    }
 
 }

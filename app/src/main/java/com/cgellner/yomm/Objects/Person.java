@@ -3,7 +3,9 @@ package com.cgellner.yomm.Objects;
 import com.cgellner.yomm.Database.Sql;
 
 /**
- * Created by Carolin on 31.05.2016.
+ * Die Klasse reprasentiert eine Person.
+ * @since 31.05.2016
+ * @author Carolin Gellner
  */
 public class Person {
 
@@ -14,7 +16,8 @@ public class Person {
 
     //endregion
 
-    //region Properties
+
+    //region Getter & Setter
 
     public long getID() {
         return ID;

@@ -40,7 +40,4 @@ public class Payment extends Pay {
 
     //endregion
 
-    
-
-
 }

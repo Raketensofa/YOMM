@@ -9,16 +9,16 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.cgellner.yomm.GlobalVar;
 import com.cgellner.yomm.Objects.Pay;
 import com.cgellner.yomm.Objects.Payment;
 import com.cgellner.yomm.R;
-import com.cgellner.yomm.Start.MainActivity;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,6 +26,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 
+/**
+ * Die Klasse beinhaltet die Activity in welcher der Viewpager angezeigt wird,
+ * welcher die Formulare zum Erfassen einer Ausgabe oder Rueckzahlung beinhaltet.
+ * @author Carolin Gellner
+ */
 public class Activitiy_ViewPager extends AppCompatActivity {
 
 
@@ -41,7 +46,11 @@ public class Activitiy_ViewPager extends AppCompatActivity {
     //endregion
 
 
+    //region Protected Methods
+
+
     /**
+     * Die Methode erstellt die Ansicht der Activity, welche den Viewpager beinhaltet.
      * @param savedInstanceState
      */
     @Override
@@ -49,27 +58,60 @@ public class Activitiy_ViewPager extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
+        //Layout der Activity
         setContentView(R.layout.layout_activitiy_viewpager);
 
+        //Zurueck-Button in der Titelleiste anzeigen
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //uebergebenen Typ abfragen (Payment oder Repayment)
         type = getIntent().getStringExtra("type");
 
+        //Titel festlegen
         setActivityTitle();
 
+        //Die Elemente (Seiten des Viewpagers) initialisieren
         vpElements = new ViewpagerElements();
 
+        //Viewpager erstellen
         setViewPager();
 
+        //Buttons der Activity (Speichern und Abbrechen) initialisieren
         setButtons();
 
+
+        //SharedPreferences initialiseren (dienen zum Zwischenspeichern der
+        //Daten aus den Formularen bevor diese in die Datenbank geschrieben werden)
         initSharedPreferences();
 
     }
 
 
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case android.R.id.home:
+
+                finish();
+
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
+
+    //endregion
+
+
     //region Private Methods
 
     /**
-     *
+     * Die Methode legt den Titel der Activity fest.
      */
     private void setActivityTitle() {
 
@@ -77,58 +119,24 @@ public class Activitiy_ViewPager extends AppCompatActivity {
 
             this.setTitle("Neue Ausgabe");
 
-        } else if (type.equals(GlobalVar.typeRePpayment)) {
+        } else if (type.equals(GlobalVar.typeRepayment)) {
 
             this.setTitle("Rückzahlung");
         }
     }
 
-
     /**
-     *
-     */
-    private void initSharedPreferences() {
-
-        //Zischenspeicher fuer eingegebene Daten
-
-        vpElements.setSharedPreferences(PreferenceManager.getDefaultSharedPreferences(this));
-        //Leere Variablen in den SharedPreferences anlegen
-        setSharedPreferencesEmpty();
-
-    }
-
-
-    /**
-     *
-     */
-    private void setButtons() {
-
-        buttonCancel = (Button) findViewById(R.id.button_viewpager_cancel);
-        buttonSave = (Button) findViewById(R.id.button_viewpager_save);
-
-        buttonSave.setClickable(false);
-        buttonSave.setEnabled(false);
-        buttonCancel.setClickable(true);
-
-        //Button-Layouts ergaenzen
-        setButtonCancelLayout();
-        setButtonSaveLayout();
-
-
-        //ClickListener der Abbrechen und Speichern-Buttons zuweisen
-        setButtonSaveClickListener();
-        setButtonCancelClickListener();
-
-    }
-
-
-    /**
-     *
+     * Die Methode initialsiert den Viewpager.
      */
     private void setViewPager() {
 
         viewPager = (ViewPager) findViewById(R.id.activity_viewpager);
+
+        //Layout des Viewpagers
         setViewpagerLayout();
+
+
+        //ViewpagerAdapter festlegen
         PagerAdapter pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
 
@@ -138,12 +146,14 @@ public class Activitiy_ViewPager extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
 
-                if (type.equals(GlobalVar.typeRePpayment)) {
+                if (type.equals(GlobalVar.typeRepayment)) {
 
+                    //Die Elemente im Viewpager anzeigen, welche fuer die Erfassung einer Rueckzahlung noetig sind
                     vpElements.setRepaymentViewpagerElements(viewPager, position);
 
                 } else if (type.equals(GlobalVar.typePayment)) {
 
+                    //Die Elemente im Viewpager anzeigen, welche fuer die Erfassung einer Ausgabe noetig sind
                     vpElements.setPaymentViewPagerElements(viewPager, position);
                 }
             }
@@ -163,9 +173,48 @@ public class Activitiy_ViewPager extends AppCompatActivity {
         });
     }
 
+    /**
+     * Die Methode initialisiert die Buttons (Speichern und Abbrechen).
+     */
+    private void setButtons() {
+
+        buttonCancel = (Button) findViewById(R.id.button_viewpager_cancel);
+        buttonSave = (Button) findViewById(R.id.button_viewpager_save);
+
+        //Speichern-Button zunaechst nicht klickbar machen
+        buttonSave.setClickable(false);
+        buttonSave.setEnabled(false);
+
+        buttonCancel.setClickable(true);
+
+        //Button-Layouts ergaenzen
+        setButtonCancelLayout();
+        setButtonSaveLayout();
+
+
+        //ClickListener der Abbrechen und Speichern-Buttons zuweisen
+        setButtonSaveClickListener();
+        setButtonCancelClickListener();
+
+    }
 
     /**
-     *
+     * Die Methode initialisiert die SharedPreferences, welche die eingebenen Daten des Benutzers zwischenspeichern,
+     * bevor diese in die Datenbank geschrieben werden.
+     */
+    private void initSharedPreferences() {
+
+        vpElements.setSharedPreferences(PreferenceManager.getDefaultSharedPreferences(this));
+
+        //Leere Variablen in den SharedPreferences anlegen
+        setSharedPreferencesEmpty();
+
+    }
+
+
+
+    /**
+     * Die Methode beinhaltet den OnClickListener des Speichern-Buttons.
      */
     private void setButtonSaveClickListener() {
 
@@ -176,136 +225,137 @@ public class Activitiy_ViewPager extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    if (type.equals(GlobalVar.typeRePpayment)) {
+                    if (type.equals(GlobalVar.typeRepayment)) {
 
+                        //RePayment-Datensatz speichern
                         saveRepayment();
 
                     } else if (type.equals(GlobalVar.typePayment)) {
 
+                        //Payment-Datensatz speichern
                         savePayment();
                     }
 
-                    //Viewpager schliessen
+                    //Viewpageransicht schliessen
                     buttonCancel.callOnClick();
+                }
+            });
+        }
+    }
 
+    /**
+     * Die Methode beinhaltet den OnClickListener des Abbrechen-Buttons.
+     */
+    private void setButtonCancelClickListener() {
+
+        if (buttonCancel != null) {
+
+            buttonCancel.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+                    //SharedPreferences leeren
+                    setSharedPreferencesEmpty();
+
+                    //Viewpageransicht schliessen
+                    onBackPressed();
                 }
             });
         }
     }
 
 
+
     /**
-     *
+     * Die Methode fuert die Speicherung der eingegeben Daten des Benutzers zu einer Ausgabe aus.
      */
     private void savePayment() {
 
+        //Daten aufbereiten fuer Datenbank
         ArrayList<Payment> payments = preparePaymentDatasets();
 
+        //Datensaetze in die Datenbank schreiben
         addPaymentsToDb(payments);
-
     }
 
-
     /**
-     *
+     * Die Methode fuert die Speicherung der eingegeben Daten des Benutzers zu einer Rueckzahlung aus.
      */
     private void saveRepayment() {
 
+        //Gewaehlte Daten des Benutzers aus den SharedPreferences auslesen
         long creditorId = vpElements.getSharedPreferences().getLong(GlobalVar.SpRepaymentCreditor, 0);
         long debtorId = vpElements.getSharedPreferences().getLong(GlobalVar.SpRepaymentDebtor, 0);
         float value = vpElements.getSharedPreferences().getFloat(GlobalVar.SpRepaymentMoneySum, 0);
+        String details = vpElements.getSharedPreferences().getString(GlobalVar.SpRepaymentDetails, "");
 
 
+        //Neues Pay(ment)-Objekt erstellen
         Pay repayment = new Pay();
         repayment.setCreditorId(creditorId);
         repayment.setDebtorId(debtorId);
         repayment.setValue(value);
-        repayment.setDetails("");
+        repayment.setDetails(details);
         repayment.setDateTime(new Date());
 
-
+        //Repayment-Datensatz in der Datenbank speichern
         GlobalVar.Database.insertRepayment(repayment);
-
-        Toast.makeText(this, "Gespeichert", Toast.LENGTH_LONG).show();
-
     }
 
 
     /**
-     * @return
+     * Die Methode bereitet die Daten, welche vom Benutzer fuer eine Ausgabe erfasst wurden, fuer die Speicherung in der Datenbank vor.
+     * @return Liste mit Payment-Datensaetzen
      */
     private ArrayList<Payment> preparePaymentDatasets() {
-
 
         //aktuelles Datum und Uhrzeit ermitteln
         Date currentTimestamp = new Date();
 
-
-        //SharedPreferences auslesen...
-
-        //Geldbetrag
+        //Gewaehlte Daten des Benutzers aus den SharedPreferences auslesen
         float value = vpElements.getSharedPreferences().getFloat(GlobalVar.SpPaymentMoneyValue, 0);
-
-        //Details
         String details = vpElements.getSharedPreferences().getString(GlobalVar.SpPaymentDetails, "");
-
-        //Debitoren
-        String debtors = "";
-        Set<String> persons = vpElements.getSharedPreferences().getStringSet(GlobalVar.SpPaymentDebtors, null);
-        Object[] ar = persons.toArray();
-
-        for (int i = 0; i < ar.length; i++) {
-
-            if (i < ar.length - 1) {
-
-                debtors += ar[i].toString() + ",";
-
-            } else if (i == ar.length - 1) {
-
-                debtors += ar[i].toString();
-            }
-        }
-
-        //Kreditor
         long creditor = vpElements.getSharedPreferences().getLong(GlobalVar.SpPaymentCreditor, 0);
-
-        //Kategorie
         long category = vpElements.getSharedPreferences().getLong(GlobalVar.SpPaymentCategory, 0);
+        Set<String> persons = vpElements.getSharedPreferences().getStringSet(GlobalVar.SpPaymentDebtors, null);
+        String[] debtors = (String[])persons.toArray();
 
 
-        //Zahlungsdatensatz pro betreffende Person (Debtors) erzeugen
+        //Zahlungsdatensatze erzeugen (Pro gewaehlten Debitor ein Payment-Datensatz)
         ArrayList<Payment> payments = createPaymentDatasets(currentTimestamp, value, creditor, debtors, category, details);
-
 
         return payments;
 
     }
 
-
     /**
-     *
-     * @param datetime
-     * @param value
-     * @param creditor
-     * @param debtors
-     * @param category
-     * @param details
-     * @return
+     * Die Methode erstellt aus den erfassten Daten des Benutzers pro gewaehlten Debtitor ein Payment-Datensatz fuer die Datenbank
+     * und speichert diese in einer Liste, welche von der Methode zurueckgegeben wird.
+     * @param datetime Zeitstempel
+     * @param value Geldbetrag
+     * @param creditor ID des Kreditors
+     * @param debtors IDs der Debitoren
+     * @param category ID der Kategorie
+     * @param details Details / Sonstige Informationen
+     * @return Liste mit Payment-Datensaetzen
      */
-    private ArrayList<Payment> createPaymentDatasets(Date datetime, float value, long creditor, String debtors, long category, String details) {
+    private ArrayList<Payment> createPaymentDatasets(Date datetime, float value, long creditor, String[] debtors, long category, String details) {
 
         ArrayList<Payment> payments = new ArrayList<>();
 
+        //Komma im Geldbetrag durch einen Punkt ersetzen
         String sumStr = String.valueOf(value).replace(",", ".");
-
-        String[] debtorIds = debtors.split(",");
-
-        float valuePerPerson = value / debtorIds.length;
-        String valStr = GlobalVar.formatMoney(String.valueOf(valuePerPerson)).replace(",", ".");
+        //Berechnung, welcher Betrag pro Kreditor anfaellt (Betrag dividiert durch die Anzahl der Debitoren)
+        float valuePerPerson = value / debtors.length;
+        //Den Betrag auf zwei Nachkommastellen runden und wieder in einen float-Wert umwandeln
+        String valStr = GlobalVar.formatMoney(String.valueOf(valuePerPerson));
         float money = new Float(valStr);
 
 
-        for (String debtor : debtorIds) {
+
+        //Pro Debitor einen Payment-Datensatz erstellen und in der Payments-Liste speichern
+        for (String debtor : debtors) {
 
             if (new Long(debtor) != creditor) {
 
@@ -325,8 +375,8 @@ public class Activitiy_ViewPager extends AppCompatActivity {
         return payments;
     }
 
-
     /**
+     * Die Methode fuert die Speicherung der uebergebenen Payment-Datensatze (Liste) in der Datenbank aus.
      * @param payments
      */
     private void addPaymentsToDb(ArrayList<Payment> payments) {
@@ -335,35 +385,20 @@ public class Activitiy_ViewPager extends AppCompatActivity {
 
             for (Payment pay : payments) {
 
+                //Datensatz in der Datenbank speichern
                 GlobalVar.Database.insertPaymentDataset(pay);
             }
 
+            //Activity bzw. Viewpager schliessen (zum Starbildschirm der App zurueck)
             buttonCancel.callOnClick();
         }
     }
 
 
-    /**
-     *
-     */
-    private void setButtonCancelClickListener() {
-
-        if (buttonCancel != null) {
-
-            buttonCancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    setSharedPreferencesEmpty();
-                    onBackPressed();
-                }
-            });
-        }
-    }
 
 
     /**
-     *
+     * Die Methode initialisiert die Variablen der SharedPreferences bzw. loescht deren gespeicherte Werte.
      */
     private void setSharedPreferencesEmpty() {
 
@@ -385,12 +420,10 @@ public class Activitiy_ViewPager extends AppCompatActivity {
 
 
         editor.commit();
-
     }
 
-
     /**
-     *
+     * Die Methode uebergibt dem Speicher-Button seine Layout-Einstellungen.
      */
     private void setButtonSaveLayout() {
 
@@ -402,9 +435,8 @@ public class Activitiy_ViewPager extends AppCompatActivity {
         buttonSave.setLayoutParams(paramButtonSave);
     }
 
-
     /**
-     *
+     *  Die Methode uebergibt dem Abbrechen-Button seine Layout-Einstellungen
      */
     private void setButtonCancelLayout() {
 
@@ -416,9 +448,8 @@ public class Activitiy_ViewPager extends AppCompatActivity {
 
     }
 
-
     /**
-     *
+     * Die Methode uebergibt dem Viewpager sein Layout.
      */
     private void setViewpagerLayout() {
 
@@ -436,7 +467,8 @@ public class Activitiy_ViewPager extends AppCompatActivity {
     //region Class ScreenSlidePagerAdapter fuer ViewPager
 
     /**
-     *
+     * Die Klasse beinhaltet den PageAdapter des ViewPagers,
+     * welcher das Aufrufen der einzelnen Seiten ermoeglicht.
      */
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
 
@@ -444,12 +476,19 @@ public class Activitiy_ViewPager extends AppCompatActivity {
             super(fm);
         }
 
+        /**
+         * Die Methode erstellt eine neue Seite fuer den ViewPager.
+         * @param position Position der Seite im ViewPager
+         * @return Seite im ViewPager
+         */
         @Override
         public Fragment getItem(int position) {
 
+            //Neue ViewPager-Seite
             Fragment_ViewPager fragment = new Fragment_ViewPager();
 
-            if (type.equals(GlobalVar.typeRePpayment)) {
+            //Layout der Seite zuwweisen
+            if (type.equals(GlobalVar.typeRepayment)) {
 
                 fragment.setLayoutId(ViewpagerElements.layouts_viewpager_repayment[position]);
 
@@ -458,20 +497,28 @@ public class Activitiy_ViewPager extends AppCompatActivity {
                 fragment.setLayoutId(ViewpagerElements.layouts_viewpager_payment[position]);
             }
 
+            //Typ uebergeben (Repayment oder Payment)
             fragment.setType(type);
+
+            //Klasse mit den Viewpager-Elementen uebergeben
             fragment.setElements(vpElements);
+
+            //Position der Seite im ViewPager mit uebergeben
             fragment.setPosition(position);
 
             return fragment;
         }
 
-
+        /**
+         * Die Methode gibt die Anzahl der Seiten im ViewPager zurueck.
+         * @return Anzahl der Seiten
+         */
         @Override
         public int getCount() {
 
             int count = 0;
 
-            if (type.equals(GlobalVar.typeRePpayment)) {
+            if (type.equals(GlobalVar.typeRepayment)) {
 
                 count = ViewpagerElements.layouts_viewpager_repayment.length;
 

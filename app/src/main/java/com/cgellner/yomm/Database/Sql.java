@@ -35,7 +35,6 @@ public abstract class Sql {
     public static final String NAME_COLUMN_ID = "id";
     public static final String NAME_COLUMN_CREDITOR = "creditorId";
     public static final String NAME_COLUMN_DEBTOR = "debtorId";
-    public static final String NAME_COLUMN_STATE = "state";
     public static final String NAME_COLUMN_VALUE = "value";
     public static final String NAME_COLUMN_CATEGORY = "categoryId";
     public static final String NAME_COLUMN_DETAILS = "details";

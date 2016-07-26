@@ -13,7 +13,8 @@ import com.cgellner.yomm.GlobalVar;
 import com.cgellner.yomm.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Die Klasse beinhaltet das Fragment, welches die Startseite der App darstellt.
+ * @author Carolin Gellner
  */
 public class Fragment_Start extends Fragment {
 
@@ -26,9 +27,10 @@ public class Fragment_Start extends Fragment {
     //endregion
 
 
-    //region Methods
+    //region Public Methods
 
     /**
+     * Die Methode erstellt das Fragment.
      * @param inflater
      * @param container
      * @param savedInstanceState
@@ -49,26 +51,17 @@ public class Fragment_Start extends Fragment {
     }
 
 
+    //endregion
+
+
+    //region Private Method
+
     /**
-     *
+     * Die Methode uebergibt den beiden Buttons im Fragment deren OnClickListener.
      */
     private void addListenerOnButton() {
 
-        if (buttonRepayment != null) {
-
-            buttonRepayment.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View view) {
-
-                    Intent intent = new Intent(getActivity(), Activitiy_ViewPager.class);
-                    intent.putExtra("type", GlobalVar.typeRePpayment);
-                    startActivity(intent);
-                }
-            });
-
-        }
-
+        //Button zum Oeffnen eines Formulars (ViewPager) zum Erfassen einer neuen Ausgabe
         if (buttonPayment != null) {
 
             buttonPayment.setOnClickListener(new View.OnClickListener() {
@@ -76,10 +69,27 @@ public class Fragment_Start extends Fragment {
                 @Override
                 public void onClick(View view) {
 
+                    //ViewPager starten zum Erfassen einer neuen Ausgabe (Payment)
                     Intent intent = new Intent(getActivity(), Activitiy_ViewPager.class);
                     intent.putExtra("type", GlobalVar.typePayment);
                     startActivity(intent);
+                }
+            });
+        }
 
+
+        //Button zum Oeffnen eines Formulars (ViewPager) zum Erfassen einer neuen Rueckzahlung
+        if (buttonRepayment != null) {
+
+            buttonRepayment.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
+
+                    //ViewPager starten zum Erfassen einer neuen Rueckzahlung (Repayment)
+                    Intent intent = new Intent(getActivity(), Activitiy_ViewPager.class);
+                    intent.putExtra("type", GlobalVar.typeRepayment);
+                    startActivity(intent);
                 }
             });
         }

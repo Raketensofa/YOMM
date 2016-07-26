@@ -8,17 +8,18 @@
     <string name="delete">Löschen</string>
 
 
-    <string name="QuestionPaymentValue">BETRAG</string>
-    <string name="QuestionPaymentDebtors">WELCHE PERSONEN BETRIFFT DIE AUSGABE?</string>
-    <string name="QuestionPaymentCreditor">WER HAT BEZAHLT?</string>
-    <string name="QuestionPaymentsCategory">KATEGORIE</string>
-    <string name="QuestionPaymentDetails">DETAILS</string>
+    <string name="QuestionPaymentValue">Betrag</string>
+    <string name="QuestionPaymentDebtors">Auf welche Personen wird die Ausgabe aufgeteilt?</string>
+    <string name="QuestionPaymentCreditor">Wer hat bezahlt?</string>
+    <string name="QuestionPaymentsCategory">Kategorie</string>
+    <string name="QuestionPaymentDetails">Bemerkungen</string>
 
 
-    <string name="QuestionRepaymentDebtor">WELCHE PERSON MÖCHTE IHRE SCHULDEN BEGLEICHEN?</string>
-    <string name="QuestionRepaymentCreditor">DIE PERSON HAT ZU FOLGENDEN PERSONEN SCHULDEN. WELCHE SOLL BEGLICHEN WERDEN?</string>
-    <string name="QuestionRepaymentSum">GESAMTBETRAG</string>
+    <string name="QuestionRepaymentDebtor">Folgenge Personen haben Schulden. Bitte wähle eine Person: </string>
+    <string name="QuestionRepaymentCreditor">Die gewählte Person hat zu folgenden Personen Schulden. Bitte wähle eine Person:</string>
+    <string name="QuestionRepaymentSum">Gesamtbetrag</string>
     <string name="QuestionRepaymentInfoText">Bitte begleiche den Betrag und drücke auf "Speichern".</string>
+    <string name="QuestionRepaymentDetails">Bemerkungen</string>
 
 
     <string name="LabelAddNewPersonHeadline">Person anlegen</string>

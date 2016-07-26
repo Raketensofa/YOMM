@@ -27,7 +27,8 @@ import com.cgellner.yomm.Settings.Activity_Settings;
 
 
 /**
- *
+ * Die Klasse stellt die Hauptactivity der App dar und beinhaltet die Startseite und ein Menue.
+ * @author Carolin Gellner
  */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -35,7 +36,6 @@ public class MainActivity extends AppCompatActivity
 
     //region Fields
 
-    //FragmentTransaction zum Oeffnen verschiedener Fragmente innerhalb einer Activity
     private static FragmentTransaction fragmentTransaction;
     private static SharedPreferences preferences;
     private Fragment_Start fragmentStart;
@@ -45,32 +45,40 @@ public class MainActivity extends AppCompatActivity
 
     //region Public Methods
 
+    /**
+     * Die Methode erstellt die Activity.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
-        initGlobalVariables();
-
         setContentView(R.layout.activity_main3);
-
-        //SharedPreferences
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-
-        //Start-Fragment anzeigen
-        fragmentStart = new Fragment_Start();
-        fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.fragment_container, fragmentStart);
-        fragmentTransaction.commit();
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("YOMM");
         setSupportActionBar(toolbar);
 
 
-        //Navigation
+        //Globale Variablen initialisieren
+        //d.h. Groesse des Displays ermitteln und die Datenbank initialisieren
+        initGlobalVariables();
+
+
+        //SharedPreferences initialisieren
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+
+        //Start-Fragment anzeigen mithilfe einer FragmentTransaction
+        fragmentStart = new Fragment_Start();
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.fragment_container, fragmentStart);
+        fragmentTransaction.commit();
+
+
+
+        //Navigation (Menue)
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -93,7 +101,7 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_overview) {
 
-            //Fragment wechseln
+            //Fragment wechseln (Uebersicht der Schulden aller Personen)
             Fragment_OverviewCardViewList fragment = new Fragment_OverviewCardViewList();
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
@@ -102,14 +110,14 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_personens) {
 
-            //neue Activity starten
+            //neue Activity starten zum Erfassen, Bearbeiten, Loeschen einer neuen Person
             intent = new Intent(this, Activity_Settings.class);
             intent.putExtra("object", Person.class.getName());
             startActivity(intent);
 
         } else if (id == R.id.nav_categories) {
 
-            //neue Activity starten
+            //neue Activity starten zum Erfassen, Bearbeiten, Loeschen einer neuen Kategorie
             intent = new Intent(this, Activity_Settings.class);
             intent.putExtra("object", Category.class.getName());
             startActivity(intent);
@@ -125,17 +133,18 @@ public class MainActivity extends AppCompatActivity
     //endregion
 
 
-    //region private Methods
+    //region Private Methods
 
     /**
-     *
+     * Die Methode initialisiert Globale Variablen der App.
      */
     private void initGlobalVariables(){
 
-        //Datenbank
+        //Datenbank initialisieren
         GlobalVar.Database = new Database(this);
 
-        //Displaygroesse
+
+        //Displaygroesse ermitteln
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);

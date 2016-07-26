@@ -19,7 +19,9 @@ import com.cgellner.yomm.R;
 
 import java.util.ArrayList;
 
-
+/**
+ * Die Klasse stellt eine Activity dar, in welcher Elemente wie Personen oder Kategorien verwaltet werden koennen.
+ */
 public class Activity_Settings extends AppCompatActivity {
 
 
@@ -35,20 +37,100 @@ public class Activity_Settings extends AppCompatActivity {
     //endregion
 
 
+    //region Protected Methods
+
+    /**
+     * Die Methode erstellt die Ansicht in der Activity.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         button = (Button)findViewById(R.id.settings_button_new);
         listview = (ListView)findViewById(R.id.settings_listview);
 
         setListView();
+
         setButton();
 
     }
 
+    //endregion
+
+
+    //region Public Methods
+
+    /**
+     *
+     * @param menu
+     * @param v
+     * @param menuInfo
+     */
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+
+        MenuInflater inflater = getMenuInflater();
+
+        String[] names = new String[getNames().size()];
+        for (int i = 0; i <getNames().size(); i++){
+            names[i] = getNames().get(i);
+        }
+
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+        menu.setHeaderTitle(names[info.position]);
+        inflater.inflate( R.menu.contextmenu, menu);
+
+    }
+
+
+    /**
+     *
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        int position = info.position;
+
+
+        switch (item.getItemId()) {
+
+            case R.id.contentmenu_item_edit:
+
+                DialogFrag_AddSetting dialogFragEdit = new DialogFrag_AddSetting();
+                dialogFragEdit.setActivity(Activity_Settings.this);
+                dialogFragEdit.setId(getId(position));
+                dialogFragEdit.show(getFragmentManager(), object.toString() + "+edit");
+
+                return true;
+
+            case R.id.contentmenu_item_delete:
+
+                DialogFrag_AddSetting dialogFragDelete = new DialogFrag_AddSetting();
+                dialogFragDelete.setActivity(Activity_Settings.this);
+                dialogFragDelete.setId(getId(position));
+                dialogFragDelete.setPersons(listPersons);
+                dialogFragDelete.show(getFragmentManager(), object.toString() + "+delete");
+
+                return true;
+
+            default:
+
+                return super.onContextItemSelected(item);
+        }
+    }
+
+    //endregion
+
+
+    //region Private Methods
 
     /**
      *
@@ -195,70 +277,6 @@ public class Activity_Settings extends AppCompatActivity {
         });
     }
 
-
-    /**
-     *
-     * @param menu
-     * @param v
-     * @param menuInfo
-     */
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-
-        MenuInflater inflater = getMenuInflater();
-
-        String[] names = new String[getNames().size()];
-        for (int i = 0; i <getNames().size(); i++){
-            names[i] = getNames().get(i);
-        }
-
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
-        menu.setHeaderTitle(names[info.position]);
-        inflater.inflate( R.menu.contextmenu, menu);
-
-    }
-
-
-    /**
-     *
-     * @param item
-     * @return
-     */
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-        int position = info.position;
-
-
-        switch (item.getItemId()) {
-
-            case R.id.contentmenu_item_edit:
-
-                DialogFrag_AddSetting dialogFragEdit = new DialogFrag_AddSetting();
-                dialogFragEdit.setActivity(Activity_Settings.this);
-                dialogFragEdit.setId(getId(position));
-                dialogFragEdit.show(getFragmentManager(), object.toString() + "+edit");
-
-                return true;
-
-            case R.id.contentmenu_item_delete:
-
-                DialogFrag_AddSetting dialogFragDelete = new DialogFrag_AddSetting();
-                dialogFragDelete.setActivity(Activity_Settings.this);
-                dialogFragDelete.setId(getId(position));
-                dialogFragDelete.setPersons(listPersons);
-                dialogFragDelete.show(getFragmentManager(), object.toString() + "+delete");
-
-                return true;
-
-            default:
-
-                return super.onContextItemSelected(item);
-        }
-    }
-
-
-
+    //endregion
 
 }

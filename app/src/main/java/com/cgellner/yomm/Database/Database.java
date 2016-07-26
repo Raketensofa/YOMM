@@ -19,7 +19,9 @@ import java.util.List;
 
 
 /**
- * Created by Carolin on 31.05.2016.
+ * Die Klasse beinhaltet die Datenbank und bietet diverse Methoden zum Ausfuehren von Abfragen an die Datenbank.
+ * @since 31.05.2016
+ * @author Carolin Gellner
  */
 public class Database extends SQLiteOpenHelper {
 
@@ -39,6 +41,10 @@ public class Database extends SQLiteOpenHelper {
 
     //region Constructor
 
+    /**
+     * Der Konstruktur erstellt eine neue Instanz der Klasse Database.
+     * @param context
+     */
     public Database(Context context) {
 
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -49,7 +55,7 @@ public class Database extends SQLiteOpenHelper {
     //endregion
 
 
-    //region Properties
+    //region Getter & Setter
 
     public SQLiteDatabase getDatabase() {
         return Database;
@@ -150,8 +156,8 @@ public class Database extends SQLiteOpenHelper {
 
 
     /**
-     *
-     * @param repayment
+     *Die Methode speichert ein Repayment-Datensatz in der Datenbank.
+     * @param repayment Repayment-Datensatz
      */
     public void insertRepayment(Pay repayment){
 
@@ -179,7 +185,7 @@ public class Database extends SQLiteOpenHelper {
 
 
     /**
-     * Die Methode schreibt eine erfasste Zahlung in die Datenbank.
+     * Die Methode schreibt eine erfasste Zahlung (Payment) in die Datenbank.
      * @param payment Datensatz einer Zahlung
      */
     public void insertPaymentDataset(Payment payment){
@@ -213,10 +219,10 @@ public class Database extends SQLiteOpenHelper {
 
 
     /**
-     *
-     * @param creditorId
-     * @param debtorId
-     * @return
+     * Die Methode ermittelt die Summe der getaetigten Zahlungen des uebergebenen Creditoren fuer den angegeben Debitor.
+     * @param creditorId ID des Kreditors
+     * @param debtorId ID des Debitors
+     * @return Summe der Zahlungen
      */
     public double getPaymentSum(long creditorId, long debtorId){
 
@@ -261,10 +267,10 @@ public class Database extends SQLiteOpenHelper {
 
 
     /**
-     *
-     * @param creditorId
-     * @param debtorId
-     * @return
+     * Die Methode ermittelt die Summe der getaetigten Rueckzahlungen des uebergebenen Debitoren fuer den angegeben Kreditor.
+     * @param creditorId ID des Kreditors
+     * @param debtorId ID des Debitors
+     * @return Summe der Rueckzahlungen
      */
     public double getRepaymentSum(long creditorId, long debtorId){
 
@@ -309,10 +315,10 @@ public class Database extends SQLiteOpenHelper {
 
 
     /**
-     *
-     * @param mainpersonId
-     * @param secondPersonId
-     * @return
+     * Die Methode holt alle Payment-Datensaetze aus der Datenbank, welche die beiden angegeben Personen betreffen.
+     * @param mainpersonId ID des Kreditors
+     * @param secondPersonId ID des Debitors
+     * @return Liste mit Payment-Datensaetzen
      */
     public List<Payment> getPayments(long mainpersonId, long secondPersonId){
 
@@ -390,8 +396,8 @@ public class Database extends SQLiteOpenHelper {
 
 
     /**
-     *
-     * @return
+     * Die Methode holt alle Personennamen aus der Datenbank.
+     * @return Liste mit allen Namen der Personen
      */
     public ArrayList<Person> getPersons(){
 
@@ -442,9 +448,9 @@ public class Database extends SQLiteOpenHelper {
 
 
     /**
-     *
-     * @param categoryId
-     * @return
+     * Die Methode ermittelt den Namen der Kategorie zur uebergebenen Kategorie-Id.
+     * @param categoryId ID der Kategorie
+     * @return Name der Kategorie
      */
     public String getCategoryName(long categoryId){
 
@@ -487,9 +493,9 @@ public class Database extends SQLiteOpenHelper {
 
 
     /**
-     *
-     * @param personId
-     * @return
+     * Die Methode ermittelt den Namen der Person zur uebergebenen Person-ID.
+     * @param personId ID der Person
+     * @return Name der Person
      */
     public String getPersonName(long personId){
 
@@ -533,8 +539,8 @@ public class Database extends SQLiteOpenHelper {
 
 
     /**
-     *
-     * @return
+     * Die Methode erfragt alle Kategorien und speichert diese in einer Liste.
+     * @return Liste mit Kategorien
      */
     public ArrayList<Category> getCategories(){
 
@@ -589,8 +595,8 @@ public class Database extends SQLiteOpenHelper {
 
 
     /**
-     *
-     * @param sql
+     * Die Methode fuert ein SQL-Befehl aus, welcher keine Rueckgabe erfordert (Insert, Update, Delete)
+     * @param sql Sql-Befehl
      */
     private void insertData(String sql){
 
@@ -626,9 +632,9 @@ public class Database extends SQLiteOpenHelper {
 
 
     /**
-     *
-     * @param categoryId
-     * @param newCategoryName
+     * Die Methode updated den Namen der Kategorie mit der angegebenen KategorieId in den neuen Namen der uebergeben wurde.
+     * @param categoryId ID der Kategorie
+     * @param newCategoryName Neue Bezeichnung der Kategorie
      */
     public void updateCategoryName(long categoryId, String newCategoryName){
 
@@ -642,9 +648,9 @@ public class Database extends SQLiteOpenHelper {
 
 
     /**
-     *
-     * @param personId
-     * @param newPersonName
+     * Die Methode updated den Namen der Person mit der angegebenen Person-Id in den neuen Namen der uebergeben wurde.
+     * @param personId ID der Person
+     * @param newPersonName Neuer Name der Person
      */
     public void updatePersonName(long personId, String newPersonName){
 
@@ -659,7 +665,7 @@ public class Database extends SQLiteOpenHelper {
 
 
     /**
-     *
+     * Die Methode loescht eine Person aus der Datenbank.
      * @param personId
      */
     public void deletePerson(long personId){
@@ -672,7 +678,7 @@ public class Database extends SQLiteOpenHelper {
 
 
     /**
-     *
+     * Die Methode loescht eine Kategorie aus der Datenbank.
      * @param categoryId
      */
     public void deleteCateogry(long categoryId){
@@ -685,7 +691,7 @@ public class Database extends SQLiteOpenHelper {
 
 
     /**
-     *
+     * Die Kategorie loescht alle Payment-Datensaetze, welche die uebergebene Person-Id betreffen.
      * @param personId
      */
     public void deletePayments(long personId){
@@ -696,8 +702,9 @@ public class Database extends SQLiteOpenHelper {
         insertData(sql);
     }
 
+
     /**
-     *
+     * Die Kategorie loescht alle Repayment-Datensaetze, welche die uebergebene Person-Id betreffen.
      * @param personId
      */
     public void deleteRepayment(long personId){

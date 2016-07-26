@@ -6,10 +6,8 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,9 +18,13 @@ import com.cgellner.yomm.R;
 
 import java.util.ArrayList;
 
-
+/**
+ * Die Klasse stellt eine Ansicht dar, in welcher Elemente wie Personen oder Kategorien angezeigt und verwaltet werden koennen.
+ * @author Carolin Gellner
+ */
 public class DialogFrag_AddSetting extends DialogFragment {
 
+    //region Fields
 
     private View view;
     private String type;
@@ -35,6 +37,11 @@ public class DialogFrag_AddSetting extends DialogFragment {
     private long id = 0;
 
     private Activity_Settings activitySettings;
+
+    //endregion
+
+
+    //region Setter
 
     public void setActivity(Activity_Settings activitySettings) {
 
@@ -49,6 +56,11 @@ public class DialogFrag_AddSetting extends DialogFragment {
     public void setId(long id) {
         this.id = id;
     }
+
+    //endregion
+
+
+    //region Public Methods
 
     /**
      *
@@ -120,13 +132,17 @@ public class DialogFrag_AddSetting extends DialogFragment {
 
     }
 
+    //endregion
 
+
+    //region Private Methods
 
     /**
-     *
+     * Die Methode speichert, aendert oder loescht den Namen der Person oder der Kategorie in der Datenbank.
      */
     private void saveData(){
 
+        //EDIT: Element in Datenbank updaten
         if(type.contains("edit")){
 
             String name = ((TextView) view.findViewById(R.id.tVsettingName)).getText().toString();
@@ -143,6 +159,8 @@ public class DialogFrag_AddSetting extends DialogFragment {
                 }
             }
 
+
+            //DELETE: Element in Datenbank loeschen
         }else if(type.contains("delete")){
 
             if (type.contains(Person.class.toString())) {
@@ -179,6 +197,7 @@ public class DialogFrag_AddSetting extends DialogFragment {
 
         }else{
 
+            //WEDER DELETE NOCH EDIT: Element in Datenbank speichern
             String name = ((TextView) view.findViewById(R.id.tVsettingName)).getText().toString();
             if (name.length() > 0) {
 
@@ -200,9 +219,8 @@ public class DialogFrag_AddSetting extends DialogFragment {
         }
     }
 
-
     /**
-     *
+     *Die Methode legt den Titel des DialogFragments fest.
      */
     private void setHeader(){
 
@@ -232,9 +250,8 @@ public class DialogFrag_AddSetting extends DialogFragment {
             }
     }
 
-
     /**
-     *
+     * Name in der TextView anzeigen zum aendern (Wenn Element bearbeiten wird)
      */
     private void setNameIntoEditText(){
 
@@ -255,8 +272,9 @@ public class DialogFrag_AddSetting extends DialogFragment {
         }
     }
 
+
     /**
-     *
+     * Die Methode zeigt einen Infotext im DialogFragment an, wenn eine Kategorie oder Person geloescht werden soll.
      */
     private void setInfoTextIntoEditText(){
 
@@ -270,6 +288,7 @@ public class DialogFrag_AddSetting extends DialogFragment {
 
                     double debts = GlobalVar.getPaymentDifference(id, person.getID());
 
+                    //Person kann erst geloescht werden, wenn alle Zahlungen ausgeglichen sind, die diese Person betreffen
                     if(debts != 0){
 
                         text = "Die Person '" +  GlobalVar.Database.getPersonName(id) + "' kann nicht  gelöscht werden, " +
@@ -296,5 +315,7 @@ public class DialogFrag_AddSetting extends DialogFragment {
             inputName.setEnabled(false);
         }
     }
+
+    //endregion
 
 }

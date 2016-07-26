@@ -3,7 +3,9 @@ package com.cgellner.yomm.Objects;
 import com.cgellner.yomm.Database.Sql;
 
 /**
- * Created by Carolin on 31.05.2016.
+ * Die Klasse repaesentiert eine Kategorie.
+ * @since 31.05.2016
+ * @author Carolin Gellner
  */
 public class Category {
 
@@ -16,7 +18,7 @@ public class Category {
     //endregion
 
 
-    //region Properties
+    //region Getter & Setter
 
 
     public long getID() {
@@ -61,6 +63,5 @@ public class Category {
     }
 
     //endregion
-
 
 }

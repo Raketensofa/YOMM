@@ -18,7 +18,7 @@ public abstract class GlobalVar {
     //endregion
 
     public static String typePayment = "payment";
-    public static String typeRePpayment = "repayment";
+    public static String typeRepayment = "repayment";
 
 
     //region Names of Shared Preferences (Sp) for Payment
@@ -38,6 +38,7 @@ public abstract class GlobalVar {
     public static final String SpRepaymentCreditor = "repaymentCreditor";
     public static final String SpRepaymentDebtor = "repaymentDebtor";
     public static final String SpRepaymentDetails = "repaymentDetails";
+
 
 
     //endregion

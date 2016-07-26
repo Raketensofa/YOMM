@@ -5,7 +5,8 @@ import java.util.Date;
 /**
  *
  * Die Klasse Pay stellt die Oberklasse fuer ein Zahlungsobjekt dar, welche gleichzeitig auch eine Rueckzahlung darstellen kann.
- * Created by Carolin on 23-Jul-16.
+ * @since 23.06.2016
+ * @author Carolin Gellner
  */
 public class Pay {
 

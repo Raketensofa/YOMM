@@ -6,15 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.cgellner.yomm.ViewPager.ViewpagerElements;
+
 
 /**
- * Die Klasse stellt ein Fragment innerhalb eines ViewPagers dar.
- *
+ * Die Klasse stellt ein Fragment (eine Seite/Ansicht) innerhalb eines ViewPagers dar.
  * @author Carolin Gellner
  * @since 17.07.2016
  */
 public class Fragment_ViewPager extends Fragment {
+
 
     //region Fields
 
@@ -27,7 +27,7 @@ public class Fragment_ViewPager extends Fragment {
     //endregion
 
 
-    //region Getter & Setter
+    //region Setter (Getter werden nicht benoetigt)
 
     public void setType(String type) {
         this.type = type;
@@ -59,8 +59,12 @@ public class Fragment_ViewPager extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+
+        //Ansicht zur uebergebenen ID des Layouts erstellen
         view = inflater.inflate(layoutId, container, false);
 
+
+        //Elemente (z.B. Buttons, ListViews,...) der betreffenden Seite im Viewpager initialisieren
         if (type.equals("repayment")) {
 
             elements.setRepaymentViewpagerElements(view, position);

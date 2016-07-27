@@ -181,7 +181,7 @@ public class DialogFrag_AddSetting extends DialogFragment {
                 if(save == true) {
 
                     GlobalVar.Database.deletePayments(id);
-                    GlobalVar.Database.deleteRepayment(id);
+                    GlobalVar.Database.deleteRepayments(id);
                     GlobalVar.Database.deletePerson(id);
 
                 }else{

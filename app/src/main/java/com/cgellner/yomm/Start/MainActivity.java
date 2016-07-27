@@ -15,6 +15,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Display;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.cgellner.yomm.Database.Database;
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.commit();
 
 
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("YOMM");
         setSupportActionBar(toolbar);
@@ -99,14 +101,31 @@ public class MainActivity extends AppCompatActivity
 
         Intent intent = null;
 
+
+        if(id == R.id.nav_start){
+
+            Fragment_Start fragment = new Fragment_Start();
+            fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+
+            getSupportActionBar().setTitle("YOMM");
+
+
+        }else
         if (id == R.id.nav_overview) {
 
             //Fragment wechseln (Uebersicht der Schulden aller Personen)
+
             Fragment_OverviewCardViewList fragment = new Fragment_OverviewCardViewList();
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
+
+            getSupportActionBar().setTitle("Übersicht");
+
 
         } else if (id == R.id.nav_personens) {
 
@@ -127,6 +146,25 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
 
 
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case android.R.id.home:
+
+                finish();
+
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
         return true;
     }
 

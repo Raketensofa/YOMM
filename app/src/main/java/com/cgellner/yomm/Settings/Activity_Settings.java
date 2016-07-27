@@ -60,6 +60,8 @@ public class Activity_Settings extends AppCompatActivity {
 
         setButton();
 
+        setTitle();
+
     }
 
     //endregion
@@ -190,6 +192,9 @@ public class Activity_Settings extends AppCompatActivity {
     }
 
 
+
+
+
     /**
      *
      */
@@ -245,6 +250,20 @@ public class Activity_Settings extends AppCompatActivity {
 
     }
 
+    /**
+     * Legt den Titel der Activity fest.
+     */
+    private void setTitle(){
+
+        if(object == Person.class){
+
+            getSupportActionBar().setTitle("Personen");
+
+        }else if(object == Category.class){
+
+            getSupportActionBar().setTitle("Kategorien");
+        }
+    }
 
     /**
      *
@@ -281,6 +300,9 @@ public class Activity_Settings extends AppCompatActivity {
 
             button.setText("Neue Kategorie");
         }
+
+
+
 
 
         button.setOnClickListener(new View.OnClickListener() {

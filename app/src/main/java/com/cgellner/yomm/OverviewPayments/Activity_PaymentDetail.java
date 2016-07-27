@@ -1,18 +1,33 @@
 package com.cgellner.yomm.OverviewPayments;
 
-import android.content.Intent;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
+import com.cgellner.yomm.GlobalVar;
 import com.cgellner.yomm.R;
 
 
 public class Activity_PaymentDetail extends AppCompatActivity {
+
+    private String type = null;
+    private String elementId;
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setElementId(String elementId) {
+        this.elementId = elementId;
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,35 +40,62 @@ public class Activity_PaymentDetail extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        elementId = getIntent().getStringExtra(Fragment_PaymentDetail.ARG_ITEM_ID);
+        type = getIntent().getStringExtra("type");
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setClickable(true);
         fab.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
 
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+
+                builder.setMessage("Bist du dir sicher, dass du dieses Element löschen möchtest?").setTitle("Löschen");
+
+                builder.setPositiveButton("Ja, Löschen", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        //Rueckzahlung (hat nie eine Kategorie)
+                        if(type.length() == 0){
+
+                            GlobalVar.Database.deleteRepayment(Long.valueOf(elementId));
+                            Activity_PaymentsList.ITEM_MAP.remove(elementId);
+
+                        }else
+                        //Ausgabe (hat immer eine Kategorie)
+                        if(type.length() > 0){
+
+                            GlobalVar.Database.deleteRepayment(Long.valueOf(elementId));
+                            Activity_PaymentsList.ITEM_MAP.remove(elementId);
 
 
+                        }
+                    }
+                });
+                builder.setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
-
-
-        ActionBar actionBar = getSupportActionBar();
-
-        if (actionBar != null) {
-
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
 
 
 
         if (savedInstanceState == null) {
 
-
             Bundle arguments = new Bundle();
 
-            arguments.putString(Fragment_PaymentDetail.ARG_ITEM_ID,
-                    getIntent().getStringExtra(Fragment_PaymentDetail.ARG_ITEM_ID));
-
+            arguments.putString(Fragment_PaymentDetail.ARG_ITEM_ID, elementId);
 
             Fragment_PaymentDetail fragment = new Fragment_PaymentDetail();
             fragment.setArguments(arguments);
@@ -66,14 +108,19 @@ public class Activity_PaymentDetail extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
+        switch (item.getItemId()) {
 
-        if (id == android.R.id.home) {
+            case android.R.id.home:
 
-            navigateUpTo(new Intent(this, Activity_PaymentsList.class));
-            return true;
+                finish();
+
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
     }
 }

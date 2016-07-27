@@ -846,10 +846,34 @@ public class Database extends SQLiteOpenHelper {
      * Die Kategorie loescht alle Repayment-Datensaetze, welche die uebergebene Person-Id betreffen.
      * @param personId
      */
-    public void deleteRepayment(long personId){
+    public void deleteRepayments(long personId){
 
         String sql = "DELETE FROM " + Sql.NAME_TABLE_REPAYMENTS +
                 " WHERE " + Sql.NAME_COLUMN_CREDITOR + "=" + personId +  " OR " + Sql.NAME_COLUMN_DEBTOR + "=" + personId;
+
+        insertData(sql);
+    }
+
+
+    /**
+     * Loescht den Datensatz der Ausgabe (Payment) der uebergebenen ID.
+     * @param paymentId ID der Payment
+     */
+    public void deletePayment(long paymentId){
+
+        String sql = "DELETE FROM " + Sql.NAME_TABLE_PAYMENTS + " WHERE " + Sql.NAME_COLUMN_ID + "=" + paymentId;
+
+        insertData(sql);
+
+    }
+
+    /**
+     * Loescht den Datensatz der Rueckzahlung (Repayment) der uebergebenen ID.
+     * @param repaymentId ID der Repayment
+     */
+    public  void deleteRepayment(long repaymentId){
+
+        String sql = "DELETE FROM " + Sql.NAME_TABLE_REPAYMENTS + " WHERE " + Sql.NAME_COLUMN_ID + "=" + repaymentId;
 
         insertData(sql);
     }

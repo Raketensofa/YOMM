@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -47,12 +46,12 @@ public class Activity_PaymentsList extends AppCompatActivity {
     private long secondpersonId;
     private Spinner categorySpinner;
     private List<PaymentItem> contentItems;
-    private ArrayList<Category> categorieList;
 
     public static Map<String, PaymentItem> ITEM_MAP;
+    public static View recyclerView;
+
 
     private ArrayList<Pay> payDatasets;
-    private View recyclerView;
 
     //endregion
 
@@ -106,9 +105,11 @@ public class Activity_PaymentsList extends AppCompatActivity {
         }
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
             case android.R.id.home:
                 finish();
                 return true;
@@ -342,14 +343,21 @@ public class Activity_PaymentsList extends AppCompatActivity {
 
             holder.mItem = mValues.get(position);
 
-
             holder.listview_content_date.setText(formatDate(mValues.get(position).getDate()));
             holder.listview_content_value.setText(GlobalVar.formatMoney(mValues.get(position).getValue()));
-            holder.listview_content_creditor.setText(mValues.get(position).getDebtor());
+
+
+            //wenn es eine Rueckzahlung ist (Rueckzahlung hat keine Kategorie) die Schriftfarbe in gruen machen
+            if(holder.mItem.getCategory().length() == 0){
+
+                holder.listview_content_date.setTextColor(Color.parseColor("#008B45"));
+                holder.listview_content_value.setTextColor(Color.parseColor("#008B45"));
+            }
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
 
                     if (mTwoPane) {
 
@@ -368,6 +376,7 @@ public class Activity_PaymentsList extends AppCompatActivity {
 
                         Intent intent = new Intent(context, Activity_PaymentDetail.class);
                         intent.putExtra(Fragment_PaymentDetail.ARG_ITEM_ID, holder.mItem.getId());
+                        intent.putExtra("type", holder.mItem.getCategory());
                         context.startActivity(intent);
                     }
                 }
@@ -393,9 +402,7 @@ public class Activity_PaymentsList extends AppCompatActivity {
             public final View mView;
             public final TextView listview_content_date;
             public final TextView listview_content_value;
-            public final TextView listview_content_creditor;
 
-            public final TextView listview_content_creditorheader;
 
             public PaymentItem mItem;
 
@@ -406,38 +413,6 @@ public class Activity_PaymentsList extends AppCompatActivity {
                 mView = view;
                 listview_content_date = (TextView) view.findViewById(R.id.listview_date);
                 listview_content_value = (TextView) view.findViewById(R.id.listview_value);
-                listview_content_creditor = (TextView)view.findViewById(R.id.listview_creditor);
-                listview_content_creditorheader = (TextView)view.findViewById(R.id.listview_creditorheader);
-
-
-
-                RelativeLayout.LayoutParams paramDate = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                paramDate.width = (GlobalVar.Display_Width / 100) * 20;
-                paramDate.height = 60;
-                paramDate.setMargins(5,5,5,5);
-                listview_content_date.setLayoutParams(paramDate);
-
-                RelativeLayout.LayoutParams paramValue = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                paramValue.width = (GlobalVar.Display_Width / 100) * 35;
-                paramValue.height = 60;
-                paramValue.addRule(RelativeLayout.RIGHT_OF, listview_content_date.getId());
-                paramValue.setMargins(5,5,5,5);
-                listview_content_value.setLayoutParams(paramValue);
-
-                RelativeLayout.LayoutParams paramcreditorheader = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                paramcreditorheader.width = (GlobalVar.Display_Width / 100) * 45;
-                paramcreditorheader.addRule(RelativeLayout.RIGHT_OF, listview_content_value.getId());
-                paramcreditorheader.setMargins(5,5,5,0);
-                paramcreditorheader.height = 60;
-                listview_content_creditorheader.setLayoutParams(paramcreditorheader);
-
-                RelativeLayout.LayoutParams paramcreditor = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                paramcreditor.width = (GlobalVar.Display_Width / 100) * 45;
-                paramcreditor.addRule(RelativeLayout.RIGHT_OF, listview_content_value.getId());
-                paramcreditor.addRule(RelativeLayout.BELOW, listview_content_creditorheader.getId());
-                paramcreditor.setMargins(5, 0, 5, 5);
-                paramcreditor.height = 60;
-                listview_content_creditor.setLayoutParams(paramcreditor);
 
             }
         }

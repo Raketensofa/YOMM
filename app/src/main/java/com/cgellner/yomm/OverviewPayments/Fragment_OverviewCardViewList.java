@@ -85,7 +85,7 @@ public class Fragment_OverviewCardViewList extends Fragment {
 
                     if(person.getID() != second_person.getID()) {
 
-                        Double money = GlobalVar.getPaymentDifference(second_person.getID(), person.getID());
+                        Double money = GlobalVar.getPaymentDifference(person.getID(), second_person.getID());
 
                         valueList.add(new String[]{String.valueOf(second_person.getID()), second_person.getName(), String.format( "%.2f", money )});
 

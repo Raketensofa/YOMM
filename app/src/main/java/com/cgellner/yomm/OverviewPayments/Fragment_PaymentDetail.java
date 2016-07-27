@@ -1,6 +1,7 @@
 package com.cgellner.yomm.OverviewPayments;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -38,7 +39,17 @@ public class Fragment_PaymentDetail extends Fragment {
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
 
-                appBarLayout.setTitle(mItem.getId());
+                if(mItem.getCategory().length() > 0){
+
+                    appBarLayout.setTitle(mItem.getValue() + " Euro");
+                    appBarLayout.setBackgroundColor(Color.parseColor("#EE2C2C"));
+
+                }else if(mItem.getCategory().length() == 0){
+
+                    appBarLayout.setTitle(mItem.getValue() + " Euro");
+                    appBarLayout.setBackgroundColor(Color.parseColor("#2e5f48"));
+
+                }
             }
         }
     }

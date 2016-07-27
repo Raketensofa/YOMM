@@ -84,11 +84,13 @@ public class RecyclerViewAdapter_ListViewOfCardView extends RecyclerView.Adapter
 
             if (new Double(data.get(position)[2].toString().replace(",", ".")) < 0) {
 
-                holder.textViewValue.setTextColor(Color.RED);
+                //rot, da die Hauptperson der Cardview Schulden an die betreffende Person hat, hinter der der rote Betrag steht
+                holder.textViewValue.setTextColor(Color.parseColor("#EE2C2C"));
 
             } else if (new Double(data.get(position)[2].toString().replace(",", ".")) > 0) {
 
-                holder.textViewValue.setTextColor(Color.BLUE);
+                //gruen, da die Hauptperson der Cardview Geld von der betreffenden Person noch zurueck bekommt, hinter der der rote Betrag steht
+                holder.textViewValue.setTextColor(Color.parseColor("#2e5f48"));
 
             } else {
 

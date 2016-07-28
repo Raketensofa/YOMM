@@ -10,21 +10,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.cgellner.yomm.GlobalVar;
 import com.cgellner.yomm.R;
 
-
+/**
+ * Die Klasse repraesentiert ein Fragment, welches das Detail ein
+ */
 public class Fragment_PaymentDetail extends Fragment {
 
 
+    //region Fields
     public static final String ARG_ITEM_ID = "item_id";
-
-
     private PaymentItem mItem;
 
+    //endregion
 
-    public Fragment_PaymentDetail() {
-    }
 
+    //region Public Methods
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -41,12 +43,12 @@ public class Fragment_PaymentDetail extends Fragment {
 
                 if(mItem.getCategory().length() > 0){
 
-                    appBarLayout.setTitle(mItem.getValue() + " Euro");
+                    appBarLayout.setTitle(GlobalVar.formatMoney(mItem.getValue()) + " Euro");
                     appBarLayout.setBackgroundColor(Color.parseColor("#EE2C2C"));
 
                 }else if(mItem.getCategory().length() == 0){
 
-                    appBarLayout.setTitle(mItem.getValue() + " Euro");
+                    appBarLayout.setTitle(GlobalVar.formatMoney(mItem.getValue()) + " Euro");
                     appBarLayout.setBackgroundColor(Color.parseColor("#2e5f48"));
 
                 }
@@ -62,16 +64,19 @@ public class Fragment_PaymentDetail extends Fragment {
 
         if (mItem != null) {
 
-            ((TextView) rootView.findViewById(R.id.payment_detail_value)).setText(mItem.getValue());
+            ((TextView) rootView.findViewById(R.id.payment_detail_value)).setText(GlobalVar.formatMoney(mItem.getValue()));
             ((TextView) rootView.findViewById(R.id.payment_detail_details)).setText(mItem.getDetails());
             ((TextView) rootView.findViewById(R.id.payment_details_category)).setText(mItem.getCategory());
             ((TextView) rootView.findViewById(R.id.payment_detail_debtor)).setText(mItem.getDebtor());
             ((TextView) rootView.findViewById(R.id.payment_detail_creditor)).setText(mItem.getCreditor());
-            ((TextView) rootView.findViewById(R.id.payment_detail_sum)).setText(mItem.getMainMoneyValue());
+            ((TextView) rootView.findViewById(R.id.payment_detail_sum)).setText(GlobalVar.formatMoney(mItem.getMainMoneyValue()));
             ((TextView) rootView.findViewById(R.id.payment_detail_date)).setText(mItem.getDate());
             ((TextView) rootView.findViewById(R.id.payment_detail_time)).setText(mItem.getTime());
         }
 
         return rootView;
     }
+
+    //endregion
+
 }

@@ -42,16 +42,17 @@ public class Activity_PaymentsList extends AppCompatActivity {
     //region Fields
 
     private boolean mTwoPane;
-    private long mainpersonId;
-    private long secondpersonId;
-    private Spinner categorySpinner;
-    private List<PaymentItem> contentItems;
+    private static long mainpersonId;
+    private static long secondpersonId;
+    private  Spinner categorySpinner;
+    public static List<PaymentItem> contentItems;
+    private ArrayList<Pay> payDatasets;
+
 
     public static Map<String, PaymentItem> ITEM_MAP;
     public static View recyclerView;
 
 
-    private ArrayList<Pay> payDatasets;
 
     //endregion
 
@@ -84,7 +85,9 @@ public class Activity_PaymentsList extends AppCompatActivity {
         categorySpinner = (Spinner)findViewById(R.id.activity_pay_list_spinner_category);
         setCategorySpinner(categorySpinner);
 
+        //Daten der Ausgaben und Rueckzahlungen aus der Datenbank abfragen
         payDatasets = GlobalVar.Database.getPaymentsAndRepayments(mainpersonId, secondpersonId, 0);
+        //Datensaetze aufbereiten
         contentItems = prepareContentItems(payDatasets);
 
         ITEM_MAP = new HashMap<String, PaymentItem>();
@@ -128,7 +131,7 @@ public class Activity_PaymentsList extends AppCompatActivity {
      *
      * @param spinner
      */
-    private void setCategorySpinner(Spinner spinner){
+    public void setCategorySpinner(Spinner spinner){
 
         String[] payTypes = new String[3];
         payTypes[0] = "Alle anzeigen";
@@ -164,7 +167,7 @@ public class Activity_PaymentsList extends AppCompatActivity {
      *
      * @param position
      */
-    private void updateRecyclerView(int position){
+    public void updateRecyclerView(int position){
 
         payDatasets = GlobalVar.Database.getPaymentsAndRepayments(mainpersonId, secondpersonId, position);
 
@@ -191,9 +194,8 @@ public class Activity_PaymentsList extends AppCompatActivity {
         recyclerView.setBackgroundColor(Color.WHITE);
     }
 
-
     /**
-     *
+     * Ruft die uebergebenen IDs der Personen aus den Extras ab.
      */
     private void getPersonIds(){
 
@@ -210,7 +212,9 @@ public class Activity_PaymentsList extends AppCompatActivity {
     }
 
 
-
+    /**
+     * Legt den Titel der Activity fest.
+     */
     private void setActivtityTitle(){
 
         String title = "";
@@ -238,9 +242,9 @@ public class Activity_PaymentsList extends AppCompatActivity {
 
 
     /**
-     *
-     * @param payments
-     * @return
+     * Die Methode bereitet die ContentItems vor.
+     * @param payments Liste mit Pay-Datensaetzen (sind Ausgaben und Rueckzahlungen)
+     * @return Liste mit aufbereiteten PaymentItem-Objekten fuer die Darstellung im Master-Detail
      */
     private List<PaymentItem> prepareContentItems(List<Pay> payments){
 
@@ -260,6 +264,7 @@ public class Activity_PaymentsList extends AppCompatActivity {
 
 
                 if(payments.get(i) instanceof Payment){
+                //Dann einen Datensatz aufbereiten der eine Ausgabe darstellt
 
                     Payment paym = (Payment)payments.get(i);
 
@@ -271,6 +276,7 @@ public class Activity_PaymentsList extends AppCompatActivity {
 
                 }else{
 
+                    //Dann einen Datensatz aufbereiten der eine Rueckzahlung darstellt
                      debtorName = GlobalVar.Database.getPersonName(payments.get(i).getDebtorId());
                      creditorName = GlobalVar.Database.getPersonName(payments.get(i).getCreditorId());
 
@@ -395,7 +401,7 @@ public class Activity_PaymentsList extends AppCompatActivity {
 
 
         /**
-         *
+         * Die Klasse enthaelt den ViewHolder
          */
         public class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -417,17 +423,16 @@ public class Activity_PaymentsList extends AppCompatActivity {
             }
         }
 
+
         /**
-         *
-         * @param date
-         * @return
+         * Formatiert das Datum ins Format dd.MM.
+         * @param date Datum im Format dd.MM.yyyy HH:mm:ss
+         * @return Formatiertes Datum
          */
         private String formatDate(String date){
 
             return date.substring(0, 2) + "." + date.substring(3, 5) + ".";
         }
-
-
 
     }
 

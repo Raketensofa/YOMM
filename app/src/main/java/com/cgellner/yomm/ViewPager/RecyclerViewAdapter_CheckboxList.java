@@ -88,6 +88,7 @@ public class RecyclerViewAdapter_CheckboxList extends RecyclerView.Adapter<Recyc
             holder.checkBox.setText(personsList.get(position).getName());
             holder.ID = personsList.get(position).getID();
             holder.preferences = sharedPreferences;
+            holder.checkBox.setTextSize(30);
 
 
             //Ermitteln, ob bereits Debitoren erfasst wurden und entsprechend deren Checkboxen aktivieren

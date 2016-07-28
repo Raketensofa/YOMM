@@ -294,7 +294,7 @@ public class ViewpagerElements {
 
             RadioButton radioButton = new RadioButton(view.getContext());
             radioButton.setText(person.getName());
-            radioButton.setTextSize(35);
+            radioButton.setTextSize(30);
             radioButton.setId(new Integer(String.valueOf(person.getID())));
 
             //Falls bereits ein Creditor in den SharedPrefs hinterlegt ist, diesen RadioButton aktivieren
@@ -358,7 +358,7 @@ public class ViewpagerElements {
 
             RadioButton radioButton = new RadioButton(view.getContext());
             radioButton.setText(category.getName());
-            radioButton.setTextSize(35);
+            radioButton.setTextSize(25);
             radioButton.setId(new Integer(String.valueOf(category.getID())));
 
 

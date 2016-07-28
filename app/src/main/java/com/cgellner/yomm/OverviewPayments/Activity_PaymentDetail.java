@@ -14,21 +14,29 @@ import com.cgellner.yomm.GlobalVar;
 import com.cgellner.yomm.R;
 
 
+
+/**
+ * Die Klasse repraesentiert eine Activity in welcher das Detail einer Repayment oder Payment im Rahmen des
+ * Master-Detail-Layouts angezeigt wird.
+ * @author Carolin Gellner
+ */
 public class Activity_PaymentDetail extends AppCompatActivity {
+
+
+    //region Fields
 
     private String type = null;
     private String elementId;
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public void setElementId(String elementId) {
-        this.elementId = elementId;
-    }
+    //endregion
 
 
+    //region Protected & Public Methods
 
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -54,7 +62,7 @@ public class Activity_PaymentDetail extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                final AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
 
                 builder.setMessage("Bist du dir sicher, dass du dieses Element löschen möchtest?").setTitle("Löschen");
 
@@ -63,21 +71,20 @@ public class Activity_PaymentDetail extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
 
                         //Rueckzahlung (hat nie eine Kategorie)
-                        if(type.length() == 0){
+                        if (type.length() == 0) {
 
                             GlobalVar.Database.deleteRepayment(Long.valueOf(elementId));
-                            Activity_PaymentsList.ITEM_MAP.remove(elementId);
 
-                        }else
-                        //Ausgabe (hat immer eine Kategorie)
-                        if(type.length() > 0){
+                        } else
+                            //Ausgabe (hat immer eine Kategorie)
+                            if (type.length() > 0) {
 
-                            GlobalVar.Database.deleteRepayment(Long.valueOf(elementId));
-                            Activity_PaymentsList.ITEM_MAP.remove(elementId);
+                                GlobalVar.Database.deletePayment(Long.valueOf(elementId));
+                            }
 
-
-                        }
+                        onBackPressed();
                     }
+
                 });
                 builder.setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -86,6 +93,7 @@ public class Activity_PaymentDetail extends AppCompatActivity {
 
                 AlertDialog dialog = builder.create();
                 dialog.show();
+
             }
         });
 
@@ -106,8 +114,14 @@ public class Activity_PaymentDetail extends AppCompatActivity {
         }
     }
 
+    /**
+     *
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
 
             case android.R.id.home:
@@ -120,7 +134,14 @@ public class Activity_PaymentDetail extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     *
+     * @param menu
+     * @return
+     */
     public boolean onCreateOptionsMenu(Menu menu) {
         return true;
     }
+
+    //endregion
 }

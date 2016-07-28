@@ -15,7 +15,6 @@ import com.cgellner.yomm.Objects.Payment;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 
 /**
@@ -31,7 +30,7 @@ public class Database extends SQLiteOpenHelper {
     private final String TAG = Database.class.getName();
 
     private static final String DATABASE_NAME = "Yomm_Database.db";
-    private static final int DATABASE_VERSION = 7;
+    private static final int DATABASE_VERSION = 8;
 
     private SQLiteDatabase Database;
     private Context context;

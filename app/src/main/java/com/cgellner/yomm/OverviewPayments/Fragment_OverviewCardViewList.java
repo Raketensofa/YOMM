@@ -45,6 +45,8 @@ public class Fragment_OverviewCardViewList extends Fragment {
     }
 
 
+
+
     private void setRecyclerViewItems() {
 
         ArrayList<OverviewCardViewContent> data = getCalculatedData();

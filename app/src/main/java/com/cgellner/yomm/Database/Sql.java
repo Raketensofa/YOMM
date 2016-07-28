@@ -1,7 +1,9 @@
 package com.cgellner.yomm.Database;
 
 /**
- * Created by Carolin on 31.05.2016.
+ * Die Klasse beinhaltet alle Tabellen- und Spaltennamen der Datenbank sowie Sql-Befehle zum Erstellen der Tabellen.
+ * @since 31.05.2016
+ * @author Carolin Gellner
  */
 public abstract class Sql {
 
@@ -18,14 +20,12 @@ public abstract class Sql {
     //endregion
 
 
-
     //region Database Table Names
 
-    public static final String NAME_TABLE_TRANSACTIONS = "transactions";
-    public static final String NAME_TABLE_MAINCATEGORIES = "maincategories";
-    public static final String NAME_TABLE_SUBCATEGORIES = "subcategories";
+    public static final String NAME_TABLE_PAYMENTS = "payments";
+    public static final String NAME_TABLE_REPAYMENTS = "repayments";
+    public static final String NAME_TABLE_CATEGORIES = "categories";
     public static final String NAME_TABLE_PERSONS = "persons";
-    public static final String NAME_TABLE_ACCOUNTS = "accounts";
 
     //endregion
 
@@ -33,66 +33,57 @@ public abstract class Sql {
     //region Database Column Names
 
     public static final String NAME_COLUMN_ID = "id";
-    public static final String NAME_COLUMN_PAYINGPERSONS = "paying_persons";
-    public static final String NAME_COLUMN_FALLSATPERSONS = "falls_at_persons";
-    public static final String NAME_COLUMN_TYPE = "type";
-    public static final String NAME_COLUMN_DATETIME = "datetime";
-    public static final String NAME_COLUMN_DATE_MATURITY = "date_maturity";
+    public static final String NAME_COLUMN_CREDITOR = "creditorId";
+    public static final String NAME_COLUMN_DEBTOR = "debtorId";
     public static final String NAME_COLUMN_VALUE = "value";
-    public static final String NAME_COLUMN_MAINCATEGORY = "maincategory";
-    public static final String NAME_COLUMN_SUBCATEGORY = "subcategory";
-    public static final String NAME_COLUMN_DESCRIPTION = "descritpion";
-    public static final String NAME_COLUMN_ACCOUNT = "account";
+    public static final String NAME_COLUMN_CATEGORY = "categoryId";
+    public static final String NAME_COLUMN_DETAILS = "details";
     public static final String NAME_COLUMN_NAME = "name";
-    public static final String NAME_COLUMN_STARTVALUE = "startvalue";
-    public static final String NAME_COLUMN_MAINCATEGORY_ID = "maincategory_id";
+    public static final String NAME_COLUMN_DATETIME = "datetime";
+    public static final String NAME_COLUMN_SUM = "sum";
+
 
     //endregion
 
 
     //region CreateTables
 
-    public static final String CREATE_TABLE_TRANSACTIONS = "CREATE TABLE " +
-                NAME_TABLE_TRANSACTIONS + "(" +
+    public static final String CREATE_TABLE_PAYMENTS = "CREATE TABLE " +
+                NAME_TABLE_PAYMENTS + "(" +
                 NAME_COLUMN_ID + " " + DATATYPE_INTEGER + " " + PRIMARYKEY_AUTO + "," +
-                NAME_COLUMN_TYPE + " " + DATATYPE_INTEGER + " " + NOTNULL + ", " +
                 NAME_COLUMN_DATETIME + " " + DATATYPE_TEXT + " " + NOTNULL + ", " +
-                NAME_COLUMN_DATE_MATURITY + " " + DATATYPE_TEXT + " " + NOTNULL + ", " +
-                NAME_COLUMN_ACCOUNT + " " + DATATYPE_INTEGER + " " + NOTNULL + ", " +
+                NAME_COLUMN_CREDITOR + " " + DATATYPE_INTEGER + " " + NOTNULL + ", " +
+                NAME_COLUMN_DEBTOR + " " + DATATYPE_INTEGER + " " + NOTNULL + ", " +
                 NAME_COLUMN_VALUE + " " + DATATYPE_DECIMAL + " " + NOTNULL + ", " +
-                NAME_COLUMN_PAYINGPERSONS + " " + DATATYPE_TEXT + " " + NOTNULL + ", " +
-                NAME_COLUMN_FALLSATPERSONS + " " + DATATYPE_TEXT + " " + NOTNULL + ", " +
-                NAME_COLUMN_MAINCATEGORY + " " + DATATYPE_TEXT + ", " +
-                NAME_COLUMN_SUBCATEGORY + " " + DATATYPE_TEXT + ", " +
-                NAME_COLUMN_DESCRIPTION + " " + DATATYPE_TEXT + " )";
+                NAME_COLUMN_CATEGORY + " " + DATATYPE_INTEGER + ", " +
+                NAME_COLUMN_DETAILS + " " + DATATYPE_TEXT + "," +
+                NAME_COLUMN_SUM + " " + DATATYPE_DECIMAL + " " + NOTNULL + ")";
+
+
+    public static final String CREATE_TABLE_REPAYMENTS = "CREATE TABLE " +
+            NAME_TABLE_REPAYMENTS + "(" +
+            NAME_COLUMN_ID + " " + DATATYPE_INTEGER + " " + PRIMARYKEY_AUTO + "," +
+            NAME_COLUMN_DATETIME + " " + DATATYPE_TEXT + " " + NOTNULL + ", " +
+            NAME_COLUMN_VALUE + " " + DATATYPE_DECIMAL + " " + NOTNULL + ", " +
+            NAME_COLUMN_CREDITOR + " " + DATATYPE_INTEGER + " " + NOTNULL + ", " +
+            NAME_COLUMN_DEBTOR + " " + DATATYPE_INTEGER + " " + NOTNULL + ", " +
+            NAME_COLUMN_DETAILS + " " + DATATYPE_TEXT + ")";
+
 
 
     public static final String CREATE_TABLE_PERSONS = "CREATE TABLE " +
             NAME_TABLE_PERSONS + "(" +
             NAME_COLUMN_ID + " " + DATATYPE_INTEGER + " " + PRIMARYKEY_AUTO + "," +
-            NAME_COLUMN_NAME + " " + DATATYPE_TEXT + " " + NOTNULL +  ", " +
-            NAME_COLUMN_TYPE + " " + DATATYPE_INTEGER + " " + NOTNULL + " )";
+            NAME_COLUMN_NAME + " " + DATATYPE_TEXT + " " + NOTNULL +  " )";
 
 
-    public static final String CREATE_TABLE_ACCOUNTS = "CREATE TABLE " +
-            NAME_TABLE_ACCOUNTS + "(" +
-            NAME_COLUMN_ID + " " + DATATYPE_INTEGER + " " + PRIMARYKEY_AUTO + "," +
-            NAME_COLUMN_NAME + " " + DATATYPE_TEXT + " " + NOTNULL +  ", " +
-            NAME_COLUMN_TYPE + " " + DATATYPE_INTEGER + " " + NOTNULL + ", " +
-            NAME_COLUMN_STARTVALUE + " " + DATATYPE_DECIMAL + " " + NOTNULL +
-            ")";
 
-    public static final String CREATE_TABLE_MAINCATEGORIES = "CREATE TABLE " +
-            NAME_TABLE_MAINCATEGORIES + "(" +
+    public static final String CREATE_TABLE_CATEGORIES = "CREATE TABLE " +
+            NAME_TABLE_CATEGORIES + "(" +
             NAME_COLUMN_ID + " " + DATATYPE_INTEGER + " " + PRIMARYKEY_AUTO + "," +
             NAME_COLUMN_NAME + " " + DATATYPE_TEXT + " " + NOTNULL +  " )";
 
 
-    public static final String CREATE_TABLE_SUBCATEGORIES = "CREATE TABLE " +
-            NAME_TABLE_SUBCATEGORIES + "(" +
-            NAME_COLUMN_ID + " " + DATATYPE_INTEGER + " " + PRIMARYKEY_AUTO + "," +
-            NAME_COLUMN_NAME + " " + DATATYPE_TEXT + " " + NOTNULL +  ", " +
-            NAME_COLUMN_MAINCATEGORY_ID + " " + DATATYPE_INTEGER + " " + NOTNULL + " )";
 
 
     //endregion

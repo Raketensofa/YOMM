@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/layout_viewpager_payment_fifth"
+    android:focusable="true"
+    android:background="@android:color/white">
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout_viewpager_payment_fifth_pagenumber"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+        android:textColor="@android:color/secondary_text_light"
+        android:inputType="text"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="5dp"
+        android:textSize="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:text="@string/QuestionPaymentDetails"
+        android:textStyle="bold"
+        android:inputType="textMultiLine"
+        android:textAlignment="center"
+        android:textColor="@android:color/secondary_text_light"
+        android:id="@+id/layout_viewpager_payment_fifth_header"
+        android:layout_below="@+id/layout_viewpager_payment_fifth_pagenumber"
+        android:background="@drawable/shape_border"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:paddingTop="25dp"/>
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textImeMultiLine|textMultiLine"
+        android:id="@+id/layout_viewpager_payment_fifth_edittext_details"
+        android:layout_below="@+id/layout_viewpager_payment_fifth_header"
+        android:hint="z.B. Lebensmitteleinkauf"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginBottom="5dp"
+        android:textSize="20dp"
+        android:focusable="true"
+        android:enabled="true" />
+
+
+</RelativeLayout>

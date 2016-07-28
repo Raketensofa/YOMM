@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/layout_viewpager_repayment_first"
+    android:background="@android:color/white">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout_viewpager_repayment_first_pagenumber"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+        android:textColor="@android:color/secondary_text_light"
+        android:inputType="text"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="5dp"
+        android:textSize="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:text="@string/QuestionRepaymentDebtor"
+        android:textStyle="bold"
+        android:inputType="textMultiLine"
+        android:textAlignment="center"
+        android:id="@+id/layout_viewpager_repayments_first_header"
+        android:textColor="@android:color/secondary_text_light"
+        android:layout_below="@+id/layout_viewpager_repayment_first_pagenumber"
+        android:background="@drawable/shape_border"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="20dp"
+        android:paddingTop="25dp"/>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="20dp"
+        android:scrollbars="vertical"
+        android:layout_below="@+id/layout_viewpager_repayments_first_header"
+        android:id="@+id/layout_viewpager_repayments_first_radioButtonGroup"
+        android:layout_marginBottom="5dp">
+
+    </RadioGroup>
+
+
+</RelativeLayout>

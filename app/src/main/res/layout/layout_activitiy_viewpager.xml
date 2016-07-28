@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="fill_parent"
+    tools:context=".ViewPager.Activitiy_ViewPager"
+
+    >
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/activity_viewpager"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel"
+        android:id="@+id/button_viewpager_cancel"
+        android:background="@android:color/white"
+        android:layout_below="@+id/activity_viewpager"
+        android:textSize="20sp"
+        android:onClick="onClick"
+        android:clickable="true"
+        android:enabled="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save"
+        android:id="@+id/button_viewpager_save"
+        android:textSize="20sp"
+        android:layout_toRightOf="@+id/button_viewpager_cancel"
+        android:layout_below="@+id/activity_viewpager"
+        android:background="@color/button_material_dark"
+        android:textColor="@android:color/white"
+        android:onClick="onClick"
+        android:clickable="false"
+        android:enabled="true" />
+
+
+</RelativeLayout>

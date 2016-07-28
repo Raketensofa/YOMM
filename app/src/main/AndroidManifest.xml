@@ -5,20 +5,39 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Activities.MainActivity"
-            android:label="@string/title_activity_main3"
+            android:name=".Start.MainActivity"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.Settings"></activity>
+
+
+        <activity android:name=".Settings.Activity_Settings" />
+
+
+        <activity
+            android:name=".OverviewPayments.Activity_PaymentsList"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".OverviewPayments.Activity_PaymentDetail"
+            android:parentActivityName=".OverviewPayments.Activity_PaymentsList"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".OverviewPayments.Activity_PaymentsList" />
+        </activity>
+
+        <activity
+            android:name=".ViewPager.Activitiy_ViewPager"
+            />
+
     </application>
 
 </manifest>

@@ -3,7 +3,9 @@ package com.cgellner.yomm.Objects;
 import com.cgellner.yomm.Database.Sql;
 
 /**
- * Created by Carolin on 31.05.2016.
+ * Die Klasse reprasentiert eine Person.
+ * @since 31.05.2016
+ * @author Carolin Gellner
  */
 public class Person {
 
@@ -11,11 +13,11 @@ public class Person {
 
     private long ID;
     private String Name;
-    private int Type;
 
     //endregion
 
-    //region Properties
+
+    //region Getter & Setter
 
     public long getID() {
         return ID;
@@ -33,14 +35,6 @@ public class Person {
         Name = name;
     }
 
-    public int getType() {
-        return Type;
-    }
-
-    public void setType(int type) {
-        Type = type;
-    }
-
     //endregion
 
 
@@ -52,8 +46,8 @@ public class Person {
      */
     public String getSqlInsert(){
 
-        return  "INSERT INTO " + Sql.NAME_TABLE_PERSONS + "( name, type) VALUES ( " +
-                "'" + Name + "',"  + Type + ")";
+        return  "INSERT INTO " + Sql.NAME_TABLE_PERSONS + "( name) VALUES ( " +
+                "'" + Name + "')";
     }
 
 

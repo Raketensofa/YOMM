@@ -14,7 +14,7 @@ import com.cgellner.yomm.GlobalVar;
 import com.cgellner.yomm.R;
 
 /**
- * Die Klasse repraesentiert ein Fragment, welches das Detail ein
+ * Die Klasse repraesentiert die Detailansicht einer Ausgabe oder Rueckzahlung.
  */
 public class Fragment_PaymentDetail extends Fragment {
 
@@ -64,12 +64,24 @@ public class Fragment_PaymentDetail extends Fragment {
 
         if (mItem != null) {
 
+
+
+            if(mItem.getCategory().length() == 0){
+
+                ((TextView) rootView.findViewById(R.id.payment_details_category)).setText("---");
+                ((TextView) rootView.findViewById(R.id.payment_detail_sum)).setText("---");
+
+
+            }else if(mItem.getCategory().length() > 0){
+
+                ((TextView) rootView.findViewById(R.id.payment_details_category)).setText(mItem.getCategory());
+                ((TextView) rootView.findViewById(R.id.payment_detail_sum)).setText(GlobalVar.formatMoney(mItem.getMainMoneyValue()));
+            }
+
             ((TextView) rootView.findViewById(R.id.payment_detail_value)).setText(GlobalVar.formatMoney(mItem.getValue()));
             ((TextView) rootView.findViewById(R.id.payment_detail_details)).setText(mItem.getDetails());
-            ((TextView) rootView.findViewById(R.id.payment_details_category)).setText(mItem.getCategory());
             ((TextView) rootView.findViewById(R.id.payment_detail_debtor)).setText(mItem.getDebtor());
             ((TextView) rootView.findViewById(R.id.payment_detail_creditor)).setText(mItem.getCreditor());
-            ((TextView) rootView.findViewById(R.id.payment_detail_sum)).setText(GlobalVar.formatMoney(mItem.getMainMoneyValue()));
             ((TextView) rootView.findViewById(R.id.payment_detail_date)).setText(mItem.getDate());
             ((TextView) rootView.findViewById(R.id.payment_detail_time)).setText(mItem.getTime());
         }

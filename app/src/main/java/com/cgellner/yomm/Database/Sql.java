@@ -8,7 +8,7 @@ package com.cgellner.yomm.Database;
 public abstract class Sql {
 
 
-    //region Datatypes
+    //region Datenbank Datentypen
 
     public static final String DATATYPE_TEXT = "TEXT";
     public static final String DATATYPE_INTEGER = "INTEGER";
@@ -20,7 +20,7 @@ public abstract class Sql {
     //endregion
 
 
-    //region Database Table Names
+    //region Datenbank Tabellennamen
 
     public static final String NAME_TABLE_PAYMENTS = "payments";
     public static final String NAME_TABLE_REPAYMENTS = "repayments";
@@ -30,7 +30,7 @@ public abstract class Sql {
     //endregion
 
 
-    //region Database Column Names
+    //region Datenbank Spaltennamen
 
     public static final String NAME_COLUMN_ID = "id";
     public static final String NAME_COLUMN_CREDITOR = "creditorId";
@@ -46,7 +46,7 @@ public abstract class Sql {
     //endregion
 
 
-    //region CreateTables
+    //region Sql-Behle zum Erstellen der Tabellen
 
     public static final String CREATE_TABLE_PAYMENTS = "CREATE TABLE " +
                 NAME_TABLE_PAYMENTS + "(" +
@@ -87,6 +87,5 @@ public abstract class Sql {
 
 
     //endregion
-
 
 }

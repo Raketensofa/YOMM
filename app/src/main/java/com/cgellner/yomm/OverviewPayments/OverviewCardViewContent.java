@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 
 /**
- *
+ * Die Klasse repraesentiert ein Objekt, welches die Daten fuer eine CardView in der Uebersichtsansicht beinhaltet.
  * @since 28.06.2016
  * @author Carolin Gellner
  */

@@ -386,7 +386,7 @@ public class Activitiy_ViewPager extends AppCompatActivity {
             for (Payment pay : payments) {
 
                 //Datensatz in der Datenbank speichern
-                GlobalVar.Database.insertPaymentDataset(pay);
+                GlobalVar.Database.insertPayment(pay);
             }
 
             //Activity bzw. Viewpager schliessen (zum Starbildschirm der App zurueck)

@@ -21,7 +21,8 @@ import java.util.ArrayList;
 import java.util.Set;
 
 /**
- * Die Klasse beinhaltet die die Elemente der ViewPager-Seiten.
+ * Die Klasse beinhaltet die Elemente der ViewPager-Seiten, welche die Formulare zum Erfassen einer Ausgabe oder Rueckzahlung repraesentieren.
+ * Elemente stellen z.B. RadioGroups, RecyclerViews, etc. dar, die auf den einzelnen Seiten verwendet werden.
  * @@author Carolin Gellner
  * @since 17.07.2016
  */

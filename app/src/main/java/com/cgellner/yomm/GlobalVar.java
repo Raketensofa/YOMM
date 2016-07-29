@@ -1,10 +1,15 @@
 package com.cgellner.yomm;
 
 
+import com.cgellner.yomm.Objects.Pay;
+
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 /**
- * Created by Carolin on 31.05.2016.
+ * Die Klasse repraesentiert eine Sammlung von Variablen und Methoden die global im Programmcode verwendet werden.
+ * @since 31.05.2016
+ * @author Carolin Gellner
  */
 public abstract class GlobalVar {
 
@@ -16,6 +21,7 @@ public abstract class GlobalVar {
 
 
     //endregion
+
 
     public static String typePayment = "payment";
     public static String typeRepayment = "repayment";
@@ -54,11 +60,13 @@ public abstract class GlobalVar {
     //endregion
 
 
+    //region Methods
+
 
     /**
-     *
-     * @param moneyValue
-     * @return
+     * Die Methode formatiert einen Geldwert in ein entsprechendes Format um.
+     * @param moneyValue Geldwert
+     * @return formatierter Geldwert
      */
     public static String formatMoney(String moneyValue){
 
@@ -76,10 +84,9 @@ public abstract class GlobalVar {
 
 
     /**
-     *
-     * @param debtorId
-     * @param creditorId
-     * @return
+     * Die Methode ermittelt die Zahlungsdiffernz zwischen den beiden angegebenen Personen.
+     * @param debtorId ID des Kreditors (erste Person)
+     * @param creditorId ID der Debitors (zweite Person)
      */
     public static double getPaymentDifference(long debtorId, long creditorId){
 
@@ -101,5 +108,33 @@ public abstract class GlobalVar {
 
         return diff;
     }
+
+
+    /**
+     * Die Methode sortiert die Liste der Pay-Datensaetze absteigend nach deren Zeitstempel.
+     * @param pays Liste mit Pays-Datensaetze
+     * @return Sortierte Liste
+     */
+    public static ArrayList<Pay> sort(ArrayList<Pay> pays) {
+
+        Pay p;
+        for (int i = 0; i < pays.size() - 1; i++) {
+
+            if (pays.get(i).getDateTime().getTime() > pays.get(i + 1).getDateTime().getTime()) {
+
+                continue;
+            }
+
+            p = pays.get(i);
+            pays.set(i,pays.get(i + 1));
+            pays.set(i+1,p);
+
+            sort(pays);
+        }
+
+        return pays;
+    }
+
+    //endregion
 
 }

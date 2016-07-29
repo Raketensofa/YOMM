@@ -14,7 +14,7 @@ import com.cgellner.yomm.R;
 import java.util.ArrayList;
 
 /**
- *
+ * Die Klasse reprasentiert den Adapter der Liste innerhalb einer CardView, welche alle Zahlungsdifferenzen pro Person beinhaltet.
  * @since 26.06.2016
  * @author Carolin Gellner
  */
@@ -33,7 +33,8 @@ public class RecyclerViewAdapter_OverviewCardView extends RecyclerView.Adapter<R
     //region Constructor
 
     /**
-     * @param data
+     * Erstellt eine neue Instanz der Klasse.
+     * @param data Liste mit Zahlungsdifferenzen
      */
     public RecyclerViewAdapter_OverviewCardView(ArrayList<OverviewCardViewContent> data) {
 
@@ -83,7 +84,7 @@ public class RecyclerViewAdapter_OverviewCardView extends RecyclerView.Adapter<R
     //region Class ViewHolder
 
     /**
-     *
+     * Die Klasse reprasentiert ein Item in der RecyclerView-Liste innerhalb einer CardView.
      */
     public static class ViewHolder_OverviewCards extends RecyclerView.ViewHolder {
 

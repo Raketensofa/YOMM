@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,19 +14,31 @@ import com.cgellner.yomm.R;
 
 import java.util.ArrayList;
 
-import javax.microedition.khronos.opengles.GL;
 
-
+/**
+ * Die Klasse repraesentiert die Uebersichtsansicht, welche eine Liste mit Karten (CardViews) darstellt,
+ * die pro angelegter Person dargestellt werden und eine Auflistung der Zahlungsdifferenzen je Person beinhaltet.
+ */
 public class Fragment_OverviewCardViewList extends Fragment {
 
-    private RecyclerView recyclerView;
+
+    //region Fields
+
+        private RecyclerView recyclerView;
+
+    //endregion
 
 
-    public Fragment_OverviewCardViewList() {
-
-    }
+    //region Public Methods
 
 
+    /**
+     * Die Methode erstellt die Uebersichtsansicht.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -44,15 +55,22 @@ public class Fragment_OverviewCardViewList extends Fragment {
         return view;
     }
 
+    //endregion
 
 
+    //region Private Methods
 
+    /**
+     * Die Methode bereitet die RecyclerView-Ansicht auf.
+     */
     private void setRecyclerViewItems() {
 
+        //Daten ermitteln
         ArrayList<OverviewCardViewContent> data = getCalculatedData();
 
         if(data != null){
 
+            //Daten der RecyclerView uebergeben
             RecyclerViewAdapter_OverviewCardView adapter = new RecyclerViewAdapter_OverviewCardView(data);
             recyclerView.setAdapter(adapter);
         }
@@ -60,17 +78,17 @@ public class Fragment_OverviewCardViewList extends Fragment {
     }
 
 
-
     /**
      * Ermittelt fuer jede Person welchen Personen in welcher Hoehe Geld "geliehen" bzw. fuer diese Personen etwas bezahlt wurde
      *
-     * @return
+     * @return Liste mit den Zahlungsdifferezen pro Person
      */
     private ArrayList<OverviewCardViewContent> getCalculatedData() {
 
-        ArrayList<Person> persons = new ArrayList<>();
-        persons = GlobalVar.Database.getPersons();
+        //Personen aus Datenbank abfragen
+        ArrayList<Person> persons = GlobalVar.Database.getPersons();
 
+        //Inhalt der CardView zu jeder Person erstellen
         ArrayList<OverviewCardViewContent> data = new ArrayList<>();
 
         if (persons != null) {
@@ -87,9 +105,10 @@ public class Fragment_OverviewCardViewList extends Fragment {
 
                     if(person.getID() != second_person.getID()) {
 
+                        //Zahlungsdifferenz ermitteln
                         Double money = GlobalVar.getPaymentDifference(person.getID(), second_person.getID());
 
-                        valueList.add(new String[]{String.valueOf(second_person.getID()), second_person.getName(), String.format( "%.2f", money )});
+                        valueList.add(new String[]{String.valueOf(second_person.getID()), second_person.getName(), GlobalVar.formatMoney(String.valueOf(money))});
 
                     }
                 }
@@ -102,10 +121,5 @@ public class Fragment_OverviewCardViewList extends Fragment {
         return data;
     }
 
-
-
-
-
-
-
+    //endregion
 }

@@ -2,7 +2,8 @@ package com.cgellner.yomm.OverviewPayments;
 
 
 /**
- *
+ * Die Klasse repraesentiert ein Objekt, welches die Daten fuer die Items des Master-Detail-Layouts beinhaltet.
+ * @author Carolin Gellner
  */
 public class PaymentItem {
 
@@ -95,17 +96,6 @@ public class PaymentItem {
         public void setTime(String time) {
         this.time = time;
     }
-
-
-    //endregion
-
-
-    //region Constructor
-
-    /**
-     *
-     */
-    public PaymentItem(){}
 
 
     //endregion

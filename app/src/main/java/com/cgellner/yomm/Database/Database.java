@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.cgellner.yomm.GlobalVar;
 import com.cgellner.yomm.Objects.Category;
 import com.cgellner.yomm.Objects.Pay;
 import com.cgellner.yomm.Objects.Person;
@@ -26,8 +27,6 @@ public class Database extends SQLiteOpenHelper {
 
 
     //region Fields
-
-    private final String TAG = Database.class.getName();
 
     private static final String DATABASE_NAME = "Yomm_Database.db";
     private static final int DATABASE_VERSION = 8;
@@ -81,12 +80,10 @@ public class Database extends SQLiteOpenHelper {
             Database.execSQL(Sql.CREATE_TABLE_PERSONS);
             Database.execSQL(Sql.CREATE_TABLE_CATEGORIES);
 
-            Log.d(TAG, "Datenbank wurde erstellt.");
-
 
         }catch (Exception ex){
 
-            Log.e(TAG, ex.getMessage());
+            Log.e("Database", ex.getMessage());
         }
 
     }
@@ -111,7 +108,7 @@ public class Database extends SQLiteOpenHelper {
     public void open(){
 
         Database = this.getWritableDatabase();
-        Log.v(TAG, "Datenbank wurde geoeffnet");
+        Log.v("Database", "Datenbank wurde geoeffnet");
     }
 
 
@@ -123,7 +120,7 @@ public class Database extends SQLiteOpenHelper {
         if(Database.isOpen()) {
 
             Database.close();
-            Log.v(TAG, "Datenbank wurde geschlossen.");
+            Log.v("Database", "Datenbank wurde geschlossen.");
         }
     }
 
@@ -187,7 +184,7 @@ public class Database extends SQLiteOpenHelper {
      * Die Methode schreibt eine erfasste Zahlung (Payment) in die Datenbank.
      * @param payment Datensatz einer Zahlung
      */
-    public void insertPaymentDataset(Payment payment){
+    public void insertPayment(Payment payment){
 
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
@@ -312,6 +309,7 @@ public class Database extends SQLiteOpenHelper {
 
     }
 
+
     /**
      *
      * @param creditorId
@@ -358,7 +356,7 @@ public class Database extends SQLiteOpenHelper {
         }
 
 
-        ArrayList<Pay> sortedList = sort(list);
+        ArrayList<Pay> sortedList = GlobalVar.sort(list);
 
         return sortedList;
     }
@@ -448,7 +446,6 @@ public class Database extends SQLiteOpenHelper {
         return list;
 
     }
-
 
 
     /**
@@ -733,43 +730,6 @@ public class Database extends SQLiteOpenHelper {
 
 
     /**
-     * Die Methode fuert ein SQL-Befehl aus, welcher keine Rueckgabe erfordert (Insert, Update, Delete)
-     * @param sql Sql-Befehl
-     */
-    private void insertData(String sql){
-
-        open();
-
-        if(sql != null){
-
-            try{
-
-                if(Database.isOpen()) {
-
-                    Database.execSQL(sql);
-
-                    Toast.makeText(context, "Gespeichert", Toast.LENGTH_LONG);
-
-                }else{
-
-                    Log.e(TAG, "Datenbank ist geschlossen.");
-                }
-
-            }catch (Exception ex){
-
-                Log.e(TAG, ex.getMessage());
-
-                Toast.makeText(context, "Fehler aufgetreten. Daten wurden nicht gespeichert.", Toast.LENGTH_LONG);
-
-            }finally {
-
-                close();
-            }
-        }
-    }
-
-
-    /**
      * Die Methode updated den Namen der Kategorie mit der angegebenen KategorieId in den neuen Namen der uebergeben wurde.
      * @param categoryId ID der Kategorie
      * @param newCategoryName Neue Bezeichnung der Kategorie
@@ -866,6 +826,7 @@ public class Database extends SQLiteOpenHelper {
 
     }
 
+
     /**
      * Loescht den Datensatz der Rueckzahlung (Repayment) der uebergebenen ID.
      * @param repaymentId ID der Repayment
@@ -880,30 +841,46 @@ public class Database extends SQLiteOpenHelper {
     //endregion
 
 
+    //region Private Methods
+
 
     /**
-     * Die Methode sortiert die Liste der Pay-Datensaetze absteigend nach deren Zeitstempel.
-     * @param pays Liste mit Pays-Datensaetze
-     * @return Sortierte Liste
+     * Die Methode fuert ein SQL-Befehl aus, welcher keine Rueckgabe erfordert (Insert, Update, Delete)
+     * @param sql Sql-Befehl
      */
-    private ArrayList<Pay> sort(ArrayList<Pay> pays) {
+    private void insertData(String sql){
 
-        Pay p;
-        for (int i = 0; i < pays.size() - 1; i++) {
+        open();
 
-            if (pays.get(i).getDateTime().getTime() > pays.get(i + 1).getDateTime().getTime()) {
+        if(sql != null){
 
-                continue;
+            try{
+
+                if(Database.isOpen()) {
+
+                    Database.execSQL(sql);
+
+                    Toast.makeText(context, "Gespeichert", Toast.LENGTH_LONG);
+
+                }else{
+
+                    Log.e("Database", "Datenbank ist geschlossen.");
+                }
+
+            }catch (Exception ex){
+
+                Log.e("Database", ex.getMessage());
+
+                Toast.makeText(context, "Fehler aufgetreten. Daten wurden nicht gespeichert.", Toast.LENGTH_LONG);
+
+            }finally {
+
+                close();
             }
-
-            p = pays.get(i);
-            pays.set(i,pays.get(i + 1));
-            pays.set(i+1,p);
-
-            sort(pays);
         }
-
-        return pays;
     }
+
+
+    //endregion
 
 }

@@ -16,7 +16,7 @@ import com.cgellner.yomm.R;
 
 
 /**
- * Die Klasse repraesentiert eine Activity in welcher das Detail einer Repayment oder Payment im Rahmen des
+ * Die Klasse repraesentiert eine Activity in welcher das Detail einer (Rueckzahlung) Repayment oder Ausgabe (Payment)  im Rahmen des
  * Master-Detail-Layouts angezeigt wird.
  * @author Carolin Gellner
  */

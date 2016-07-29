@@ -17,7 +17,8 @@ import java.util.Set;
 
 
 /**
- * Die Klasse beinhaltet den Adapter der RecyclerView fuer eine Liste mit Checkboxen (Liste zum Auswaehlen der Debitoren)
+ * Die Klasse beinhaltet den Adapter der RecyclerView fuer eine Liste mit Checkboxen
+ * Diese Liste wird in Formular zur Erfassung einer Ausgabe verwendet.
  * @since 12.06.2016
  * @author Carolin Gellner
  */

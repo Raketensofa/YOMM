@@ -42,25 +42,23 @@ public class Activity_PaymentsList extends AppCompatActivity {
     //region Fields
 
     private boolean mTwoPane;
-    private static long mainpersonId;
-    private static long secondpersonId;
-    private  Spinner categorySpinner;
-    public static List<PaymentItem> contentItems;
+    private long mainpersonId;
+    private long secondpersonId;
+    private Spinner categorySpinner;
+    private List<PaymentItem> contentItems;
     private ArrayList<Pay> payDatasets;
+    private View recyclerView;
 
 
     public static Map<String, PaymentItem> ITEM_MAP;
-    public static View recyclerView;
-
-
 
     //endregion
 
 
-    //region Methods
+    //region Protected Method
 
     /**
-     *
+     * Die Methode erstellt die Ansicht.
      * @param savedInstanceState
      */
     @Override
@@ -72,6 +70,7 @@ public class Activity_PaymentsList extends AppCompatActivity {
 
         GlobalVar.Database = new Database(this);
 
+        //uebergebene IDs der Personen abfragen
         getPersonIds();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -108,6 +107,10 @@ public class Activity_PaymentsList extends AppCompatActivity {
         }
     }
 
+    //endregion
+
+
+    //region Public Method
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -126,10 +129,9 @@ public class Activity_PaymentsList extends AppCompatActivity {
     }
 
 
-
     /**
-     *
-     * @param spinner
+     * Die Methode erstellt den Spinner, mit welchem ausgewaehlt werden kann, welche Elemente (Ausgabe, Rueckzahlung oder beides) angezeigt werden soll.
+     * @param spinner Spinner
      */
     public void setCategorySpinner(Spinner spinner){
 
@@ -150,6 +152,7 @@ public class Activity_PaymentsList extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+                    //Ansicht aktualisieren
                     updateRecyclerView(position);
             }
 
@@ -162,15 +165,17 @@ public class Activity_PaymentsList extends AppCompatActivity {
 
     }
 
-
     /**
-     *
-     * @param position
+     * Die Methode erstellt die RecyclerView.
+     * Position 0 bedeutet "alle Elemente", Position 1 bedeutet "nur Ausgaben" und Positon 3 bedeutet "nur Rueckzahlungen"
+     * @param position Position im Spinner
      */
     public void updateRecyclerView(int position){
 
+        //Datensaetze abfragen
         payDatasets = GlobalVar.Database.getPaymentsAndRepayments(mainpersonId, secondpersonId, position);
 
+        //Datensaetze aufbereiten
         contentItems = prepareContentItems(payDatasets);
 
         ITEM_MAP = new HashMap<String, PaymentItem>();
@@ -183,16 +188,22 @@ public class Activity_PaymentsList extends AppCompatActivity {
     }
 
 
+    //endregion
+
+
+
+    //region Private Method
 
     /**
-     *
-     * @param recyclerView
+     * Die Methode uebergibt der RecyclerView die Daten, welche angezeigt werden sollen.
+     * @param recyclerView RecyclerView
      */
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
 
         recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(contentItems));
         recyclerView.setBackgroundColor(Color.WHITE);
     }
+
 
     /**
      * Ruft die uebergebenen IDs der Personen aus den Extras ab.
@@ -308,9 +319,7 @@ public class Activity_PaymentsList extends AppCompatActivity {
 
     //region RecyclerViewAdapter
 
-    /**
-     *
-     */
+
     public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 

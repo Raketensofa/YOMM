@@ -14,7 +14,9 @@ import java.util.ArrayList;
 
 
 /**
- * Created by Carolin on 28-Jun-16.
+ * Die Klasse reprasentiert den RecyclerViewAdapter fuer die Liste mit den CardViews fuer die Uebersichtsliste.
+ * @since 28.06.2016
+ * @author Carolin Gellner
  */
 public class RecyclerViewAdapter_ListViewOfCardView extends RecyclerView.Adapter<RecyclerViewAdapter_ListViewOfCardView.ViewHolder_Cardview_RecyclerView> {
 
@@ -52,6 +54,7 @@ public class RecyclerViewAdapter_ListViewOfCardView extends RecyclerView.Adapter
 
 
     /**
+     * Die Methode erstellt die Ansicht der CardView.
      * @param parent
      * @param viewType
      * @return
@@ -69,8 +72,9 @@ public class RecyclerViewAdapter_ListViewOfCardView extends RecyclerView.Adapter
 
 
     /**
-     * @param holder
-     * @param position
+     * Die Methode uebergibt der CardView die Daten, welche angezeigt werden sollen.
+     * @param holder CardView
+     * @param position Position der CardView in der Liste (RecylcerView)
      */
     @Override
     public void onBindViewHolder(ViewHolder_Cardview_RecyclerView holder, int position) {
@@ -99,8 +103,10 @@ public class RecyclerViewAdapter_ListViewOfCardView extends RecyclerView.Adapter
         }
     }
 
+
     /**
-     * @return
+     * Die Methode gibt die Anzahl der Elemente in der Liste wieder.
+     * @return Elementanzahl
      */
     @Override
     public int getItemCount() {
@@ -108,9 +114,13 @@ public class RecyclerViewAdapter_ListViewOfCardView extends RecyclerView.Adapter
         return data.size();
     }
 
+    //endregion
+
+
+    //region RecyclerView.ViewHolder
 
     /**
-     *
+     * Die Klasse reprasentiert eine CardView in der Uebersichtsliste.
      */
     public static class ViewHolder_Cardview_RecyclerView extends RecyclerView.ViewHolder {
 

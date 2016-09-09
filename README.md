@@ -9,6 +9,7 @@ result >> mark 1.0 :-D
 Sourcecode:   YOMM/app/src/main/
 
 JavaDoc: "YOMM Sourcecode JavaDoc.zip" (master branch)
+
 Introduction/general information: "YOMM_Konzept_1.0.pdf" (master branch)
 
 !! All documents are written in german language !!

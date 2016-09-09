@@ -47,9 +47,9 @@
     <td>Language documentation</td>
     <td>!! German !!</td>
   </tr>
-</table>
+</table><br>
 
-<br>
+
 
 --
 

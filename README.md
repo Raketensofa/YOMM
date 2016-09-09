@@ -7,12 +7,15 @@ semester: summer 2016
 result:  mark 1.0 [yeah]
 
 --
+<br><b>Sourcode</b><br>YOMM/app/src/main/
 
-Sourcecode:   YOMM/app/src/main/
+<b>Documentation</b><br>
+<ul>
+<li>JavaDoc: "YOMM Sourcecode JavaDoc.zip" (master branch)</li>
+<li>Introduction/general information: "YOMM_Konzept_1.0.pdf" (master branch)</li>
+</ul>
 
-JavaDoc: "YOMM Sourcecode JavaDoc.zip" (master branch)
 
-Introduction/general information: "YOMM_Konzept_1.0.pdf" (master branch)
 
 !! All documents are written in german language !!
 

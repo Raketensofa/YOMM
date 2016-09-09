@@ -1,9 +1,14 @@
 # YOMM [Android App | Uni Project]
 
-<br>
-<h2><b>General Information</b></h2>
-<br>
+<p>
+This readme contains the most important information about the android application YOMM. This app was my first android application which I have ever created. 
+</p>
 
+<h2><b>General Information</b></h2>
+
+<p>
+This section contains general information about the software.
+</p>
 <table>
   <tr>
     <td>Software type</td>
@@ -51,11 +56,14 @@
 
 
 
---
 
 <h2><b>Documentation</b></h2>
 
+<p>
+This section contains the names of the documentation files.
+</p>
+
 <ul>
 <li>JavaDoc: "YOMM Sourcecode JavaDoc.zip" (master branch)</li>
-<li>Introduction/general information: "YOMM_Konzept_1.0.pdf" (master branch)</li>
+<li>Introduction/concept: "YOMM_Konzept_1.0.pdf" (master branch)</li>
 </ul>

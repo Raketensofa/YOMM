@@ -37,7 +37,7 @@ This section contains general information about the software.
     <td>Android Studio</td>
   </tr>
     <tr>
-    <td>Progamming languare</td>
+    <td>Programming language</td>
     <td>Java</td>
   </tr>
     <tr>

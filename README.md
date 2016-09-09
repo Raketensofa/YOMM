@@ -52,7 +52,7 @@ This section contains general information about the software.
     <td>Language documentation</td>
     <td>!! German !!</td>
   </tr>
-</table><br>
+</table>
 
 
 

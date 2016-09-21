@@ -26,7 +26,7 @@ This section contains general information about the software.
     <td>summer semester 2016 | finished 30.07.2016</td>
    <tr>
     <td>Function</td>
-    <td></td>
+    <td>Sharing common expenses and have an overview</td>
   </tr>
   <tr>
     <td>Directory sourcecode</td>

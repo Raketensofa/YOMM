@@ -1,13 +1,4 @@
 # YOMM [Android App | Uni Project]
-
-<p align="center">
-  <img src="https://github.com/carolingellner/YOMM/blob/master/Screenshot_20160728-201922.png" width="250" title="Startseite">
-  <img src="https://github.com/carolingellner/YOMM/blob/master/Screenshot_20160728-201930.png" width="250" title="Navigation">
-  <img src="https://github.com/carolingellner/YOMM/blob/master/Screenshot_20160728-202633.png" width="250" title="Übersicht">
-  <img src="https://github.com/carolingellner/YOMM/blob/master/Screenshot_20160728-202932.png" width="250" title="Tabelle Ausgaben und Einnahmen">
-  <img src="https://github.com/carolingellner/YOMM/blob/master/Screenshot_20160728-203018.png" width="250" title="Details einer Ausgabe">
-  
-
 </p>
 
 <h2><b>General Information</b></h2>
@@ -52,3 +43,13 @@
 <li>JavaDoc: "YOMM Sourcecode JavaDoc.zip" (master branch)</li>
 <li>Introduction/concept: "YOMM_Konzept_1.0.pdf" (master branch)</li>
 </ul>
+
+
+<h2><b>Screenshots</b></h2>
+<p align="center">
+  <img src="https://github.com/carolingellner/YOMM/blob/master/Screenshot_20160728-201922.png" width="250" title="Startseite">
+  <img src="https://github.com/carolingellner/YOMM/blob/master/Screenshot_20160728-201930.png" width="250" title="Navigation">
+  <img src="https://github.com/carolingellner/YOMM/blob/master/Screenshot_20160728-202633.png" width="250" title="Übersicht">
+  <img src="https://github.com/carolingellner/YOMM/blob/master/Screenshot_20160728-202932.png" width="250" title="Tabelle Ausgaben und Einnahmen">
+  <img src="https://github.com/carolingellner/YOMM/blob/master/Screenshot_20160728-203018.png" width="250" title="Details einer Ausgabe">
+

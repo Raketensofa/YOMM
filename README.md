@@ -41,7 +41,8 @@
 
 <ul>
 <li>JavaDoc: "YOMM Sourcecode JavaDoc.zip" (master branch)</li>
-<li>Introduction/concept: "YOMM_Konzept_1.0.pdf" (master branch)</li>
+<li>Introduction/concept: <a href="https://github.com/carolingellner/YOMM/blob/master/YOMM_Konzept_1.0.pdf">YOMM_Konzept_1.0.pdf"</a> 
+  </li>
 </ul>
 
 

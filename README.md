@@ -52,4 +52,17 @@
   <img src="https://github.com/carolingellner/YOMM/blob/master/Screenshot_20160728-202633.png" width="250" title="Übersicht">
   <img src="https://github.com/carolingellner/YOMM/blob/master/Screenshot_20160728-202932.png" width="250" title="Tabelle Ausgaben und Einnahmen">
   <img src="https://github.com/carolingellner/YOMM/blob/master/Screenshot_20160728-203018.png" width="250" title="Details einer Ausgabe">
+  
+  
+  </p>
+  <p>
+   <img src="https://github.com/carolingellner/YOMM/blob/master/Screenshot_20160728-202500.png" width="250" title="Ausgabe erfassen (1)">
+  <img src="https://github.com/carolingellner/YOMM/blob/master/Screenshot_20160728-202510.png" width="250" title="Ausgabe erfassen (2)">
+  <img src="https://github.com/carolingellner/YOMM/blob/master/Screenshot_20160728-202518.png" width="250" title="Ausgabe erfassen (3)">
+  <img src="https://github.com/carolingellner/YOMM/blob/master/Screenshot_20160728-202536.png" width="250" title="Ausgabe erfassen (4)">
+  <img src="https://github.com/carolingellner/YOMM/blob/master/Screenshot_20160728-202603.png" width="250" title="Ausgabe erfassen (5)">
+ </p>
+ 
+ <img src="" width="250" title="Ausgabe erfassen (1)">
+  
 

@@ -53,7 +53,7 @@
   <img src="https://github.com/carolingellner/YOMM/blob/master/Screenshot_20160728-202932.png" width="250" title="Tabelle Ausgaben und Einnahmen">
   <img src="https://github.com/carolingellner/YOMM/blob/master/Screenshot_20160728-203018.png" width="250" title="Details einer Ausgabe">
   
-  
+ 
   </p>
   <p>
    <img src="https://github.com/carolingellner/YOMM/blob/master/Screenshot_20160728-202500.png" width="250" title="Ausgabe erfassen (1)">
@@ -63,6 +63,9 @@
   <img src="https://github.com/carolingellner/YOMM/blob/master/Screenshot_20160728-202603.png" width="250" title="Ausgabe erfassen (5)">
  </p>
  
- <img src="" width="250" title="Ausgabe erfassen (1)">
-  
-
+ <p>
+ <img src="https://github.com/carolingellner/YOMM/blob/master/Screenshot_20160728-202730.png" width="250" title="Rückzahlung erfassen (1)">
+  <img src="https://github.com/carolingellner/YOMM/blob/master/Screenshot_20160728-202823.png" width="250" title="Rückzahlung erfassen (2)">
+<img src="https://github.com/carolingellner/YOMM/blob/master/Screenshot_20160728-202902.png" width="250" title="Rückzahlung erfassen (3)">
+<img src="https://github.com/carolingellner/YOMM/blob/master/Screenshot_20160728-202907.png" width="250" title="Rückzahlung erfassen (4)">
+  </p>

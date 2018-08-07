@@ -1,9 +1,13 @@
 # YOMM [Android App | Uni Project]
 
 <p align="center">
-  <img src="" width="250" title="Startseite">
-  <img src="" width="250" title="">
-  <img src="" width="250" title="">
+  <img src="https://github.com/carolingellner/YOMM/blob/master/Screenshot_20160728-201922.png" width="250" title="Startseite">
+  <img src="https://github.com/carolingellner/YOMM/blob/master/Screenshot_20160728-201930.png" width="250" title="Navigation">
+  <img src="https://github.com/carolingellner/YOMM/blob/master/Screenshot_20160728-202633.png" width="250" title="Übersicht">
+  <img src="https://github.com/carolingellner/YOMM/blob/master/Screenshot_20160728-202932.png" width="250" title="Tabelle Ausgaben und Einnahmen">
+  <img src="https://github.com/carolingellner/YOMM/blob/master/Screenshot_20160728-203018.png" width="250" title="Details einer Ausgabe">
+  
+
 </p>
 
 <h2><b>General Information</b></h2>

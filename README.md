@@ -1,4 +1,4 @@
-# YOMM [Android App | Uni Project]
+# YOMM [Android App | Uni Project (Bachelor)]
 </p>
 
 <h2><b>General Information</b></h2>
